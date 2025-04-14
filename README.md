@@ -1,4 +1,4 @@
-# 🏨 Hotelreservierungssystem, Projektdokumentation
+# Hotelreservierungssystem, Projektdokumentation
 
 Dieses Projekt wurde im Rahmen des Moduls **Anwendungsentwicklung mit Python** an der FHNW realisiert. Es handelt sich um ein Hotelreservierungssystem, das auf einem objektorientierten Ansatz basiert. Ziel war es, definierte User Stories umzusetzen und ein funktionsfähiges System zu entwickeln, das Hotels, Zimmer, Buchungen, Rechnungen und Bewertungen verwaltet.
 
