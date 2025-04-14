@@ -31,6 +31,16 @@ class Review:
         self.__review_date: date = review_date
 
     @property
+    def rating(self):
+        return self.__rating
+
+    @rating.setter
+    def rating(self, value):
+        if value < 1 or value >5:
+            raise ValueError("rating must be between 1 and 5")
+        self.__rating = value
+    
+    @property
     def comment(self):
         return self.__comment
 
@@ -41,16 +51,6 @@ class Review:
         if not isinstance(value, str):
             raise ValueError("comment must be a string")
         self.__comment = value
-
-    @property
-    def rating(self):
-        return self.__rating
-
-    @rating.setter
-    def rating(self, value):
-        if value < 1 or value >5:
-            raise ValueError("rating must be between 1 and 5")
-        self.__rating = value
 
     @property
     def review_date(self):
