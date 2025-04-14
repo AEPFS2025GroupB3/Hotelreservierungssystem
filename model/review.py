@@ -30,7 +30,11 @@ class Review:
         self.__comment: str = comment
         self.__review_date: date = review_date
 
-    @property
+    @property #lesbar aber nicht änderbar, kein Setter weil ID bleibt fix
+    def review_id(self):
+        return self.__review_id
+
+    @property #darf geändert werden, muss aber noch geprüft werden
     def rating(self):
         return self.__rating
 
@@ -40,7 +44,7 @@ class Review:
             raise ValueError("rating must be between 1 and 5")
         self.__rating = value
     
-    @property
+    @property #darf geändert werden, muss aber noch geprüft werden
     def comment(self):
         return self.__comment
 
@@ -52,7 +56,7 @@ class Review:
             raise ValueError("comment must be a string")
         self.__comment = value
 
-    @property
+    @property #lesbar aber nicht änderbar
     def review_date(self):
         return self.__review_date
 

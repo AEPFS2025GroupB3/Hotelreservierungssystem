@@ -13,7 +13,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
 ### Kerstin Culjak
 **Fachlich:**  
- 
+→ Zuständig für die Klassen `Guest` und `Review`
+→ Fokus: Gästemanagement und Bewertungen
 
 **Projektrolle:**  
 
@@ -22,7 +23,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
 ### Lisa Wüest 
 **Fachlich:**  
-
+→ Zuständig für die Klassen `Room`, `Facility` und `RoomType`
+→ Fokus: Zimmerverwaltung, Zimmertypen und Ausstattung
 
 **Projektrolle:**  
 
@@ -31,7 +33,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
 ### Sheyla Sampietro  
 **Fachlich:**  
-
+→ Zuständig für die Klassen `Address` und `Hotel`
+→ Fokus: Adressverwaltung und Hoteldaten inkl. Bewertungen & Zimmer
 
 **Projektrolle:**  
 
@@ -40,7 +43,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
 ### Andrea Petretta 
 **Fachlich:**  
-
+→ Zuständig für die Klassen `Booking` und `Invoice`
+→ Fokus: Buchungsabläufe und Rechnungsstellung
 
 **Projektrolle:**  
 
