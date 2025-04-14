@@ -17,7 +17,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 → Fokus: Gästemanagement und Bewertungen
 
 **Projektrolle:**  
-
+→ Quality Manager: Prüft alle Komponenten auf Korrektheit, Qualität und Einhaltung der Anforderungen. Achtet auf konsistente Datenstrukturen und logische Beziehungen.  
+→ Review Checker: Verantwortlich für Code-Reviews und finale Durchsicht vor der Abgabe.
 
 ---
 
@@ -27,7 +28,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 → Fokus: Zimmerverwaltung, Zimmertypen und Ausstattung
 
 **Projektrolle:**  
-
+→ Code Stylist: Achtet auf eine konsistente Code-Formatierung, klare Struktur, sprechende Methodenbezeichner und einheitlichen Stil im gesamten Team.  
+→ Notebook Coordinator: Verantwortlich für die logische Anordnung und den Aufbau der Deepnote-Blöcke (z.B. Kapitelstruktur, Inputs/Outputs, Visualisierung).
 
 ---
 
@@ -37,7 +39,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 → Fokus: Adressverwaltung und Hoteldaten inkl. Bewertungen & Zimmer
 
 **Projektrolle:**  
-
+→ Documentation Lead: Sorgt dafür, dass alle relevanten Informationen im Deepnote-Notebook dokumentiert und sauber erklärt sind. Achtet auf vollständige Einleitung, User Stories, Reflexion und saubere Formatierung.  
+→ User Story Coordinator: Verknüpft die User Stories mit der technischen Umsetzung und achtet darauf, dass alle Stories nachvollziehbar umgesetzt werden.
 
 ---
 
@@ -47,7 +50,8 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 → Fokus: Buchungsabläufe und Rechnungsstellung
 
 **Projektrolle:**  
-
+→ Milestone Planner: Achtet auf die Einhaltung von Abgabeterminen, hilft bei der Aufteilung von Teilzielen und erinnert das Team an nächste Schritte.  
+→ Feature Integrator: Sorgt dafür, dass Buchung, Rechnung, Gäste und Zimmer sauber zusammenspielen (inkl. Übergabe an Business Logic und Notebook).
 
 ---
 
@@ -76,37 +80,37 @@ Gemäss dem vorgegebenen Layer-Modell:
 - Verfügbarkeit (Datum)
 - Kombination aller Kriterien
 
-→ Zuständig: **Name**
+→ Zuständig: **Sheyla**
 
 ### 2. Details zu Zimmern sehen
 - Beschreibung, Preis, max. Gäste, Ausstattung
 
-→ Zuständig: **Name**
+→ Zuständig: **Lisa**
 
 ### 4. Buchung erstellen
 - Zimmer auswählen, Daten eingeben, Buchung bestätigen
 
-→ Zuständig: **Name**
+→ Zuständig: **Andrea** (mit Unterstützung von Kerstin)
 
 ### 5. Rechnung erhalten
 - Rechnung wird nach Aufenthalt generiert
 
-→ Zuständig: **Name**
+→ Zuständig: **Andrea**
 
 ### 6. Buchung stornieren
 - Buchung auf “cancelled” setzen, Invoice anpassen
 
-→ Zuständig: **Name**
+→ Zuständig: **Andrea**
 
 ### 7. Dynamische Preisgestaltung
 - Saisonfaktor berücksichtigt Hoch- und Nebensaison
 
-→ Zuständig: **Name**
+→ Zuständig: **Lisa**
 
 ### Erweiterte Story: Bewertungen
 - Bewertung erstellen, lesen, ändern, löschen
 
-→ Zuständig: **Name**
+→ Zuständig: **Kerstin**
 
 ---
 

@@ -24,17 +24,20 @@ class Review:
             raise ValueError("review date must be a date")
 
     
-    #Private Attribute erstellen
+    #Private Attribute erstellen, damit niemand von aussen Unsinn macht :)
         self.__review_id: int = review_id
         self.__rating: int = rating
         self.__comment: str = comment
         self.__review_date: date = review_date
 
-    @property #lesbar aber nicht änderbar, kein Setter weil ID bleibt fix
+    #Properties
+    #ich habe zu jedem Attribut eine Property erstellt damit der Code konsistent ist
+
+    @property #lesbar (getter) aber nicht änderbar, kein Setter weil ID bleibt fix
     def review_id(self):
         return self.__review_id
 
-    @property #darf geändert werden, muss aber noch geprüft werden
+    @property #darf geändert werden, muss aber noch geprüft werden (getter & setter)
     def rating(self):
         return self.__rating
 
@@ -44,7 +47,7 @@ class Review:
             raise ValueError("rating must be between 1 and 5")
         self.__rating = value
     
-    @property #darf geändert werden, muss aber noch geprüft werden
+    @property #darf geändert werden, muss aber noch geprüft werden (getter & setter)
     def comment(self):
         return self.__comment
 
@@ -56,7 +59,7 @@ class Review:
             raise ValueError("comment must be a string")
         self.__comment = value
 
-    @property #lesbar aber nicht änderbar
+    @property #lesbar (getter) aber nicht änderbar, kein Setter weil Datum bleibt fix
     def review_date(self):
         return self.__review_date
 
@@ -64,31 +67,36 @@ class Review:
     
     #Neue Review erstellen unnötig, weil ich das erstelle wenn ich ein Objekt baue
     def create_review(self):
-        return f"dfls"
+        return f"unnötig Methode löschen"
 
     #Review updaten
     def update_review(self, new_rating: int, new_comment: str):
-        if not isinstance(new_rating, int):
+        if not isinstance(new_rating, int): #prüft, ob Rating Zahl
             raise ValueError("rating must be an integer")
-        if not isinstance(new_comment, str):
+        if not isinstance(new_comment, str): #prüft, ob Comment String
             raise ValueError("comment must be a string")
         
-        self.rating = new_rating
-        self.comment = new_comment
+        self.rating = new_rating #Aufruf setter, setzt neuen Wert rating
+        self.comment = new_comment #Aufruf setter, setzt neuen Wert Comment
         return "Review updated."
 
     #Review löschen
     def delete_review(self):
-        self.__rating = None
-        self.__comment = ""
-        self.review_date = None
+        self.__rating = None #None = keinen Wert mehr vorhanden
+        self.__comment = "" #Kommentar auf leeren Text setzen
+        self.review_date = None #None = keinen Wert mehr vorhanden
         return "Review deleted."
 
     #Review Details anschauhen
-    def get_review_details(self):
+    def get_review_details(self): #gibt Daten in formatierten String zurück
         return(
             f"Review ID: {self.__review_id}, "
             f"Rating: {self.__rating}, "
             f"Comment: {self.__comment}, "
             f"Date: {self.__review_date}"
         )
+
+
+#warum bei __init__ & property.setter ValueError
+#__init__ : einmalige Prüfung beim erstellen
+#@property.setter: wiederholge Prüfung bei änderungen
