@@ -11,73 +11,59 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
 ---
 
-### Sheyla  
+### Kerstin Culjak
 **Fachlich:**  
-- Zuständig für die Modellierung (UML, Klassendiagramm)  
-- Umsetzung der Hotel- und Zimmerlogik  
-- Erstellung der Projektbeschreibung in Deepnote  
+ 
 
 **Projektrolle:**  
-- *Documentation Lead*  
-  → Verantwortlich für README, Kommentare und textliche Dokumentation
+
 
 ---
 
-###Teammitglied A  
+### Lisa Wüest 
 **Fachlich:**  
-- Verantwortlich für die Datenbankanbindung (Data Access Layer)  
-- Umsetzung von `guest_dal.py`, `hotel_dal.py` usw.  
+
 
 **Projektrolle:**  
-- *Code Stylist*  
-  → Achtete auf sauberen, konsistenten Code (Formatierung, Struktur, Benennung)
+
 
 ---
 
-### Teammitglied B  
+### Sheyla Sampietro  
 **Fachlich:**  
-- Verantwortlich für die Business Logic (z. B. `BookingManager`)  
-- Erstellung der interaktiven Deepnote-Notebooks zur Buchung  
+
 
 **Projektrolle:**  
-- *Quality Manager*  
-  → Testete Funktionen und überprüfte, ob alle User Stories erfüllt wurden
+
 
 ---
 
-### 👩‍💻 Teammitglied C  
+### Andrea Petretta 
 **Fachlich:**  
-- Zuständig für Bewertungen, Preisberechnung und Rechnungen  
-- Implementierung von `ReviewManager`, `Invoice`, `calculate_dynamic_price()`  
+
 
 **Projektrolle:**  
-- *GitHub Admin*  
-  → Pflegte das Repository, organisierte die Struktur und behielt den Überblick über Änderungen
+
 
 ---
 
 Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele strukturiert zu erreichen.
 
 
----
-
-Diese Rollen wurden zusätzlich zu den inhaltlichen Aufgaben (z. B. UML, Datenbank, Logik) vergeben, um ein professionelleres Arbeiten im Team zu ermöglichen.
-
-
-## 🧱 Projektstruktur
+## Projektstruktur
 
 Gemäss dem vorgegebenen Layer-Modell:
-- `model/`: Enthält alle Klassen (Hotel, Room, Guest, etc.)
-- `data_access/`: Zugriff auf SQLite-Datenbank (CRUD)
 - `business_logic/`: Logik für Buchungen, Bewertungen, Preise
-- `ui/`: Einfache Eingabevalidierung (z. B. input_helper)
+- `data_access/`: Zugriff auf SQLite-Datenbank (CRUD)
 - `database/`: Unsere hotel_reservation_sample.db Datei
+- `model/`: Enthält alle Klassen (Hotel, Room, Guest, etc.)
+- `ui/`: Einfache Eingabevalidierung (z.B. input_helper)
 
 ---
 
-# 📌 Umgesetzte User Stories
+# Umgesetzte User Stories
 
-## 💼 Für Gäste
+## Für Gäste
 
 ### 1. Hotels durchsuchen & filtern
 - Stadt
@@ -86,41 +72,41 @@ Gemäss dem vorgegebenen Layer-Modell:
 - Verfügbarkeit (Datum)
 - Kombination aller Kriterien
 
-→ Zuständig: **Sheyla**
+→ Zuständig: **Name**
 
 ### 2. Details zu Zimmern sehen
 - Beschreibung, Preis, max. Gäste, Ausstattung
 
-→ Zuständig: **Teammitglied A**
+→ Zuständig: **Name**
 
 ### 4. Buchung erstellen
 - Zimmer auswählen, Daten eingeben, Buchung bestätigen
 
-→ Zuständig: **Teammitglied B**
+→ Zuständig: **Name**
 
 ### 5. Rechnung erhalten
 - Rechnung wird nach Aufenthalt generiert
 
-→ Zuständig: **Teammitglied B**
+→ Zuständig: **Name**
 
 ### 6. Buchung stornieren
 - Buchung auf “cancelled” setzen, Invoice anpassen
 
-→ Zuständig: **Teammitglied C**
+→ Zuständig: **Name**
 
 ### 7. Dynamische Preisgestaltung
 - Saisonfaktor berücksichtigt Hoch- und Nebensaison
 
-→ Zuständig: **Teammitglied C**
+→ Zuständig: **Name**
 
-### ➕ Erweiterte Story: Bewertungen
+### Erweiterte Story: Bewertungen
 - Bewertung erstellen, lesen, ändern, löschen
 
-→ Zuständig: **Sheyla**
+→ Zuständig: **Name**
 
 ---
 
-## 🛠️ Projektstruktur in GitHub & Deepnote
+## Projektstruktur in GitHub & Deepnote
 
 Siehe Repository-Struktur im README.md auf GitHub (Projektordner `Hotelreservierungssystem`) und Deepnote-Projektintegration.
 
