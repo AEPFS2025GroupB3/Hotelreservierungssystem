@@ -1,4 +1,4 @@
-#Klasse erstellen
+#Klasse erstellen noch nicht fertig
 class Guest:
     def __init__(self, guest_id: int, first_name: str, last_name: str, email: str):
 
