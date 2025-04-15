@@ -1,27 +1,23 @@
-#Klasse erstellen noch nicht fertig
+#Klasse erstellen
 class Guest:
     def __init__(self, guest_id: int, first_name: str, last_name: str, email: str):
-
-        #Sicherstellen, dass eine guest_id übergeben wurde
-        if not guest_id:
+   
+        if not guest_id: #Sicherstellen, dass eine guest_id übergeben wurde
             raise ValueError("guest_id is required")
         if not isinstance(guest_id, int): #Sicherstellen das guest_id wirklich eine ganze Zahl ist
             raise ValueError("guest_id must be an integer")
-
-        #Sicherstellen das first_name auch ein Name übergeben worden ist
-        if not first_name:
+        
+        if not first_name: #Sicherstellen das first_name auch ein Name übergeben worden ist
             raise ValueError("first name is required")
         if not isinstance(first_name, str): #Sicherstellen das first_name wirklich ein String ist
             raise ValueError("first name must be a string")
-
-        #Sicherstellen das last_name auch ein Name übergeben worden ist
-        if not last_name:
+        
+        if not last_name: #Sicherstellen das last_name auch ein Name übergeben worden ist
             raise ValueError("last name is required")
         if not isinstance(last_name, str): #Sicherstellen das last_name wirklich ein String ist
             raise ValueError("last name must be a string")
 
-        #Sicherstellen das email übergeben worden ist
-        if not email:
+        if not email: #Sicherstellen das email übergeben worden ist
             raise ValueError("email is required")
         if not isinstance(email, str): #Sicherstellen das email wirklich ein String ist
             raise ValueError("email must be a string")
@@ -32,6 +28,30 @@ class Guest:
         self.__first_name: str = first_name
         self.__last_name: str = last_name
         self.__email: str = email
+
+    @property
+    def guest_id(self):
+        return self.__guest_id
+
+    @property
+    def first_name(self):
+        return self.__first_name
+
+    @property
+    def last_name(self):
+        return self.__last_name
+
+    @property
+    def email(self):
+        return self.__email
+    
+    @email.setter
+    def email(self, value):
+        if not value:
+            raise ValueError("email is required")
+        if not isinstance(value, str):
+            raise ValueError("email must be a string")
+        self.__email = value
 
     #Methoden erstellen
     def get_full_name(self):
