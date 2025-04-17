@@ -1,5 +1,5 @@
 class Room: #Klasse Room erstellen
-    def __init__(self, room_id: int, hotel_id: int, room_no: str, price_per_night: float, room_type: RoomType, seasonal_factor: float, booking: List[Booking]):
+    def __init__(self, room_id: int, hotel_id: int, room_no: str, price_per_night: float, room_type: RoomType, seasonal_factor: float):
 
         #Alle Werte kontrollieren, bevor sie gespeichert werden
         if not room_id:
@@ -43,7 +43,7 @@ class Room: #Klasse Room erstellen
         self.__price_per_night: float = price_per_night
         self.__room_type: RoomType = room_type
         self.__seasonal_factor: float = seasonal_factor
-        self.__booking: list[Booking] = booking #Hier unsicher wie das mit der Liste ist!!
+        self.__booking = [] #Hier unsicher wie das mit der Liste ist!!
     
     #Gibt die Zimmernummer zurück
     @property
@@ -97,7 +97,9 @@ class Room: #Klasse Room erstellen
     def add_room(self, new_room: Room):  #Diese Methode gehört zur Klasse Hotel
         if room not in self.__rooms:
             self.__rooms.append(new_room)
+            print("Das neue Zimmer wurde dem Hotel erfolgreich hinzugefügt.")
 
     def remove_room(self, room: Room): #Diese Methode gehört zur Klasse Hotel 
         if room in self.__rooms:
             self.__rooms.remove(room)
+            print("Das Zimmer wurde erfolgreich entfernt.")
