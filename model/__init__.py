@@ -1,5 +1,5 @@
 from .address import Address
-form .booking import Booking
+from .booking import Booking
 from .guest import Guest
 from .hotel import Hotel
 from .invoice import Invoice
