@@ -41,10 +41,20 @@ class Room: #Klasse Room erstellen
         self.__hotel_id: int = hotel_id
         self.__room_no: str = room_no
         self.__price_per_night: float = price_per_night
-        self.__room_type: RoomType = room_type
+        self.__room_type = []
         self.__seasonal_factor: float = seasonal_factor
         self.__booking = [] #Hier unsicher wie das mit der Liste ist!!
     
+    #Gibt die Room id zurück
+    @property
+    def room_id(self):
+        return self.__room_id
+    
+    #Gibt die Hotel id zurück
+    @property
+    def hotel_id(self):
+        return self.__hotel_id
+
     #Gibt die Zimmernummer zurück
     @property
     def room_no(self):
@@ -63,9 +73,10 @@ class Room: #Klasse Room erstellen
         else:
             print("Price per night can't be below zero.")
 
-    #Gibt die Beschreibung des Zimmers zurück
-    def get_room_details(self):
-        return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type.name}."
+    #Gibt die Liste mit allen room types zurück
+    @property
+    def room_type(self):
+        return self.__room_type
 
     #Gibt den aktuellen Faktor zurück
     @property
@@ -80,6 +91,10 @@ class Room: #Klasse Room erstellen
         else:
             print("Seasonal Factor needs to be above zero.")
 
+    @property
+    def booking(self):
+        return self.__booking
+
     #Berechnet Preis mit Faktor
     def calculate_dynamic_price(self):
         return self.__price_per_night * self.__seasonal_factor
@@ -88,4 +103,9 @@ class Room: #Klasse Room erstellen
     def update_room_details(self, new_room_no: str, new_price_per_night: float):
         self.__room_no = new_room_no
         self.__price_per_night = new_price_per_night 
+
+    #Gibt die Beschreibung des Zimmers zurück
+    def get_room_details(self):
+        return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type.name}."
+
 

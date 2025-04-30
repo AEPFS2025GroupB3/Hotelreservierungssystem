@@ -65,9 +65,6 @@ class Review:
 
     #Methoden erstellen
     
-    #Neue Review erstellen unnötig, weil ich das erstelle wenn ich ein Objekt baue
-    def create_review(self):
-        return f"unnötig Methode löschen"
 
     #Review updaten
     def update_review(self, new_rating: int, new_comment: str):
