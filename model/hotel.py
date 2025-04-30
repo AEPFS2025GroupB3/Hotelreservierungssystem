@@ -1,48 +1,67 @@
 class Hotel:
     # Konstruktor zur Initialisierung eines neuen Hotels
-    def __init__(self, hotel_id, name, stars):
-        # Hotel-ID muss vorhanden sein
+    def __init__(self, hotel_id: int, name: str, stars: int):
+        # Hotel-ID prüfen (ID bleibt fix, keine Setter nötig)
         if not hotel_id:
             raise ValueError("hotel_id is required")
+        if not isinstance(hotel_id, int):
+            raise ValueError("hotel_id must be an integer")
 
-        # Hotelname muss vorhanden sein
-        if not name:
-            raise ValueError("name is required")
+        self.__hotel_id = hotel_id #privates Attribut, nicht veränderbar
+        self.name = name           # ohne __, da Setter aufgerufen wird
+        self.stars = stars         # ohne __, da Setter aufgerufen wird
 
-        # Sternezahl muss zwischen 1 und 5 liegen
-        if stars < 1 or stars > 5:
-            raise ValueError("stars must be between 1 and 5")
-
-        # Attribute speichern
-        self.__hotel_id = hotel_id
-        self.__name = name
-        self.__stars = stars
-
-        # Leere Listen für Zimmer und Bewertungen initialisieren
+        # Listen für Rooms und Reviews
         self.__rooms = []
-        self.__review = []
+        self.__reviews = []
 
-    # Gibt den Namen des Hotels zurück
-    def get_name(self):
+    # Getter für hotel_id (fix, kein Setter)
+    @property
+    def hotel_id(self):
+        return self.__hotel_id
+
+    # Getter und Setter für Name & Sterne
+    @property
+    def name(self):
         return self.__name
 
-    # Gibt die Anzahl Sterne zurück
-    def get_stars(self):
+    @name.setter
+    def name(self, value):
+        if not value:
+            raise ValueError("name is required")
+        if not isinstance(value, str):
+            raise ValueError("name must be a string")
+        self.__name = value
+
+    @property
+    def stars(self):
         return self.__stars
 
-    # Fügt dem Hotel ein Zimmer hinzu
-    def add_new_hotel(self, room):
-        self.__rooms.append(room)
+    @stars.setter
+    def stars(self, value):
+        if not isinstance(value, int):
+            raise ValueError("stars must be an integer")
+        if value < 1 or value > 5:
+            raise ValueError("stars must be between 1 and 5")
+        self.__stars = value
 
-    # Entfernt ein Zimmer, falls es existiert
-    def remove_hotel(self, room):
-        if room in self.__rooms:
-            self.__rooms.remove(room)
-
-    # Gibt die Hotelinformationen als Text zurück
+    # Hotel-Details zurückgeben (z. B. für Ausgabe oder Test)
     def get_hotel_details(self):
         return f"Hotel ID: {self.__hotel_id}, Name: {self.__name}, Stars: {self.__stars}"
 
-    # Gibt die Liste aller Bewertungen zurück
+    # Räume verwalten (Rooms hinzufügen und entfernen)
+    def add_room(self, room):
+        if room not in self.__rooms:
+            self.__rooms.append(room)
+        else:
+            print("Room already exists in this hotel.")
+
+    def remove_room(self, room):
+        if room in self.__rooms:
+            self.__rooms.remove(room)
+        else:
+            print("Room not found in this hotel.")
+
+    # Bewertungen zurückgeben
     def get_reviews(self):
-        return self.__review
+        return self.__reviews
