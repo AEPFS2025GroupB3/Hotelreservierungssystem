@@ -8,7 +8,7 @@ class Address:
             raise ValueError("address_id must be an integer")
 
         self.__address_id = address_id
-        self.street = street          # nutzt den Setter
+        self.street = street          # nutzt den Setter --> Format angeben self.__street: str = street
         self.city = city              # nutzt den Setter
         self.zip_code = zip_code      # nutzt den Setter
 

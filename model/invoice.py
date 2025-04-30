@@ -42,7 +42,7 @@ class Invoice:
             raise ValueError("total_amount cannot be negative")
         self.__total_amount = value
 
-    # Getter & Setter für invoice_status
+    # Getter &Setter für invoice_status
     @property
     def invoice_status(self):
         return self.__invoice_status
@@ -57,7 +57,7 @@ class Invoice:
     def get_total_amount(self) -> float:
         return self.total_amount
 
-    # ethode zur retournierung des Rechnungsdatums
+    # ethode zurretournierung des Rechnungsdatums
     def get_invoice_date(self) -> str:
         return self.issue_date
 

@@ -89,17 +89,3 @@ class Room: #Klasse Room erstellen
         self.__room_no = new_room_no
         self.__price_per_night = new_price_per_night 
 
-
-
-
-
-
-    def add_room(self, new_room: Room):  #Diese Methode gehört zur Klasse Hotel
-        if room not in self.__rooms:
-            self.__rooms.append(new_room)
-            print("Das neue Zimmer wurde dem Hotel erfolgreich hinzugefügt.")
-
-    def remove_room(self, room: Room): #Diese Methode gehört zur Klasse Hotel 
-        if room in self.__rooms:
-            self.__rooms.remove(room)
-            print("Das Zimmer wurde erfolgreich entfernt.")

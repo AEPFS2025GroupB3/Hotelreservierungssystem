@@ -37,6 +37,8 @@ class Guest:
     def first_name(self):
         return self.__first_name
 
+    @first_name.setter
+
     @property
     def last_name(self):
         return self.__last_name
@@ -45,7 +47,7 @@ class Guest:
     def email(self):
         return self.__email
     
-    @email.setter
+    @email.setter 
     def email(self, value):
         if not value:
             raise ValueError("email is required")
@@ -54,12 +56,7 @@ class Guest:
         self.__email = value
 
     #Methoden erstellen
-    def get_full_name(self):
-        return f"Firstname: {self.__first_name}, Lastname: {self.__last_name}"
-
-    def get_email(self):
-        return f"Email: {self.__email}"
 
     #sind mit Buchungdetails diese vom Gast gemeint? Unklare Beschreibung Methode
-    def get_booking_details(self):
+    def get_guest_details(self):
         return f"Guest ID: {self.__guest_id}, Firstname: {self.__first_name}, Lastname: {self.__last_name}, Email: {self.__email}"

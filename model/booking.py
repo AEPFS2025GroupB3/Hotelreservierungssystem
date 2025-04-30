@@ -1,4 +1,8 @@
 class Booking:
+
+
+
+
     # Konstruktor für ein neues Booking-Objekt
     def __init__(self, booking_id: int, check_in_date: str, check_out_date: str, booking_status: str):
         if not isinstance(booking_id, int):
@@ -17,6 +21,8 @@ class Booking:
     @property
     def booking_id(self):
         return self.__booking_id
+
+
 
     # Getter & Setter für check_in_date
     @property
