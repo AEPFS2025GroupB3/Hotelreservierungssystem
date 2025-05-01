@@ -15,6 +15,12 @@ class Facility: #Klasse Facility erstellen
         self.__facility_id: int = facility_id
         self.__facility_name: str = facility_name
 
-    @property #Gibt den Namen der Einrichtung zurück
+    #Gibt die id zurück
+    @property
+    def facility_id(self):
+        return self.__facility_id
+
+    #Gibt den Namen der Einrichtung zurück
+    @property 
     def facility_name(self):
         return self.__facility_name

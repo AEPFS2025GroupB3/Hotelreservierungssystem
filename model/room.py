@@ -24,8 +24,8 @@ class Room: #Klasse Room erstellen
 
         if not room_type:
             raise ValueError("room_type is required")
-        if not isinstance(room_type, RoomType):
-            raise ValueError("room_type must be a RoomType object")
+        if not isinstance(room_type, list):
+            raise ValueError("room_type must be a list")
 
         if not seasonal_factor:
             raise ValueError("seasonal_factor is required")
@@ -71,7 +71,7 @@ class Room: #Klasse Room erstellen
         if new_price > 0:
             self.__price_per_night = new_price
         else:
-            print("Price per night can't be below zero.")
+            raise ValueError("Price per night must be greater than 0.")
 
     #Gibt die Liste mit allen room types zurück
     @property
@@ -85,17 +85,19 @@ class Room: #Klasse Room erstellen
 
     #Damit der Faktor nur geändert werden kann, wenn er grösser als 0 ist
     @seasonal_factor.setter #Hier müssen wir noch die Fakotren bestimmen, damit der Setter angepasst werden kann
-    def seasonal_factor(self, new_factor):
+    def seasonal_factor(self, new_factor: float):
         if new_factor > 0:
             self.__seasonal_factor = new_factor
         else:
-            print("Seasonal Factor needs to be above zero.")
+            raise ValueError("Seasonal factor must be greater than 0.")
 
     @property
     def booking(self):
         return self.__booking
 
-    #Berechnet Preis mit Faktor
+    #Methoden hinzufügen 
+
+    #Methode, um Preis mit Faktor zu berechnen
     def calculate_dynamic_price(self):
         return self.__price_per_night * self.__seasonal_factor
 
@@ -106,6 +108,6 @@ class Room: #Klasse Room erstellen
 
     #Gibt die Beschreibung des Zimmers zurück
     def get_room_details(self):
-        return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type.name}."
+        return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type}."
 
 
