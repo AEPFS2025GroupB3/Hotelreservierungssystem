@@ -2,8 +2,8 @@
 class Guest:
     def __init__(self, guest_id: int, first_name: str, last_name: str, email: str):
    
-        if not guest_id: #Sicherstellen, dass eine guest_id übergeben wurde
-            raise ValueError("guest_id is required")
+        if guest_id is None: #None-Check statt "if not guest_id (0 könnte auch eine guest ID sein)"
+            raise ValueError("guest_id is required") #Sicherstellen, dass eine guest_id übergeben wurde
         if not isinstance(guest_id, int): #Sicherstellen das guest_id wirklich eine ganze Zahl ist
             raise ValueError("guest_id must be an integer")
         
@@ -21,6 +21,8 @@ class Guest:
             raise ValueError("email is required")
         if not isinstance(email, str): #Sicherstellen das email wirklich ein String ist
             raise ValueError("email must be a string")
+        if "@" not in email or "." not in email:
+            raise ValueError("email must contain '@' and '.'")
 
 
         #Private Attribute speichern
@@ -67,6 +69,8 @@ class Guest:
             raise ValueError("email is required")
         if not isinstance(value, str):
             raise ValueError("email must be a string")
+        if "@" not in value or "." not in value:
+            raise ValueError("email must contain '@' and '.'")
         self.__email = value
 
 
