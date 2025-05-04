@@ -38,10 +38,24 @@ class Guest:
         return self.__first_name
 
     @first_name.setter
-
+    def first_name(self, value):
+        if not value:
+            raise ValueError("first name is required")
+        if not isinstance(value, str):
+            raise ValueError("first name must be a string")
+        self.__first_name = value
+        
     @property
     def last_name(self):
         return self.__last_name
+
+    @last_name.setter
+    def last_name(self, value):
+        if not value:
+            raise ValueError("last name is required")
+        if not isinstance(value, str):
+            raise ValueError("last name must be a string")
+        self.__last_name = value
 
     @property
     def email(self):
@@ -55,8 +69,7 @@ class Guest:
             raise ValueError("email must be a string")
         self.__email = value
 
-    #Methoden erstellen
 
-    #sind mit Buchungdetails diese vom Gast gemeint? Unklare Beschreibung Methode
+    #Methoden erstellen
     def get_guest_details(self):
         return f"Guest ID: {self.__guest_id}, Firstname: {self.__first_name}, Lastname: {self.__last_name}, Email: {self.__email}"

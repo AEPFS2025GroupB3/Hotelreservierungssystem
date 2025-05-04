@@ -64,8 +64,6 @@ class Review:
         return self.__review_date
 
     #Methoden erstellen
-    
-
     #Review updaten
     def update_review(self, new_rating: int, new_comment: str):
         if not isinstance(new_rating, int): #prüft, ob Rating Zahl
