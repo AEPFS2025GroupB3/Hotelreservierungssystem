@@ -8,7 +8,7 @@ class Review:
         if not isinstance(review_id, int): #Sicherstellen das review_id eine Zahl ist
             raise ValueError("review_id must be an integer")
 
-        if < 1 or rating > 5: #Sicherstellen das ein rating zwischen 1 bis 5 übergeben wurde
+        if rating < 1 or rating > 5: #Sicherstellen das ein rating zwischen 1 bis 5 übergeben wurde
             raise ValueError("rating must be between 1 and 5")
         if not isinstance(rating, int): #Sicherstellen das rating eine Zahl ist
             raise ValueError("rating must be an integer")

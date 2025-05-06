@@ -24,26 +24,22 @@ class Room: #Klasse Room erstellen
 
         if not room_type:
             raise ValueError("room_type is required")
-        if not isinstance(room_type, list):
-            raise ValueError("room_type must be a list")
+        if not isinstance(room_type, RoomType):
+            raise ValueError("room_type must be a RoomType Object")
 
         if not seasonal_factor:
             raise ValueError("seasonal_factor is required")
         if not isinstance(seasonal_factor, float):
             raise ValueError("seasonal_factor must be a float")
 
-        if not booking:
-            raise ValueError("booking is required")
-        if not isinstance(booking, list[Booking]):
-            raise ValueError("booking must be a list")
-
         self.__room_id: int = room_id
         self.__hotel_id: int = hotel_id
         self.__room_no: str = room_no
         self.__price_per_night: float = price_per_night
-        self.__room_type = []
+        self.__facilities = []  # Aggregation: Liste von Facility-Objekten
+        self.__room_type = room_type # Aggregation: Ein Raum hat genau ein 1 RoomType
         self.__seasonal_factor: float = seasonal_factor
-        self.__booking = [] #Hier unsicher wie das mit der Liste ist!!
+        self.__bookings = [] #Aggregation: Liste von Bookings
     
     #Gibt die Room id zurück
     @property
@@ -91,10 +87,6 @@ class Room: #Klasse Room erstellen
         else:
             raise ValueError("Seasonal factor must be greater than 0.")
 
-    @property
-    def booking(self):
-        return self.__booking
-
     #Methoden hinzufügen 
 
     #Methode, um Preis mit Faktor zu berechnen
@@ -110,4 +102,23 @@ class Room: #Klasse Room erstellen
     def get_room_details(self):
         return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type}."
 
+    #um eine Facility zu ergänzen
+    def add_facility(self, facility):
+        if not isinstance(facility, Facility):
+            raise ValueError("Must be a Facility object")
+        self.__facilities.append(facility)
+
+    #gibt die liste aller facilities zurück
+    def get_facilities(self):
+        return self.__facilities
+
+    #um eine Buchung zu ergänzen
+    def add_booking(self, booking):
+        if not isinstance(booking, Booking):
+            raise ValueError("Must be a Booking object")
+        self.__bookings.append(booking)
+
+    #gibt die Liste aller Buchungen zurück
+    def get_bookings(self):
+        return self.__bookings
 
