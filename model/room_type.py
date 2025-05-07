@@ -31,7 +31,23 @@ class RoomType: #Klasse RoomType erstellen
     def description(self):
         return self.__description
 
+    @description.setter
+    def description(self, value):
+        if not value:
+            raise ValueError("description is required")
+        if not isinstance(value, str):
+            raise ValueError("description must be a string")
+        self.__description = value
+        
     #Gibt die maximale Anzahl an Gästen aus   
     @property
     def max_guests(self): 
         return self.__max_guests
+
+    @max_guest.setter
+    def max_guests(self, value):
+        if not value:
+                raise ValueError("max_guests is required")
+            if not isinstance(value, int):
+                raise ValueError("max_guests must be a integer")
+            self.__max_guests = value

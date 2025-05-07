@@ -1,3 +1,5 @@
+from datetime import date
+
 #Klasse erstellen
 class Guest:
     def __init__(self, guest_id: int, first_name: str, last_name: str, email: str):

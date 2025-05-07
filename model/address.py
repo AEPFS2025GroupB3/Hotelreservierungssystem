@@ -1,6 +1,9 @@
+from datetime import date
+
 class Address:
     #Konstruktor zur Initialisierung einer Adresse mit Validierung
     def __init__(self, address_id: int, street: str, city: str, zip_code: str):
+        
         #address_id ist zwingend und darf nur eine ganze Zahl sein
         if not address_id:
             raise ValueError("address_id is required")
@@ -74,6 +77,7 @@ class Address:
         self.__zip_code = value
 
     # Methode zum Zurückgeben der vollständigen Adresse als Text
-    def get_full_address(self):
-        return f"{self.__street}, {self.__zip_code} {self.__city}"
+    #def get_full_address(self):
+        #return f"{self.__street}, {self.__zip_code} {self.__city}"
+        #get full Address nur bei Guest und Hotel logisch!!!!
  

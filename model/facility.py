@@ -24,3 +24,11 @@ class Facility: #Klasse Facility erstellen
     @property 
     def facility_name(self):
         return self.__facility_name
+
+    @facility.setter
+    def facility_name(self, value):
+        if not value:
+            raise ValueError("facility_name is required")
+        if not isinstance(value, str):
+            raise ValueError("facility_name must be a string")
+        self.__facility_name 

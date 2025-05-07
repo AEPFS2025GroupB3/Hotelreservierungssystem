@@ -14,6 +14,7 @@ class Invoice:
         self.issue_date = issue_date    # wird via Setter gesetzt
         self.total_amount = total_amount
         self.invoice_status = invoice_status
+        self.__booking = booking
 
     # Getter für invoice_id
     @property
@@ -52,6 +53,11 @@ class Invoice:
         if not value:
             raise ValueError("invoice_status is required")
         self.__invoice_status = value
+
+    #Komposition zwischen Invoice und Booking
+    @property
+    def booking(self):
+        return self.__booking
 
     # Methode zur retournierung des Gesamtbetrags
     def get_total_amount(self) -> float:

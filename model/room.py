@@ -36,10 +36,10 @@ class Room: #Klasse Room erstellen
         self.__hotel_id: int = hotel_id
         self.__room_no: str = room_no
         self.__price_per_night: float = price_per_night
-        self.__facilities = []  # Aggregation: Liste von Facility-Objekten
         self.__room_type = room_type # Aggregation: Ein Raum hat genau ein 1 RoomType
         self.__seasonal_factor: float = seasonal_factor
         self.__bookings = [] #Aggregation: Liste von Bookings
+        self.__facilities = []  # Assoziation: Liste von Facility-Objekten
     
     #Gibt die Room id zurück
     @property
@@ -54,7 +54,15 @@ class Room: #Klasse Room erstellen
     #Gibt die Zimmernummer zurück
     @property
     def room_no(self):
-        return self.__room_no
+        return self.__room_n
+        
+    @room_no.setter
+    def room_no(self, value):
+        if not value:
+            raise ValueError("room_no is required")
+        if not isinstance(value, int):
+            raise ValueError("room_no must be a integer")
+        self.__room_no = value
 
     #Gibt Preis pro Nacht zurück
     @property
@@ -87,6 +95,10 @@ class Room: #Klasse Room erstellen
         else:
             raise ValueError("Seasonal factor must be greater than 0.")
 
+    #gibt die liste aller facilities zurück; Attribut Facility
+    def get_facilities(self):
+        return self.__facilities 
+
     #Methoden hinzufügen 
 
     #Methode, um Preis mit Faktor zu berechnen
@@ -108,10 +120,6 @@ class Room: #Klasse Room erstellen
             raise ValueError("Must be a Facility object")
         self.__facilities.append(facility)
 
-    #gibt die liste aller facilities zurück
-    def get_facilities(self):
-        return self.__facilities
-
     #um eine Buchung zu ergänzen
     def add_booking(self, booking):
         if not isinstance(booking, Booking):
@@ -121,4 +129,3 @@ class Room: #Klasse Room erstellen
     #gibt die Liste aller Buchungen zurück
     def get_bookings(self):
         return self.__bookings
-
