@@ -44,10 +44,10 @@ class RoomType: #Klasse RoomType erstellen
     def max_guests(self): 
         return self.__max_guests
 
-    @max_guest.setter
+    @max_guests.setter
     def max_guests(self, value):
         if not value:
-                raise ValueError("max_guests is required")
-            if not isinstance(value, int):
-                raise ValueError("max_guests must be a integer")
-            self.__max_guests = value
+            raise ValueError("max_guests is required")
+        if not isinstance(value, int):
+            raise ValueError("max_guests must be a integer")
+        self.__max_guests = value
