@@ -10,6 +10,13 @@ class HotelManager:
         return self.__hotel_da.read_hotels_by_city(city) #Delegiert an DataAccess Objekt, das SQL Abfrage ausführt
 
     #Methode User Story 1.2
-    def read_hotels_by_city_and_stars(self, city: str, min_stars: int) -> list[model.Hotel]:
+    def read_hotels_by_city_and_stars(self, city: str, stars: int) -> list[model.Hotel]:
         return self.__hotel_da.read_hotels_by_city_and_stars(city, min_stars)
 
+    #Methode User Story 1.3
+    def read_hotels_by_city_number_of_guests(self, city: str, max_guests: int ) -> list[model.Hotel]:
+        return self.__hotel_da.read_hotels_by_city_number_of_guests(city, max_guests)
+
+    #Methode User Story 1.6
+    def read_hotels_information(self) ->list[model.Hotel]:
+        return self.__hotel_da.read_hotels_information(self)

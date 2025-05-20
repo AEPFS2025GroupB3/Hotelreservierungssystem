@@ -1,0 +1,90 @@
+import model 
+from data_access.base_data_access import base_data_access #Basisklasse für Datenbankzugriff
+
+class HotelDataAcess(BaseDataAccess): #Vererbung der Basisklasse
+    def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
+        super().__init__(db_path) #Übergibt db_path an die Basisklasse
+
+    def read_hotels_by_city(self, city: str) -> list[model.Hotel]: #Methode User Story 1.1
+        #Holt die Hotel- und zugehörigen Adressdaten via JOIN
+        sql = """
+        SELECT 
+            h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id 
+        WHERE a.city = ?
+        """
+        params = (city,) #Übergabeparameter für SQL Statement als Tuple
+        results = self.fetchall(sql, params) #führt SQL Statement aus & gibt Liste an Tupels zurück
+
+        #Verarbeitet jede Ergebniszeile -> wandelt in Hotel-Objekt um
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars, 
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        ]
+    
+    def read_hotels_by_city_and_stars(self, city: str, stars: int) -> list[model.Hotel]: #Methode User Story 1.2
+       sql = """
+        SELECT 
+            h.hotel_id, h.name, h.stars
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id 
+        WHERE a.city = ? AND h.stars >= ?
+        """
+        params = (city, stars,) #Übergabeparameter für SQL Statement als Tuple
+        results = self.fetchall(sql, params) #führt SQL Statement aus & gibt Liste an Tupels zurück
+
+        #Verarbeitet jede Ergebniszeile -> wandelt in Hotel-Objekt um
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars, 
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        ]
+        
+    def read_hotels_by_city_and_max_guests(self, city: str, max_guests: int) -> list[model.Hotel]: #Methode User Story 1.3
+        sql = """
+        SELECT DISTINCT
+        h.hotel_id, h.name, h.stars,
+        a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id
+        JOIN Room r ON h.hotel_id = r.hotel_id
+        JOIN RoomType rt ON r.room_type_id = rt.room_type_id
+        WHERE a.city = ? AND rt.max_guests >= ?
+        """
+        params = (city, max_guests)
+        results = self.fetchall(sql, params)
+
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars,
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+            )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        ]
+    
+    def read_hotels_information(self) -> list[model.Hotel]: #Methode User Story 1.6
+        sql = """
+        SELECT 
+            h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id 
+        """
+        results = self.fetchall(sql)
+
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars,
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+            )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        ]
+
