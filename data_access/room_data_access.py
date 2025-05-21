@@ -6,7 +6,7 @@ class RoomDataAccess: #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
         super().__init__(db_path) #Übergibt db_path an die Basisklasse
 
-    def read_available_rooms_by_hotel(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]:
+    def read_available_rooms_by_hotel(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]: #Methode User Story 2.1
     sql = """
     SELECT 
         r.room_id, r.hotel_id, r.room_no, r.price_per_night,

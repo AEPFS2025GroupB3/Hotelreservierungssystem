@@ -1,9 +1,9 @@
 class RoomType: #Klasse RoomType erstellen
-    def __init__(self, room_type_id: int, description: str, max_guests: int):
+    def __init__(self, type_id: int, description: str, max_guests: int):
 
-        if not room_type_id: #Kontrolliert, dass id angegeben wurde
+        if not type_id: #Kontrolliert, dass id angegeben wurde
             raise ValueError("room_type_id is required")
-        if not isinstance(room_type_id, int): #Kontrolliert, dass id ein integer ist
+        if not isinstance(type_id, int): #Kontrolliert, dass id ein integer ist
             raise ValueError("room_type_id must be an integer")
 
         if not description:
@@ -17,13 +17,13 @@ class RoomType: #Klasse RoomType erstellen
             raise ValueError("max_guests must be an integer")
 
         #Private Attribute zuweisen
-        self.__room_type_id: int = room_type_id
+        self.__type_id: int = room_type_id
         self.__description: str = description
         self.__max_guests: int = max_guests
 
     #Gibt die id zurück
     @property
-    def room_type_id(self):
+    def type_id(self):
         return self.__room_type_id
 
     #Gibt die reine Beschreibung des Zimmertyps zurück (z. B. 'Suite'). Damit wir nacher nach bestimmten Romm Typen filtern können, mit Satz(f") nicht möglich

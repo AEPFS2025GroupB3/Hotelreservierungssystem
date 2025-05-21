@@ -41,16 +41,17 @@ class BaseDataAccess:
                 cur.close()
         return result
 
-    def execute(self, sql: str, params: tuple | None = ()) -> (int, int):
+    def execute(self, sql: str, params: tuple | None = ()) -> tuple[int, int]:
         with self._connect() as conn:
             try:
                 cur = conn.cursor()
                 cur.execute(sql, params)
+                last_row_id = cur.lastrowid
+                row_count = cur.rowcount
+                conn.commit()
+                return last_row_id, row_count
             except sqlite3.Error as e:
                 conn.rollback()
                 raise e
-            else:
-                conn.commit()
             finally:
                 cur.close()
-        return cur.lastrowid, cur.rowcount

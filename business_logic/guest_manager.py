@@ -30,7 +30,7 @@ class GuestManager:
     def read_hotels_information(self) ->list[model.Hotel]:
         return self.__hotel_da.read_hotels_information(self)
         
-    #Methode User Story 2.2
+    #Methode User Story 2.1 / Philip fragen oder Charuta unklar
     def read_room_details_by_hotel(hotel_id: int, check_in_date: date, check_out_date: date) -> list[dict]:
     rooms = room_da.read_available_rooms_by_hotel(hotel_id, check_in_date, check_out_date)
     nights = (check_out_date - check_in_date).days
@@ -48,4 +48,16 @@ class GuestManager:
         })
  
     return result
+
+    #Methode User Story 3.1 (Hotelmanager)
+    def create_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
+        return self.__hotel_da.create_hotel(name, stars, address)
+        
+    #Methode User Story 3.2 (Hotelmanager)
+    def delete_hotel(hotel_id: int) -> bool:
+        return hotel_da.delete_hotel(hotel_id)
+        
+    #Methode User Story 3.3
+    def update_hotel(self, hotel: model.Model) -> None:
+        return hotel_da.update_hotel(hotel)
     

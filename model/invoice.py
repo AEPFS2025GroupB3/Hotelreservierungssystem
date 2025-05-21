@@ -1,8 +1,9 @@
+from datetime import date
 from model.booking import Booking
 
 class Invoice:
     # Konstruktor zur Initialisierung eines neuen Invoice-Objekts
-    def __init__(self, invoice_id: int, issue_date: str, total_amount: float, invoice_status: str):
+    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, invoice_status: str):
         if not isinstance(invoice_id, int):
             raise ValueError("invoice_id must be an integer")
         if not issue_date:
@@ -16,7 +17,7 @@ class Invoice:
         self.issue_date = issue_date    # wird via Setter gesetzt
         self.total_amount = total_amount
         self.invoice_status = invoice_status
-        self.__booking = booking
+        self.__booking = None
 
     # Getter für invoice_id
     @property
