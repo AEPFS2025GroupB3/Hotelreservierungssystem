@@ -15,3 +15,6 @@ class HotelManager:
     def read_hotels_by_city_and_stars(self, city: str, stars: int) -> list[model.Hotel]:
         return self.__hotel_da.read_hotels_by_city_and_stars(city, stars)
  
+    #Methode User Story 1.3
+    def read_hotels_by_city_number_of_guests(self, city: str, max_guests: int ) -> list[model.Hotel]:
+        return self.__hotel_da.read_hotels_by_city_number_of_guests(city, max_guests)

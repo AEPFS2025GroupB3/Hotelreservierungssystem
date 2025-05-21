@@ -49,7 +49,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
         
-    def read_hotels_by_city_and_max_guests(self, city: str, max_guests: int) -> list[model.Hotel]: #Methode User Story 1.3
+    def read_hotels_by_city_number_of_guests(self, city: str, max_guests: int) -> list[model.Hotel]: #Methode User Story 1.3
         sql = """
         SELECT DISTINCT
         h.hotel_id, h.name, h.stars,
@@ -57,7 +57,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id
         JOIN Room r ON h.hotel_id = r.hotel_id
-        JOIN RoomType rt ON r.room_type_id = rt.room_type_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
         WHERE a.city = ? AND rt.max_guests >= ?
         """
         params = (city, max_guests)

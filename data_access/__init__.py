@@ -10,7 +10,7 @@ from .hotel_data_access import HotelDataAccess
 from .invoice_data_access import InvoiceDataAccess
 #from .review_data_access import ReviewDataAccess
 from .room_data_access import RoomDataAccess
-#from .room_type_data_access import RoomTypeDataAccess
+from .room_type_data_access import RoomTypeDataAccess
 
 def date_to_db(d: date) -> str:
     return d.isoformat()

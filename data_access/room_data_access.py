@@ -1,6 +1,6 @@
 from datetime import date
 import model 
-#from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 
 class RoomDataAccess: #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
@@ -69,14 +69,25 @@ class RoomDataAccess: #Vererbung der Basisklasse
 
         return [
             {
-                "room_id": row[0],
-                "room_no": row[1],
-                "price_per_night": row[2],
-                "room_type": row[3],
-                "max_guests": row[4],
-                "facilities": row[5].split(", ") if row[5] else []  # falls keine Ausstattung → leere Liste
+                "room_id": room_id,
+                "room_no": room_no,
+                "price_per_night": price_per_night,
+                "room_type": description,
+                "max_guests": max_guests,
+                "facilities": facility_str.split(", ") if facility_str else []
             }
-            for row in results
+            for room_id, room_no, price_per_night, description, max_guests, facility_str in results
         ]
+
+    def update_room_price(self, room_id: int, new_price: float): #User Story 10 Teil 3 (Rest bei Facility & RoomType)
+        sql = "UPDATE Room SET price_per_night = ? WHERE room_id = ?"
+        self.execute(sql, (new_price, room_id))
+
+    def update_seasonal_factor(self, room_id: int, new_factor: float):
+        sql = "UPDATE Room SET seasonal_factor = ? WHERE room_id = ?"
+        self.execute(sql, (new_factor, room_id))
+
+
+
 
  
