@@ -3,7 +3,7 @@ from datetime import date
 class Booking:
 
     # Konstruktor für ein neues Booking-Objekt
-    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, booking_status: str):
+    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, booking_status: str, guest_id: int, room_id: int):
 
         if not booking_id: #Sicherstellen das eine Booking ID übergeben worden ist
             raise ValueError("booking_id is required")
@@ -19,18 +19,29 @@ class Booking:
             raise ValueError("booking_status is required")
         if not isinstance (booking_status, str):
             raise ValueError("booking_status must be a string")
+        
+        if not guest_id: #Sicherstellen das eine Guest ID übergeben worden ist
+            raise ValueError("guest_id is required")
+        if not isinstance(guest_id, int):
+            raise ValueError("guest_id must be an integer")
+
+        if not room_id: #Sicherstellen das eine Guest ID übergeben worden ist
+            raise ValueError("room_id is required")
+        if not isinstance(room_id, int):
+            raise ValueError("room_id must be an integer")
 
         self.__booking_id: int = booking_id
         self.__check_in_date: date = check_in_date
         self.__check_out_date: date = check_out_date
         self.__booking_status: str = booking_status
         self.__invoice = None
+        self.__guest_id: int = guest_id
+        self.__room_id : int = room_id
 
     # Getter für booking_id
     @property
     def booking_id(self):
         return self.__booking_id
-
 
     # Getter & Setter für check_in_date
     @property
@@ -75,3 +86,13 @@ class Booking:
     @property
     def invoice(self):
         return self.__invoice
+
+    #Getter für guest_id
+    @property
+    def guest_id(self):
+        return self.__guest_id
+    
+    #Getter für room_id
+    @property
+    def room_id(self):
+        return self.__room_id

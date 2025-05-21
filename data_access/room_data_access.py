@@ -25,3 +25,27 @@ class RoomDataAccess: #Vererbung der Basisklasse
  
     # Erzeuge Room-Objekte mit verknüpftem RoomType
     rooms
+
+    def read_rooms_with_facilities(self) -> list[model.Room]: #Methode User Story 9
+        sql = """
+        SELECT 
+            r.room_id,
+            r.hotel_id,
+            r.price_per_night,
+            f.facility_id,
+            f.facility_name
+        FROM Room r
+        LEFT JOIN RoomFacility rf ON r.room_id = rf.room_id
+        LEFT JOIN Facility f ON rf.facility_id = f.facility_id
+        ORDER BY r.room_id
+        """
+        rows = self.fetchall(sql)
+        rooms = {}
+        for room_id, hotel_id, price, facility_id, facility_name in rows:
+            if room_id not in rooms:
+                rooms[room_id] = model.Room(room_id=room_id, hotel_id=hotel_id, price_per_night=price)
+            if facility_id:
+                facility = model.Facility(facility_id=facility_id, name=facility_name)
+                rooms[room_id].add_facility(facility)
+        return list(rooms.values())
+ 

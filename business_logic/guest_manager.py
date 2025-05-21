@@ -57,7 +57,38 @@ class GuestManager:
     def delete_hotel(hotel_id: int) -> bool:
         return hotel_da.delete_hotel(hotel_id)
         
-    #Methode User Story 3.3
-    def update_hotel(self, hotel: model.Model) -> None:
+    #Methode User Story 3.3 (Hotelmanager)
+    def update_hotel(self, hotel: model.Hotel) -> None:
         return hotel_da.update_hotel(hotel)
     
+    #Methode User Story 4 (BookingManager)
+    def create_booking(guest_id: int, room_id: int, check_in_date: date, check_out_date: date, booking_status: str = "confirmed") -> model.Booking:
+        return booking_da.create_booking(guest_id, room_id, check_in_date, check_out_date, booking_status)
+
+    #Methode User Story 5 (Invoice Manager)
+    def create_invoice_for_booking(booking: Booking, guest: Guest, hotel: Hotel, issue_date: date, invoice_status: str = "offen") -> Invoice:
+        nights = (booking.check_out_date - booking.check_in_date).days
+        room = room_da.read_room_by_id(booking.room_id)
+        total = room.calculate_dynamic_price() * nights
+ 
+        return invoice_da.create_invoice(
+            issue_date=issue_date,
+            total_amount=total,
+            invoice_status=invoice_status,
+            booking=booking,
+            guest=guest,
+            hotel=hotel,
+            room_id=booking.room_id
+        )
+
+    #Methode User Story 6 (Booking Manager)
+    def cancel_booking(self, booking_id: int) -> bool:
+        self.update_booking_status(booking_id, "canceled")
+        invoice = invoice_da.read_invoice_by_booking_id(booking_id)
+        if invoice:
+            invoice_da.update_invoice_status(invoice.invoice_id, "canceled")
+        return True
+
+    #Methode User Story 9(Room Manager)
+    def read_room_with_facilities(self) -> list:
+        return self.__room_da.read_room_with_facilities()

@@ -1,5 +1,5 @@
 class Facility: #Klasse Facility erstellen
-    def __init__(self, facility_id: int, facility_name: str):
+    def __init__(self, facility_id: int, facility_name: str, room_id: int):
 
         if not facility_id: #Kontrolliert, dass id angegeben wurde
             raise ValueError("facility_id is required")
@@ -11,9 +11,15 @@ class Facility: #Klasse Facility erstellen
         if not isinstance(facility_name, str):
             raise ValueError("facility_name must be a string")
 
+        if not room_id: #Kontrolliert, dass id angegeben wurde
+            raise ValueError("room_id is required")
+        if not isinstance(room_id, int): #Kontrolliert, dass id ein integer ist
+            raise ValueError("room_id must be an integer")
+
         #Private Attribute zuweisen
         self.__facility_id: int = facility_id
         self.__facility_name: str = facility_name
+        self.__room_id: int = room_id
 
     #Gibt die id zurück
     @property
