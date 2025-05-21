@@ -25,10 +25,10 @@ class Facility: #Klasse Facility erstellen
     def facility_name(self):
         return self.__facility_name
 
-    @facility.setter
+    @facility_name.setter
     def facility_name(self, value):
         if not value:
             raise ValueError("facility_name is required")
         if not isinstance(value, str):
             raise ValueError("facility_name must be a string")
-        self.__facility_name 
+        self.__facility_name = value

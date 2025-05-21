@@ -1,4 +1,8 @@
 from datetime import date  #Importiert den Typ "date" für das Review-Datum
+from model.address import Address 
+from model.room_type import RoomType
+from model.room import Room
+from model.review import Review
 
 class Hotel:
     def __init__(self, hotel_id: int, name: str, stars: int, address: Address):
@@ -79,15 +83,15 @@ class Hotel:
 
     #Raum hinzufügen
     def add_room(self, room_no: str, price_per_night: float, room_type: RoomType, seasonal_factor: float):
-    new_id = len(self.__rooms) + 1 #Room_id wird automatisch vergeben, aktueller Listenstand +1
-    room = Room(room_id=new_id,
+        new_id = len(self.__rooms) + 1 #Room_id wird automatisch vergeben, aktueller Listenstand +1
+        room = Room(room_id=new_id,
                 hotel_id=self.__hotel_id, #hotel_id wird direkt vom aktuellen Hotel übernommen
                 room_no=room_no,
                 price_per_night=price_per_night,
                 room_type=room_type,
                 seasonal_factor=seasonal_factor)
     #Room wird zur internen Liste hinzugefügt
-    self.__rooms.append(room)
+        self.__rooms.append(room)
 
     #Raum aus dem Hotel entfernen, wenn er existiert
     def remove_room(self, room):

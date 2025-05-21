@@ -42,7 +42,7 @@ class Booking:
         if not value:
             raise ValueError("check-in-date is reuqired")
         if not isinstance(value,date):
-            raise ValueError("check-in-date must be a date YYYY/MM/DD"
+            raise ValueError("check-in-date must be a date YYYY/MM/DD")
         self.__check_in_date = value
 
     # Getter & Setter für check_out_date

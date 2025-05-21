@@ -1,3 +1,5 @@
+from model.booking import Booking
+
 class Invoice:
     # Konstruktor zur Initialisierung eines neuen Invoice-Objekts
     def __init__(self, invoice_id: int, issue_date: str, total_amount: float, invoice_status: str):

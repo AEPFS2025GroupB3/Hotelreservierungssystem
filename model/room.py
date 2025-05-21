@@ -1,5 +1,9 @@
+from model.room_type import RoomType
+from model.facility import Facility
+from model.booking import Booking
+
 class Room: #Klasse Room erstellen
-    def __init__(self, room_id: int, hotel_id: int, room_no: str, price_per_night: float, room_type: RoomType, room_type_id : int, seasonal_factor: float):
+    def __init__(self, room_id: int, hotel_id: int, room_no: str, price_per_night: float, room_type: RoomType, type_id : int, seasonal_factor: float):
 
         #Alle Werte kontrollieren, bevor sie gespeichert werden
         if not room_id:
@@ -27,9 +31,9 @@ class Room: #Klasse Room erstellen
         if not isinstance(room_type, RoomType):
             raise ValueError("room_type must be a RoomType Object")
 
-        if not room_type_id:
+        if not type_id:
             raise ValueError("room_type_id is required")
-        if not isinstance(room_type_id, int):
+        if not isinstance(type_id, int):
             raise ValueError("room_type_id must be an integer")
 
         if not seasonal_factor:
@@ -42,7 +46,7 @@ class Room: #Klasse Room erstellen
         self.__room_no: str = room_no
         self.__price_per_night: float = price_per_night
         self.__room_type = room_type # Aggregation: Ein Raum hat genau ein 1 RoomType
-        self.__room_type_id: int = room_type_id
+        self.__type_id: int = room_type_id
         self.__seasonal_factor: float = seasonal_factor
         self.__bookings = [] #Aggregation: Liste von Bookings
         self.__facilities = []  # Assoziation: Liste von Facility-Objekten
@@ -59,13 +63,13 @@ class Room: #Klasse Room erstellen
 
     #Gibt die Room_type_id zurück
     @property
-    def room_type_id(self):
+    def type_id(self):
         return self.__room_type_id
 
     #Gibt die Zimmernummer zurück
     @property
     def room_no(self):
-        return self.__room_n
+        return self.__room_no
         
     @room_no.setter
     def room_no(self, value):

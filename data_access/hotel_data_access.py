@@ -1,7 +1,7 @@
 import model 
-from data_access.base_data_access import base_data_access #Basisklasse für Datenbankzugriff
+#from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 
-class HotelDataAcess(BaseDataAccess): #Vererbung der Basisklasse
+class HotelDataAcess: #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
         super().__init__(db_path) #Übergibt db_path an die Basisklasse
 
@@ -36,11 +36,11 @@ class HotelDataAcess(BaseDataAccess): #Vererbung der Basisklasse
         JOIN Address a ON h.address_id = a.address_id 
         WHERE a.city = ? AND h.stars >= ?
         """
-        params = (city, stars,) #Übergabeparameter für SQL Statement als Tuple
-        results = self.fetchall(sql, params) #führt SQL Statement aus & gibt Liste an Tupels zurück
+       params = (city, stars,) #Übergabeparameter für SQL Statement als Tuple
+       results = self.fetchall(sql, params) #führt SQL Statement aus & gibt Liste an Tupels zurück
 
         #Verarbeitet jede Ergebniszeile -> wandelt in Hotel-Objekt um
-        return [
+       return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars, 
                 address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
@@ -69,6 +69,64 @@ class HotelDataAcess(BaseDataAccess): #Vererbung der Basisklasse
             )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
+
+    def read_available_hotels_by_city_and_date(self, city:str, check_in_date: date, check_out_date: date) -> list[model.Hotel]: #Methode 1.4
+        sql = """
+        SELECT DISTINCT
+            h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id
+        JOIN Room r ON h.hotel_id = r.hotel_id
+        JOIN RoomType rt ON r.type_id = rt.type_id
+        LEFT JOIN Booking b ON r.room_id = b.room_id #Damit Zimmer ohne Buchungen angezeigt werden
+            AND NOT (
+                b.check_out_date <= ? OR
+                b.check_in_date >= ?
+            )
+        WHERE a.city = ? AND b.booking_id IS NULL
+        """
+        params = (check_in_date, check_out_date, city)
+        results = self.fetchall(sql, params)
+ 
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars,
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+            )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        
+    def read_hotels_by_criteria(self, city:str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.hotel]: #Methode 1.5
+        sql = """
+        SELECT DISTINCT
+            h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id
+        JOIN Room r ON h.hotel_id = r.hotel_id
+        JOIN RoomType rt ON r.room_type_id = rt.room_type_id
+        LEFT JOIN Booking b ON r.room_id = b.room_id
+            AND NOT (
+                b.check_out_date <= ? OR
+                b.check_in_date >= ?
+            )
+        WHERE 
+            a.city = ?
+            AND h.stars >= ?
+            AND rt.max_guests >= ?
+            AND b.booking_id IS NULL
+        """
+        params = (check_in_date, check_out_date, city, min_stars, guests)
+        results = self.fetchall(sql, params)
+
+        return [
+            model.Hotel(
+                hotel_id=hotel_id, name=name, stars=stars,
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+            )
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
+        ]
+
     
     def read_hotels_information(self) -> list[model.Hotel]: #Methode User Story 1.6
         sql = """
