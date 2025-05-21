@@ -1,12 +1,13 @@
 from datetime import date
 import model 
+from model import Booking, Guest, Hotel
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 
 class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
         super().__init__(db_path) #Übergibt db_path an die Basisklasse
 
-    def create_invoice(self, issue_date: date, total_amount: float, invoice_status: str, booking: Booking, guest: Guest, hotel: Hotel, room_id: int) -> Invoice: #Methode User Story 5
+    def create_invoice(self, issue_date: date, total_amount: float, invoice_status: str, booking: Booking, guest: Guest, hotel: Hotel, room_id: int) -> model.Invoice: #Methode User Story 5
         sql = """
         INSERT INTO Invoice (issue_date, total_amount, invoice_status, booking_id)
         VALUES (?, ?, ?, ?)

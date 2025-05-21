@@ -30,20 +30,56 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             status=booking_status
         )
     
-    def cancel_booking(booking_id: int) -> bool: #Methode User Story 6
-    booking = booking_da.read_booking_by_id(booking_id)
-    if not booking:
-        raise Exception("Buchung existiert nicht.")
- 
-    # Schritt 1: Status der Buchung ändern
-    booking.booking_status = "canceled"
-    booking_da.update_booking_status(booking_id, "canceled")
- 
-    # Schritt 2: Rechnung ebenfalls aktualisieren (falls vorhanden)
-    invoice = invoice_da.read_invoice_by_booking_id(booking_id)
-    if invoice:
-        invoice.invoice_status = "canceled"
-        invoice_da.update_invoice_status(invoice.invoice_id, "canceled")
- 
-    return True
- 
+    def update_booking_status(self, booking_id: int, new_status: str) -> None: #Methode User Story 6
+        if not booking_id:
+            raise ValueError("booking_id is required")
+
+        sql = """
+        UPDATE Booking
+        SET status = ?
+        WHERE booking_id = ?
+        """
+        self.execute(sql, (new_status, booking_id))
+
+    def read_invoice_by_booking_id(self, booking_id: int) -> model.Booking | None:
+        sql = """
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, status
+        FROM Booking
+        WHERE booking_id = ?
+        """
+        row = self.fetchone(sql, (booking_id,))
+        if row:
+            return model.Booking(*row)
+        return None
+
+    def read_invoice_by_booking_id(self, booking_id: int) -> model.Booking | None:
+        sql = """
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, booking_status
+        FROM Booking
+        WHERE booking_id = ?
+        """
+        row = self.fetchone(sql, (booking_id,))
+        if row:
+            return model.Booking(*row)
+        return None
+
+    def read_bookings_by_hotel(self, hotel_id: int) -> list[model.Booking]: #Methode User Story 8
+        sql = """
+        SELECT b.booking_id, b.guest_id, b.room_id, b.check_in_date, b.check_out_date, b.booking_status
+        FROM Booking b
+        JOIN Room r ON b.room_id = r.room_id
+        WHERE r.hotel_id = ?
+        """
+        results = self.fetchall(sql, (hotel_id,))
+
+        return [
+            model.Booking(
+                booking_id=booking_id,
+                guest_id=guest_id,
+                room_id=room_id,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
+                booking_status=booking_status
+            )
+            for booking_id, guest_id, room_id, check_in_date, check_out_date, booking_status in results
+    ]
