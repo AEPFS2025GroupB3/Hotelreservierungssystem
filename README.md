@@ -1,15 +1,19 @@
 # Hotelreservierungssystem, Projektdokumentation
 
-Dieses Projekt wurde im Rahmen des Moduls **Anwendungsentwicklung mit Python** an der FHNW realisiert. Es handelt sich um ein Hotelreservierungssystem, das auf einem objektorientierten Ansatz basiert. Ziel war es, definierte User Stories umzusetzen und ein funktionsfähiges System zu entwickeln, das Hotels, Zimmer, Buchungen, Rechnungen und Bewertungen verwaltet.
+Dieses Projekt wurde im Rahmen des Moduls **Anwendungsentwicklung mit Python** an der FHNW realisiert.
+
+Es handelt sich um ein Hotelreservierungssystem, das auf einem objektorientierten Ansatz basiert.
+
+Ziel war es, definierte User Stories umzusetzen und ein funktionsfähiges System zu entwickeln, das Hotels, Zimmer, Buchungen, Rechnungen und Bewertungen verwaltet.
 
 ## Projektteam & Rollenverteilung
 
 Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
-1. **Fachliche Rollen**: welche technischen Teile des Projekts hat jedes Mitglied umgesetzt 
-2. **Projektrollen**: wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich
+1. **Fachliche Rollen**: Welche technischen Teile des Projekts hat jedes Mitglied umgesetzt 
+2. **Projektrollen**: Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich
 
----
+---Ja
 
 ### Kerstin Culjak
 **Fachlich:**  
@@ -117,5 +121,13 @@ Gemäss dem vorgegebenen Layer-Modell:
 ## Projektstruktur in GitHub & Deepnote
 
 Siehe Repository-Struktur im README.md auf GitHub (Projektordner `Hotelreservierungssystem`) und Deepnote-Projektintegration.
+
+---
+
+ Reflexion & Methodik
+
+Wir haben uns zu Beginn mit der Referenzstruktur vertraut gemacht und diese dann schrittweise mit eigenen Inhalten gefüllt.
+Die Aufteilung in Fach- und Projektrollen hat sich als sehr effizient erwiesen. Jedes Teammitglied konnte seine Stärken einbringen.
+Der Fokus lag auf funktionierender Logik, sauberem Code, verständlichen Notebooks und strukturierter Dokumentation.
 
 ---

@@ -1,5 +1,6 @@
 from datetime import date
-import model 
+import model
+from model import RoomType
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 
 class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
@@ -79,8 +80,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id
         JOIN Room r ON h.hotel_id = r.hotel_id
-        JOIN RoomType rt ON r.type_id = rt.type_id
-        LEFT JOIN Booking b ON r.room_id = b.room_id #Damit Zimmer ohne Buchungen angezeigt werden
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        LEFT JOIN Booking b ON r.room_id = b.room_id 
             AND NOT (
                 b.check_out_date <= ? OR
                 b.check_in_date >= ?
@@ -103,10 +104,11 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
             a.address_id, a.street, a.city, a.zip_code
+            rt.max_guests
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id
         JOIN Room r ON h.hotel_id = r.hotel_id
-        JOIN RoomType rt ON r.room_type_id = rt.room_type_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
         LEFT JOIN Booking b ON r.room_id = b.room_id
             AND NOT (
                 b.check_out_date <= ? OR
@@ -118,15 +120,15 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             AND rt.max_guests >= ?
             AND b.booking_id IS NULL
         """
-        params = (check_in_date, check_out_date, city, min_stars, guests)
+        params = (check_in_date, check_out_date, city, stars, max_guests)
         results = self.fetchall(sql, params)
 
         return [
             model.Hotel(
-                hotel_id=hotel_id, name=name, stars=stars,
+                hotel_id=hotel_id, name=name, stars=stars, max_guests=max_guests,
                 address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
             )
-            for hotel_id, name, stars, address_id, street, city, zip_code in results
+            for hotel_id, name, stars, address_id, street, city, zip_code, max_guests in results
         ]
 
     

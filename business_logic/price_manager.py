@@ -1,4 +1,7 @@
 from datetime import date
+import model #Klassen importieren
+from model import Booking, Guest, Hotel, Invoice
+import data_access #Importiert data_access
 
 class PriceManager:
     def __init__(self):
@@ -14,3 +17,6 @@ class PriceManager:
         # Normale Saison
         else:
             return 1.0
+
+    #Methode User Story 7
+    #def calculate_dynamic_price(self, price_per_night: float, seasonal_factor: float):

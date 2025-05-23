@@ -1,8 +1,12 @@
+import model #Klassen importieren
+from model import Booking, Guest, Hotel, Invoice
+import data_access #Importiert data_access
+
 class AdminManager:
     def __init__(self):
-        self.__room_da = RoomDataAccess()
-        self.__facility_da = FacilityDataAccess()
-        self.__roomtype_da = RoomTypeDataAccess()
+        self.__room_da = data_access.RoomDataAccess()
+        self.__facility_da = data_access.FacilityDataAccess()
+        self.__roomtype_da = data_access.RoomTypeDataAccess()
     
     # --- Facility ---
     def create_facility(self, name: str):

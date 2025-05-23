@@ -1,4 +1,5 @@
 import model 
+from model import Hotel
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 
 class RoomTypeDataAccess(BaseDataAccess): #User Story 10 Teil 2 (Rest bei Facility & Room)
