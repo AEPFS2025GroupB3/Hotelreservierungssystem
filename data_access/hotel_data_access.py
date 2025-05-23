@@ -99,11 +99,11 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             for hotel_id, name, stars, address_id, street, city, zip_code in results
             ]
         
-    def read_hotels_by_criteria(self, city:str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.Hotel]: #Methode 1.5
+    def read_hotels_by_criteria(self, city: str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.Hotel]: #Methode 1.5
         sql = """
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
-            a.address_id, a.street, a.city, a.zip_code
+            a.address_id, a.street, a.city, a.zip_code,
             rt.max_guests
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id
@@ -128,8 +128,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 hotel_id=hotel_id, name=name, stars=stars, max_guests=max_guests,
                 address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
             )
-            for hotel_id, name, stars, address_id, street, city, zip_code, max_guests in results
-        ]
+            for hotel_id, name, stars, max_guests, address_id, street, city, zip_code in results
+            ]
 
     
     def read_hotels_information(self) -> list[model.Hotel]: #Methode User Story 1.6
@@ -164,7 +164,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         """
         hotel_params = (name, stars, address_id)
         hotel_id, _ = self.execute(hotel_sql, hotel_params)
-
+        hotel = model.Hotel()
+        
         last_row_id, row_count = self.execute(sql, params)
         return model.Hotel(last_row_id, address)
 

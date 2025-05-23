@@ -5,7 +5,7 @@ from model.room import Room
 from model.review import Review
 
 class Hotel:
-    def __init__(self, hotel_id: int, name: str, stars: int, address: Address):
+    def __init__(self, hotel_id: int, name: str, stars: int, address: Address, room_type: RoomType):
         #Validierung: ID muss existieren und eine ganze Zahl sein
         if not hotel_id:
             raise ValueError("hotel_id is required")
@@ -28,11 +28,15 @@ class Hotel:
         if not isinstance(address, Address):
             raise ValueError("address must be an Address object")
 
+        if room_type is not None and not isinstance(room_type, RoomType):
+            raise ValueError("room_type must be a RoomType object")
+
         #Private Attribute mit doppeltem Unterstrich für Kapselung
         self.__hotel_id: int = hotel_id
         self.__name: str = name
         self.__stars: int = stars
         self.__address: Address = address
+        self.__room_type: RoomType = room_type
 
         self.__rooms = []     # Liste von Room-Objekten
         self.__reviews = []   # Liste von Review-Objekten
@@ -82,23 +86,19 @@ class Hotel:
     # Room-Verwaltung
 
     #Raum hinzufügen
-    def add_room(self, room_no: str, price_per_night: float, room_type: RoomType, seasonal_factor: float):
-        new_id = len(self.__rooms) + 1 #Room_id wird automatisch vergeben, aktueller Listenstand +1
-        room = Room(room_id=new_id,
-                hotel_id=self.__hotel_id, #hotel_id wird direkt vom aktuellen Hotel übernommen
-                room_no=room_no,
-                price_per_night=price_per_night,
-                room_type=room_type,
-                seasonal_factor=seasonal_factor)
-    #Room wird zur internen Liste hinzugefügt
-        self.__rooms.append(room)
+    def add_room(self, room: Room): #Validierung des Parameters hinzufügen
+        room._Room__hotel_id = self.__hotel_id #Wir greifen absichtlich auf gemangelte Attribute zu
+        if room not in self.__rooms:
+            #Room wird zur internen Liste hinzugefügt
+            self.__rooms.append(room)
 
     #Raum aus dem Hotel entfernen, wenn er existiert
-    def remove_room(self, room):
+    """def remove_room(self, room):
         if room in self.__rooms:
             self.__rooms.remove(room)
         else:
-            print("Room not found in this hotel.")
+            print("Room not found in this hotel.") 
+    """
 
     #Zugriff auf die Raumliste --> .copy gibt eine Kopie zurück, damit niemand das Original verändern kann
     @property

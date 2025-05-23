@@ -35,7 +35,7 @@ class RoomDataAccess: #Vererbung der Basisklasse
             f.facility_id,
             f.facility_name
         FROM Room r
-        LEFT JOIN RoomFacility rf ON r.room_id = rf.room_id
+        LEFT JOIN Room_Facilities rf ON r.room_id = rf.room_id
         LEFT JOIN Facility f ON rf.facility_id = f.facility_id
         ORDER BY r.room_id
         """

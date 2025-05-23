@@ -48,14 +48,14 @@ class Invoice:
             raise ValueError("room_id must be an integer")
 
         # === Attributzuweisung ===
-        self.__invoice_id = invoice_id
-        self.__issue_date = issue_date
-        self.__total_amount = float(total_amount)
-        self.__invoice_status = invoice_status
+        self.__invoice_id: int = invoice_id
+        self.__issue_date: date = issue_date
+        self.__total_amount: float = float(total_amount)
+        self.__invoice_status: str = invoice_status
         self.__booking = booking
         self.__guest = guest
         self.__hotel = hotel
-        self.__room_id = room_id
+        self.__room_id: int = room_id
 
     # === Getter & Setter ===
 

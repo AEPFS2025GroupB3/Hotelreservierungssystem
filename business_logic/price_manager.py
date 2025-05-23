@@ -4,8 +4,9 @@ from model import Booking, Guest, Hotel, Invoice
 import data_access #Importiert data_access
 
 class PriceManager:
-    def __init__(self):
+    def __init__(self): #Evtl. highseason, lowseason etc. ergänzen
         self.__room_da = data_access.RoomDataAccess()
+        #Evtl. highseason, lowseason etc. ergänzen
 
     def get_seasonal_factor(self, check_in_date: date) -> float: #Methode User Story 7
         # Hochsaison: Juli & August

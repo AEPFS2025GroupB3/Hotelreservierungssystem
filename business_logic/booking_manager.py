@@ -6,7 +6,8 @@ import data_access #Importiert data_access
 class BookingManager:
     def __init__(self) -> None:
         self.__booking_da = data_access.BookingDataAccess()
-
+        #self.__price & invoice manager??
+        
     #Methode User Story 4 (BookingManager)
     def create_booking(guest_id: int, room_id: int, check_in_date: date, check_out_date: date, booking_status: str = "confirmed") -> model.Booking:
         return booking_da.create_booking(guest_id, room_id, check_in_date, check_out_date, booking_status)
