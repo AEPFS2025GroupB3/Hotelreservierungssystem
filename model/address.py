@@ -76,8 +76,9 @@ class Address:
             raise ValueError("zip code must be a string")
         self.__zip_code = value
 
-    # Methode zum Zurückgeben der vollständigen Adresse als Text
-    #def get_full_address(self):
-        #return f"{self.__street}, {self.__zip_code} {self.__city}"
-        #get full Address nur bei Guest und Hotel logisch!!!!
+    # Gibt die vollständige Adresse als formatierten String zurück,
+    # z. B. für Ausgaben in Hotel- oder Gästedetails.
+    def get_full_address(self):
+        return f"{self.__street}, {self.__zip_code} {self.__city}"
+        
  

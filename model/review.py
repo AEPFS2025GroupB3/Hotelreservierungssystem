@@ -1,17 +1,19 @@
 from datetime import date
+from model.hotel import Hotel
+from model.guest import Guest
 
 class Review:
-    def __init__(self, review_id: int, rating: int, comment: str, review_date: date):
+    def __init__(self, review_id: int, rating: int, comment: str, review_date: date, hotel: Hotel, guest: Guest):
 
         if not review_id: #Sicherstellen das eine review_id übergeben wurde
             raise ValueError("review_id is required")
         if not isinstance(review_id, int): #Sicherstellen das review_id eine Zahl ist
             raise ValueError("review_id must be an integer")
 
-        if rating < 1 or rating > 5: #Sicherstellen das ein rating zwischen 1 bis 5 übergeben wurde
-            raise ValueError("rating must be between 1 and 5")
-        if not isinstance(rating, int): #Sicherstellen das rating eine Zahl ist
+        if not isinstance(rating, int):
             raise ValueError("rating must be an integer")
+        if rating < 1 or rating > 5:
+            raise ValueError("rating must be between 1 and 5")
 
         if not comment: #Sicherstellen das comment übergeben wurde
             raise ValueError("comment is required")
@@ -23,12 +25,23 @@ class Review:
         if not isinstance(review_date, date):
             raise ValueError("review date must be a date")
 
-    
+        if not hotel:
+            raise ValueError("hotel is required")
+        if not isinstance(hotel, Hotel):
+            raise ValueError("hotel must be a Hotel object")
+
+        if not guest:
+            raise ValueError("guest is required")
+        if not isinstance(guest, Guest):
+            raise ValueError("guest must be a Guest object")
+
     #Private Attribute erstellen, damit niemand von aussen Unsinn macht :)
         self.__review_id: int = review_id
         self.__rating: int = rating
         self.__comment: str = comment
         self.__review_date: date = review_date
+        self.__hotel: Hotel = hotel
+        self.__guest: Guest = guest
 
     #Properties
     #ich habe zu jedem Attribut eine Property erstellt damit der Code konsistent ist
@@ -43,7 +56,9 @@ class Review:
 
     @rating.setter
     def rating(self, value):
-        if value < 1 or value >5:
+        if not isinstance(value, int):
+            raise ValueError("rating must be an integer")
+        if not (1 <= value <= 5):
             raise ValueError("rating must be between 1 and 5")
         self.__rating = value
     
@@ -63,16 +78,20 @@ class Review:
     def review_date(self):
         return self.__review_date
 
+    @property
+    def hotel(self):
+        return self.__hotel
+
+    @property
+    def guest(self):
+        return self.__guest
+
     #Methoden erstellen
     #Review updaten
     def update_review(self, new_rating: int, new_comment: str):
-        if not isinstance(new_rating, int): #prüft, ob Rating Zahl
-            raise ValueError("rating must be an integer")
-        if not isinstance(new_comment, str): #prüft, ob Comment String
-            raise ValueError("comment must be a string")
-        
-        self.rating = new_rating #Aufruf setter, setzt neuen Wert rating
-        self.comment = new_comment #Aufruf setter, setzt neuen Wert Comment
+        # Ermöglicht die nachträgliche Anpassung der Bewertung
+        self.rating = new_rating
+        self.comment = new_comment
         return "Review updated."
 
     #Review löschen
@@ -83,15 +102,16 @@ class Review:
         return "Review deleted."
 
     #Review Details anschauhen
-    def get_review_details(self): #gibt Daten in formatierten String zurück
-        return(
-            f"Review ID: {self.__review_id}, "
-            f"Rating: {self.__rating}, "
-            f"Comment: {self.__comment}, "
-            f"Date: {self.__review_date}"
+    def get_review_details(self) -> str:
+        # Gibt formatierte Übersicht über die Bewertung zurück
+        return (
+            f"Review ID: {self.review_id} – Bewertung: {self.rating}/5\n"
+            f"{self.comment}\n"
+            f"Verfasst am {self.review_date} von {self.guest.first_name} {self.guest.last_name} "
+            f"für {self.hotel.name}"
         )
 
-
+    
 #warum bei __init__ & property.setter ValueError
 #__init__ : einmalige Prüfung beim erstellen
 #@property.setter: wiederholge Prüfung bei änderungen

@@ -1,8 +1,8 @@
-from datetime import date
+from model.address import Address
 
 #Klasse erstellen
 class Guest:
-    def __init__(self, guest_id: int, first_name: str, last_name: str, email: str):
+    def __init__(self, guest_id: int, first_name: str, last_name: str, email: str, address: Address):
    
         if guest_id is None: #None-Check statt "if not guest_id (0 könnte auch eine guest ID sein)"
             raise ValueError("guest_id is required") #Sicherstellen, dass eine guest_id übergeben wurde
@@ -32,7 +32,10 @@ class Guest:
         self.__first_name: str = first_name
         self.__last_name: str = last_name
         self.__email: str = email
+        self.__address: Address = address
 
+
+    #Getter & Setter
     @property
     def guest_id(self):
         return self.__guest_id
@@ -75,7 +78,27 @@ class Guest:
             raise ValueError("email must contain '@' and '.'")
         self.__email = value
 
+    @property
+    def address(self):
+        return self.__address
 
-    #Methoden erstellen
+    @address.setter
+    def address(self, value):
+        if not value:
+            raise ValueError("address is required")
+        if not isinstance(value, Address):
+            raise ValueError("address must be an Address object")
+        self.__address = value
+
+
+    # Hilfsmethode: vollständiger Name
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    # Gibt Gastinformationen ohne Adresse zurück
     def get_guest_details(self):
-        return f"Guest ID: {self.__guest_id}, Firstname: {self.__first_name}, Lastname: {self.__last_name}, Email: {self.__email}"
+        return f"Guest ID: {self.guest_id}, Firstname: {self.first_name}, Lastname: {self.last_name}, Email: {self.email}"
+
+    # Gibt vollständige Gastinformationen inkl. Adresse zurück
+    def get_guest_details_with_address(self):
+        return f"Name: {self.get_full_name()}, E-Mail: {self.email}, Adresse: {self.address.get_full_address()}"

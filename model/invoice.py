@@ -1,8 +1,11 @@
+from __future__ import annotations #erlaubt Typen als Strings
 from datetime import date
-from model import Booking, Guest, Hotel  # falls nicht automatisch importiert
+from model.guest import Guest
+from model.hotel import Hotel
+from model.room import Room
 
 class Invoice:
-    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, invoice_status: str, booking: Booking, guest: Guest, hotel: Hotel, room_id: int):
+    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, invoice_status: str, booking: 'Booking', guest: Guest, hotel: Hotel, room: Room):
 
         # === Validierungen ===
         if not invoice_id:
@@ -29,8 +32,7 @@ class Invoice:
 
         if not booking:
             raise ValueError("booking is required")
-        if not isinstance(booking, Booking):
-            raise ValueError("booking must be a Booking object")
+        #Typprüfung entfällt hier, weil booking als 'Booking' deklariert ist (Vermeidung zirkulärer Import)
 
         if not guest:
             raise ValueError("guest is required")
@@ -42,20 +44,20 @@ class Invoice:
         if not isinstance(hotel, Hotel):
             raise ValueError("hotel must be a Hotel object")
 
-        if not room_id:
-            raise ValueError("room_id is required")
-        if not isinstance(room_id, int):
-            raise ValueError("room_id must be an integer")
+        if not room:
+            raise ValueError("room is required")
+        if not isinstance(room, Room):
+            raise ValueError("room must be a Room object")
 
         # === Attributzuweisung ===
         self.__invoice_id: int = invoice_id
         self.__issue_date: date = issue_date
         self.__total_amount: float = float(total_amount)
         self.__invoice_status: str = invoice_status
-        self.__booking = booking
-        self.__guest = guest
-        self.__hotel = hotel
-        self.__room_id: int = room_id
+        self.__booking: Booking = booking
+        self.__guest: Guest = guest
+        self.__hotel: Hotel = hotel
+        self.__room: Room = room
 
     # === Getter & Setter ===
 
@@ -83,8 +85,8 @@ class Invoice:
     def total_amount(self, value):
         if value is None:
             raise ValueError("total_amount is required")
-        if not isinstance(value, float):
-            raise ValueError("total_amount must be a float")
+        if not isinstance(value, (float, int)):
+            raise ValueError("total_amount must be a number")
         if value < 0:
             raise ValueError("total_amount cannot be negative")
         self.__total_amount = value
@@ -114,15 +116,16 @@ class Invoice:
         return self.__hotel
 
     @property
-    def room_id(self):
-        return self.__room_id
+    def room(self):
+        return self.__room
 
     # === Zusatzmethoden ===
 
     def get_invoice_summary(self) -> str:
+        from model.booking import Booking
         return (
             f"Rechnung {self.invoice_id} für {self.guest.first_name} {self.guest.last_name}\n"
-            f"Hotel: {self.hotel.name}, Zimmer: {self.room_id}\n"
+            f"Hotel: {self.hotel.name}, Zimmer: {self.room.room_no}\n"
             f"Betrag: CHF {self.total_amount:.2f} – Status: {self.invoice_status}\n"
             f"Datum: {self.issue_date}"
         )
