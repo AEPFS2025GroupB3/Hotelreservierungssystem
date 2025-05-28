@@ -104,7 +104,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
             a.address_id, a.street, a.city, a.zip_code,
-            rt.max_guests
+            rt.type_id, rt.max_guests
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id
         JOIN Room r ON h.hotel_id = r.hotel_id
@@ -125,14 +125,15 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         return [
             model.Hotel(
-                hotel_id=hotel_id, name=name, stars=stars, max_guests=max_guests,
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                hotel_id=hotel_id, name=name, stars=stars,
+                address=model.Address(address_id=int(address_id), street=street, city=city, zip_code=zip_code),
+                room_type=model.RoomType(type_id=int(type_id), description="", max_guests=max_guests)
             )
-            for hotel_id, name, stars, max_guests, address_id, street, city, zip_code in results
+            for hotel_id, name, stars, address_id, street, city, zip_code, type_id, max_guests in results
             ]
 
     
-    def read_hotels_information(self) -> list[model.Hotel]: #Methode User Story 1.6
+    def get_hotel_details(self) -> list[model.Hotel]: #Methode User Story 1.6
         sql = """
         SELECT 
             h.hotel_id, h.name, h.stars,
@@ -203,4 +204,4 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
  
     
-       
+    

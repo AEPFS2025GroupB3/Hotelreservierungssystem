@@ -7,10 +7,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from model.address import Address 
     from model.room import Room
+    from model.room_type import RoomType
     from model.review import Review
 
 class Hotel:
-    def __init__(self, hotel_id: int, name: str, stars: int, address: Address):
+    def __init__(self, hotel_id: int, name: str, stars: int, address: Address, room_type: RoomType):
         #Validierung: ID muss existieren und eine ganze Zahl sein
         if not hotel_id:
             raise ValueError("hotel_id is required")
@@ -42,6 +43,7 @@ class Hotel:
         self.__name: str = name
         self.__stars: int = stars
         self.__address: Address = address
+        self.__room_type: RoomType = room_type
 
         self.__rooms = []     # Liste von Room-Objekten
         self.__reviews = []   # Liste von Review-Objekten
@@ -55,6 +57,10 @@ class Hotel:
     @property
     def name(self):
         return self.__name
+
+    @property
+    def room_type(self):
+        return self.__room_type
 
     @name.setter
     def name(self, value):
@@ -108,6 +114,7 @@ class Hotel:
         if not isinstance(room, Room):
             raise ValueError("room must be a Room object")
         self.__rooms.append(room)
+        
 
     #Zimmer löschen
     def remove_room(self, room: Room) -> None:

@@ -29,8 +29,8 @@ class HotelManager:
         return self.__hotel_da.read_hotels_by_criteria(city, check_in_date, check_out_date, max_guests, stars)
 
     #Methode User Story 1.6
-    def read_hotels_information(self) ->list[model.Hotel]:
-        return self.__hotel_da.read_hotels_information(self)
+    def get_hotel_details(self) ->list[model.Hotel]:
+        return self.__hotel_da.get_hotel_details(self)
 
     #Methode User Story 3.1 (Hotelmanager)
     def create_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
