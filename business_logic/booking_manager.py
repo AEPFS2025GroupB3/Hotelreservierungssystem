@@ -1,5 +1,10 @@
-import model #Klassen importieren
-from model import Booking, Guest, Hotel, Invoice
+from datetime import date
+import model
+from model.booking import Booking
+from model.guest import Guest
+from model.hotel import Hotel
+from model.invoice import Invoice
+
 import data_access #Importiert data_access
 
 
@@ -10,7 +15,7 @@ class BookingManager:
         
     #Methode User Story 4 (BookingManager)
     def create_booking(guest_id: int, room_id: int, check_in_date: date, check_out_date: date, booking_status: str = "confirmed") -> model.Booking:
-        return booking_da.create_booking(guest_id, room_id, check_in_date, check_out_date, booking_status)
+        return self.__booking_da.create_booking(guest_id, room_id, check_in_date, check_out_date, booking_status)
     
     #Methode User Story 6 (Booking Manager)
     def cancel_booking(self, booking_id: int) -> bool:
@@ -21,8 +26,5 @@ class BookingManager:
         return True
         
     #Methode User Story 8(Booking Manager)
-    def read_bookings_by_hotel(hotel_id: int) -> list[model.Booking]: 
-        return booking_da.read_bookings_by_hotel(hotel_id)
-
-
-    
+    def read_bookings_by_hotel(self, hotel_id: int) -> list[model.Booking]: 
+        return self.__booking_da.read_bookings_by_hotel(hotel_id)

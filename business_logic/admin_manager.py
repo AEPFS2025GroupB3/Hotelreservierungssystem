@@ -1,11 +1,18 @@
-import model #Klassen importieren
-from model import Booking, Guest, Hotel, Invoice
+import model
+from model.booking import Booking
+from model.guest import Guest
+from model.hotel import Hotel
+from model.invoice import Invoice
+from model.room import Room
+#from model.facility import Facility
+from model.room_type import RoomType
+
 import data_access #Importiert data_access
 
 class AdminManager:
     def __init__(self):
         self.__room_da = data_access.RoomDataAccess()
-        self.__facility_da = data_access.FacilityDataAccess()
+        #self.__facility_da = data_access.FacilityDataAccess()
         self.__roomtype_da = data_access.RoomTypeDataAccess()
     
     # --- Facility ---
@@ -34,3 +41,16 @@ class AdminManager:
 
     def update_seasonal_factor(self, room_id: int, new_factor: float):
         return self.__room_da.update_seasonal_factor(room_id, new_factor)
+
+    # --- Hotel ---
+    #Methode User Story 3.1 
+    def create_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
+        return self.__hotel_da.create_hotel(name, stars, address)
+        
+    #Methode User Story 3.2 
+    def delete_hotel(hotel_id: int) -> bool:
+        return hotel_da.delete_hotel(hotel_id)
+        
+    #Methode User Story 3.3 
+    def update_hotel(self, hotel: model.Hotel) -> None:
+        return hotel_da.update_hotel(hotel)

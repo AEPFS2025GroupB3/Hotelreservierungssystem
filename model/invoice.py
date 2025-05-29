@@ -5,7 +5,7 @@ from model.hotel import Hotel
 from model.room import Room
 
 class Invoice:
-    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, invoice_status: str, booking: 'Booking', guest: Guest, hotel: Hotel, room: Room):
+    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, booking: 'Booking', guest: Guest, hotel: Hotel, room: Room): #invoice_status: str,
 
         # === Validierungen ===
         if not invoice_id:
@@ -25,10 +25,10 @@ class Invoice:
         if total_amount < 0:
             raise ValueError("total_amount cannot be negative")
 
-        if not invoice_status:
-            raise ValueError("invoice_status is required")
-        if not isinstance(invoice_status, str):
-            raise ValueError("invoice_status must be a string")
+        #if not invoice_status:
+            #raise ValueError("invoice_status is required")
+        #if not isinstance(invoice_status, str):
+            #raise ValueError("invoice_status must be a string")
 
         if not booking:
             raise ValueError("booking is required")
@@ -53,7 +53,7 @@ class Invoice:
         self.__invoice_id: int = invoice_id
         self.__issue_date: date = issue_date
         self.__total_amount: float = float(total_amount)
-        self.__invoice_status: str = invoice_status
+      #self.__invoice_status: str = invoice_status
         self.__booking: Booking = booking
         self.__guest: Guest = guest
         self.__hotel: Hotel = hotel
@@ -91,17 +91,17 @@ class Invoice:
             raise ValueError("total_amount cannot be negative")
         self.__total_amount = value
 
-    @property
-    def invoice_status(self):
+    #@property
+    #def invoice_status(self):
         return self.__invoice_status
 
-    @invoice_status.setter
-    def invoice_status(self, value):
-        if not value:
-            raise ValueError("invoice_status is required")
-        if not isinstance(value, str):
-            raise ValueError("invoice_status must be a string")
-        self.__invoice_status = value
+    #@invoice_status.setter
+    #def invoice_status(self, value):
+        #if not value:
+            #raise ValueError("invoice_status is required")
+        #if not isinstance(value, str):
+            #raise ValueError("invoice_status must be a string")
+        #self.__invoice_status = value
 
     @property
     def booking(self):
@@ -120,15 +120,18 @@ class Invoice:
         return self.__room
 
     # === Zusatzmethoden ===
-
+    
     def get_invoice_summary(self) -> str:
         from model.booking import Booking
         return (
             f"Rechnung {self.invoice_id} für {self.guest.first_name} {self.guest.last_name}\n"
             f"Hotel: {self.hotel.name}, Zimmer: {self.room.room_no}\n"
-            f"Betrag: CHF {self.total_amount:.2f} – Status: {self.invoice_status}\n"
+            f"Betrag: CHF {self.total_amount:.2f}\n"
             f"Datum: {self.issue_date}"
         )
+
+    def __str__(self):
+        return self.get_invoice_summary()
 
     def is_canceled(self) -> bool:
         return self.invoice_status.lower() == "canceled"

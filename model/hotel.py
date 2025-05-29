@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from model.review import Review
 
 class Hotel:
-    def __init__(self, hotel_id: int, name: str, stars: int, address: Address, room_type: RoomType):
+    def __init__(self, hotel_id: int, name: str, stars: int, address: Address, room_type: RoomType = None): 
         #Validierung: ID muss existieren und eine ganze Zahl sein
         if not hotel_id:
             raise ValueError("hotel_id is required")
@@ -43,7 +43,7 @@ class Hotel:
         self.__name: str = name
         self.__stars: int = stars
         self.__address: Address = address
-        self.__room_type: RoomType = room_type
+        self.__room_type: RoomType | None = room_type
 
         self.__rooms = []     # Liste von Room-Objekten
         self.__reviews = []   # Liste von Review-Objekten
@@ -93,7 +93,7 @@ class Hotel:
 
     #Methode für Ausgabe von Hoteldetails
     def get_hotel_details(self):
-        return f"Hotel ID: {self.__hotel_id}, Name: {self.__name}, Address: {self.__address.get_full_address()}, Stars: {self.__stars}"
+        return f"Name: {self.__name}, Address: {self.__address.get_full_address()}, Stars: {self.__stars}"
 
     #Damit print(hotel) direkt get_hotel_details() zurückgibt
     def __str__(self):

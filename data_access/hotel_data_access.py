@@ -135,20 +135,24 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     
     def get_hotel_details(self) -> list[model.Hotel]: #Methode User Story 1.6
         sql = """
-        SELECT 
+        SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
-            a.address_id, a.street, a.city, a.zip_code
+            a.address_id, a.street, a.city, a.zip_code,
+            rt.type_id, rt.description, rt.max_guests
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id 
+        JOIN Room r ON h.hotel_id = r.hotel_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
         """
         results = self.fetchall(sql)
 
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code),
+                room_type=model.RoomType(type_id=int(type_id), description="", max_guests=max_guests)
             )
-            for hotel_id, name, stars, address_id, street, city, zip_code in results
+            for hotel_id, name, stars, address_id, street, city, zip_code, type_id, description, max_guests in results
         ]
 
     def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel: #Methode User Story 3.1

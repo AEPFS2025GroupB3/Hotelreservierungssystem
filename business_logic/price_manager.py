@@ -1,6 +1,9 @@
 from datetime import date
-import model #Klassen importieren
-from model import Booking, Guest, Hotel, Invoice
+import model
+from model.booking import Booking
+from model.guest import Guest
+from model.hotel import Hotel
+from model.invoice import Invoice
 import data_access #Importiert data_access
 
 class PriceManager:

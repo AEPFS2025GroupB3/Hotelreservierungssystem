@@ -65,21 +65,28 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def read_bookings_by_hotel(self, hotel_id: int) -> list[model.Booking]: #Methode User Story 8
         sql = """
-        SELECT b.booking_id, b.guest_id, b.room_id, b.check_in_date, b.check_out_date, b.booking_status
+        SELECT 
+        b.booking_id, b.check_in_date, b.check_out_date, b.is_cancelled, b.total_amount,
+        h.hotel_id, h.name, h.stars, 
+        a.address_id, a.street, a.city, a.zip_code,
+        g.guest_id, g.first_name, g.last_name
         FROM Booking b
         JOIN Room r ON b.room_id = r.room_id
-        WHERE r.hotel_id = ?
+        JOIN Hotel h ON r.hotel_id = h.hotel_id
+        JOIN Address a ON h.address_id = a.address_id
+        JOIN Guest g ON b.guest_id = g.guest_id
+        WHERE h.hotel_id = ?
+
         """
         results = self.fetchall(sql, (hotel_id,))
 
+
         return [
             model.Booking(
-                booking_id=booking_id,
-                guest_id=guest_id,
-                room_id=room_id,
-                check_in_date=check_in_date,
-                check_out_date=check_out_date,
-                booking_status=booking_status
-            )
-            for booking_id, guest_id, room_id, check_in_date, check_out_date, booking_status in results
-    ]
+                booking_id=booking_id, check_in_date=check_in_date, check_out_date=check_out_date, is_cancelled=is_cancelled, total_amount=total_amount,
+                hotel=model.Hotel(hotel_id=hotel_id, name=name),
+                address=model.Address(address_id=address_id, street=street,city=city, zip_code=zip_code),
+                guest=model.Guest(guest_id=guest_id, first_name=first_name, last_name=last_name)
+                )
+            for booking_id, check_in_date, check_out_date, is_cancelled, total_amount, hotel_id, name, address_id, street, city, zip_code, guest_id, first_name, last_name in results
+        ]

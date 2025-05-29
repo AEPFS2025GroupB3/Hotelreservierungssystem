@@ -2,12 +2,13 @@ from datetime import date
 from model.invoice import Invoice
 from model.guest import Guest
 from model.room import Room
+from model.hotel import Hotel
 
 
 class Booking:
 
     # Konstruktor für ein neues Booking-Objekt mit vollständiger Verknüpfung zu Guest und Room
-    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, booking_status: str, guest: Guest, room: Room):
+    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest: Guest, room: Room):
 
         if not booking_id: #Sicherstellen das eine Booking ID übergeben worden ist
             raise ValueError("booking_id is required")
@@ -19,10 +20,15 @@ class Booking:
         if not isinstance (check_in_date, date) or not isinstance(check_out_date, date):
             raise ValueError("check_in_date and check_out_date must be date objects")
         
-        if not booking_status: #Sicherstellen das eine booking_status übergeben worden ist
-            raise ValueError("booking_status is required")
-        if not isinstance (booking_status, str):
-            raise ValueError("booking_status must be a string")
+        if not is_cancelled: #Sicherstellen das eine booking_status übergeben worden ist
+            raise ValueError("is_cancelled is required")
+        if not isinstance (is_cancelled, bool):
+            raise ValueError("is_cancelled must be a boolean")
+
+        if not total_amount: #Sicherstellen das eine booking_status übergeben worden ist
+            raise ValueError("total_amount is required")
+        if not isinstance (total_amount, float):
+            raise ValueError("total_amount must be a float")
         
         # Guest- und Room-Objekte sind Pflicht, da ohne diese keine gültige Buchung möglich ist
         if not guest:
@@ -39,7 +45,8 @@ class Booking:
         self.__booking_id: int = booking_id
         self.__check_in_date: date = check_in_date
         self.__check_out_date: date = check_out_date
-        self.__booking_status: str = booking_status
+        self.__is_cancelled: bool = is_cancelled
+        self.__total_amount: float = total_amount
         self.__guest: Guest = guest
         self.__room: Room = room
         self.__invoice: Invoice | None = None #Rechnung wird meist erst später ergänzt
@@ -75,17 +82,30 @@ class Booking:
         self.__check_out_date = value
 
     @property
-    def booking_status(self):
-        return self.__booking_status
+    def is_cancelled(self):
+        return self.__is_cancelled
 
-    @booking_status.setter
-    def booking_status(self, value):
+    @is_cancelled.setter
+    def is_cancelled(self, value):
         if not value:
-            raise ValueError("booking_status is required")
-        if not isinstance(value, str):
-            raise ValueError("booking_status must be a string")
-        self.__booking_status = value
+            raise ValueError("is_cancelled is required")
+        if not isinstance(value, bool):
+            raise ValueError("is_cancelled must be a boolean")
+        self.__is_cancelled = value
 
+    @property
+    def total_amount(self):
+        return self.__total_amount
+
+    @total_amount.setter
+    def total_amount(self, value):
+        if value is None:
+            raise ValueError("total_amount is required")
+        if not isinstance(value, (float, int)):
+            raise ValueError("total_amount must be a number")
+        if value < 0:
+            raise ValueError("total_amount cannot be negative")
+        self.__total_amount = value
     
     @property
     def guest(self):
@@ -127,5 +147,5 @@ class Booking:
 
     # Methode zum Stornieren der Buchung. Der Buchungsstatus wird auf "canceled" gesetzt, z. B. wenn der Gast absagt.
     def cancel(self):
-        self.booking_status = "canceled"
+        self.__is_cancelled = 1
  

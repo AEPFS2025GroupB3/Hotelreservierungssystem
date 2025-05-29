@@ -1,6 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
+from model.hotel import Hotel
+from model.room_type import RoomType
+from model.facility import Facility
+
 if TYPE_CHECKING:
     from model.hotel import Hotel
     from model.room_type import RoomType
@@ -8,7 +12,7 @@ if TYPE_CHECKING:
     from model.booking import Booking
 
 class Room: #Klasse Room erstellen
-    def __init__(self, room_id: int, room_no: str, price_per_night: float, seasonal_factor: float, hotel: Hotel, room_type: RoomType):
+    def __init__(self, room_id: int, room_number: str, price_per_night: float, hotel: Hotel, room_type: RoomType, seasonal_factor: float = 1.0):
 
         #Alle Werte kontrollieren, bevor sie gespeichert werden
         if not room_id:
@@ -16,10 +20,10 @@ class Room: #Klasse Room erstellen
         if not isinstance(room_id, int):
             raise ValueError("room_id must be an integer")
 
-        if not room_no:
-            raise ValueError("room_no is required")
-        if not isinstance(room_no, str):
-            raise ValueError("room_no must be a string")
+        if not room_number:
+            raise ValueError("room_number is required")
+        if not isinstance(room_number, str):
+            raise ValueError("room_number must be a string")
 
         if not price_per_night:
             raise ValueError("price_per_night is required")
@@ -42,7 +46,7 @@ class Room: #Klasse Room erstellen
             raise ValueError("room_type must be a RoomType Object")
 
         self.__room_id: int = room_id
-        self.__room_no: str = room_no
+        self.__room_number: str = room_number
         self.__price_per_night: float = float(price_per_night)
         self.__seasonal_factor: float = seasonal_factor
         self.__hotel: Hotel = hotel
@@ -58,16 +62,16 @@ class Room: #Klasse Room erstellen
 
     #Gibt die Zimmernummer zurück
     @property
-    def room_no(self):
-        return self.__room_no
+    def room_number(self):
+        return self.__room_number
         
-    @room_no.setter
-    def room_no(self, value):
+    @room_number.setter
+    def room_number(self, value):
         if not value:
-            raise ValueError("room_no is required")
+            raise ValueError("room_number is required")
         if not isinstance(value, str):
-            raise ValueError("room_no must be a string")
-        self.__room_no = value
+            raise ValueError("room_number must be a string")
+        self.__room_number = value
 
     #Gibt Preis pro Nacht zurück
     @property
@@ -111,28 +115,53 @@ class Room: #Klasse Room erstellen
     def room_type(self):
         return self.__room_type
 
-    
     #gibt die liste aller facilities zurück
-    def get_facilities(self):
+    def get_facilities(self) -> list[Facility]:
         return self.__facilities 
-    
+
+    # Verbindet alle Facility-Namen mit Komma und Leerschlag
+    def get_facility_names(self) -> str:
+        return ", ".join(f.facility_name for f in self.__facilities) or "Keine Ausstattung"
+
     #gibt die Liste aller Buchungen zurück
-    def get_bookings(self):
+    def get_bookings(self) -> list[Booking]:
         return self.__bookings
 
+     #um eine Buchung zu ergänzen
+    def add_booking(self, booking):
+        if not isinstance(booking, Booking):
+            raise ValueError("Must be a Booking object")
+        self.__bookings.append(booking)
+
+    #Preisberechnung ohne Faktor
+    def get_total_price(self, nights: int) -> float:
+    return round(self.price_per_night * nights, 2)
     
     #Methode, um Preis mit Faktor zu berechnen
     def calculate_dynamic_price(self) -> float:
         return round(self.__price_per_night * self.__seasonal_factor, 2)
 
     #Methode, um Zimmernummer und Preis gelichzeitig zu ändern
-    def update_room_details(self, new_room_no: str, new_price: float):
-        self.room_no = new_room_no
+    def update_room_details(self, new_room_number: str, new_price: float):
+        self.room_number = new_room_number
         self.price_per_night = new_price 
 
     #Gibt die Beschreibung des Zimmers zurück
     def get_room_details(self):
-        return f"Das Zimmer hat die Nummer {self.__room_no}, kostet {self.__price_per_night: .2f} CHF pro Nacht, hat den Typ: {self.__room_type.description}."
+        return (f"Das Zimmer im Hotel {self.__hotel.name} hat die Nummer {self.__room_number}, "
+                f"kostet {self.__price_per_night:.2f} CHF pro Nacht, "
+                f"hat den Typ: {self.__room_type.description}.")
+
+    def get_full_room_details(self) -> str:
+        return (
+            f"Zimmernummer: {self.__room_number}\n"
+            f"Preis pro Nacht: {self.__price_per_night:.2f} CHF\n"
+            f"Saisonfaktor: {self.__seasonal_factor:.2f}\n"
+            f"Zimmertyp: {self.__room_type.description}, max. Gäste: {self.__room_type.max_guests}\n"
+            f"Hotel: {self.__hotel.name} ({self.__hotel.stars} Sterne)\n"
+            f"Ausstattung: {self.get_facility_names()}"
+        )
+
 
     #um eine Facility zu ergänzen
     def add_facility(self, facility):
@@ -140,9 +169,4 @@ class Room: #Klasse Room erstellen
             raise ValueError("Must be a Facility object")
         self.__facilities.append(facility)
 
-    #um eine Buchung zu ergänzen
-    def add_booking(self, booking):
-        if not isinstance(booking, Booking):
-            raise ValueError("Must be a Booking object")
-        self.__bookings.append(booking)
-
+   

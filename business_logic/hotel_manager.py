@@ -1,11 +1,15 @@
 from datetime import date
 import model
-from model import RoomType #Klassen importieren
+from model.room_type import RoomType
+from model.address import Address
+from model.room import Room
+
 import data_access #Importiert data_access
 
 class HotelManager:
     def __init__(self) -> None:
         self.__hotel_da = data_access.HotelDataAccess()
+        self.__room_da = data_access.RoomDataAccess()
 
 
     #Methode User Story 1.1
@@ -30,16 +34,13 @@ class HotelManager:
 
     #Methode User Story 1.6
     def get_hotel_details(self) ->list[model.Hotel]:
-        return self.__hotel_da.get_hotel_details(self)
+        return self.__hotel_da.get_hotel_details()
+            
+    #Methode User Story 2
+    def get_room_details_by_hotel(self, hotel_id: int) -> list[model.Room]:
+        return self.__room_da.read_rooms_by_hotel(hotel_id)
 
-    #Methode User Story 3.1 (Hotelmanager)
-    def create_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
-        return self.__hotel_da.create_hotel(name, stars, address)
-        
-    #Methode User Story 3.2 (Hotelmanager)
-    def delete_hotel(hotel_id: int) -> bool:
-        return hotel_da.delete_hotel(hotel_id)
-        
-    #Methode User Story 3.3 (Hotelmanager)
-    def update_hotel(self, hotel: model.Hotel) -> None:
-        return hotel_da.update_hotel(hotel)
+    #Methode User Story 2.1
+    def get_detailed_rooms_by_hotel(self, hotel_id: int) -> list[model.Room]:
+        return self.__room_da.read_rooms_with_facilities_by_hotel(hotel_id)
+

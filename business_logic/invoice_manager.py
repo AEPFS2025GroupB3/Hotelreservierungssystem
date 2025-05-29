@@ -1,8 +1,13 @@
 from datetime import date
 import model
+from model.booking import Booking
+from model.guest import Guest
+from model.hotel import Hotel
+from model.room import Room
+from model.invoice import Invoice
 import data_access #Importiert data_access
  
-class InvoiceDataAccess:
+class InvoiceManager:
     def __init__(self) -> None:
         self.__invoice_da = data_access.InvoiceDataAccess()
 
