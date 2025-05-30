@@ -76,17 +76,15 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         JOIN Address a ON h.address_id = a.address_id
         JOIN Guest g ON b.guest_id = g.guest_id
         WHERE h.hotel_id = ?
-
         """
         results = self.fetchall(sql, (hotel_id,))
-
 
         return [
             model.Booking(
                 booking_id=booking_id, check_in_date=check_in_date, check_out_date=check_out_date, is_cancelled=is_cancelled, total_amount=total_amount,
-                hotel=model.Hotel(hotel_id=hotel_id, name=name),
+                hotel=model.Hotel(hotel_id=hotel_id, name=name, stars=stars),
                 address=model.Address(address_id=address_id, street=street,city=city, zip_code=zip_code),
                 guest=model.Guest(guest_id=guest_id, first_name=first_name, last_name=last_name)
                 )
-            for booking_id, check_in_date, check_out_date, is_cancelled, total_amount, hotel_id, name, address_id, street, city, zip_code, guest_id, first_name, last_name in results
+            for booking_id, check_in_date, check_out_date, is_cancelled, total_amount, hotel_id, name, stars, address_id, street, city, zip_code, guest_id, first_name, last_name in results
         ]
