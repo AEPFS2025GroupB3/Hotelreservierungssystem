@@ -135,7 +135,7 @@ class Room: #Klasse Room erstellen
 
     #Preisberechnung ohne Faktor
     def get_total_price(self, nights: int) -> float:
-    return round(self.price_per_night * nights, 2)
+        return round(self.price_per_night * nights, 2)
     
     #Methode, um Preis mit Faktor zu berechnen
     def calculate_dynamic_price(self) -> float:
