@@ -8,7 +8,7 @@ from model.hotel import Hotel
 class Booking:
 
     # Konstruktor für ein neues Booking-Objekt mit vollständiger Verknüpfung zu Guest und Room
-    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest: Guest, room: Room):
+    def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest: Guest, room: Room, hotel = None):
 
         if not booking_id: #Sicherstellen das eine Booking ID übergeben worden ist
             raise ValueError("booking_id is required")
@@ -50,6 +50,8 @@ class Booking:
         self.__guest: Guest = guest
         self.__room: Room = room
         self.__invoice: Invoice | None = None #Rechnung wird meist erst später ergänzt
+        self.hotel = hotel
+        self.guest = guest
 
 
     # Getter und Setter

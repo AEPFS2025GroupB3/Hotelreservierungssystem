@@ -36,3 +36,16 @@ class GuestDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             email=email,
             address=address
         )
+
+    def read_guest_by_id(self, guest_id: int) -> model.Guest: #Methode User Story 5
+        sql = """SELECT g.guest_id, g.first_name, g.last_name, g.email, 
+                        a.address_id, a.street, a.city, a.zip_code
+                FROM Guest g
+                JOIN Address a ON g.address_id = a.address_id
+                WHERE g.guest_id = ?"""
+        row = self.fetchone(sql, (guest_id,))
+        if row:
+            guest_id, first_name, last_name, email, address_id, street, city, zip_code = row
+            address = model.Address(address_id, street, city, zip_code)
+            return model.Guest(guest_id, first_name, last_name, email, address)
+        return None

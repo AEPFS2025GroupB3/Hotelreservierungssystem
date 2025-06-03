@@ -25,4 +25,6 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             room_id=room_id
         )
 
- 
+    def calculate_total_price(self, booking: Booking) -> float:
+        duration = (booking.check_out_date - booking.check_in_date).days
+        return booking.room.price_per_night * duration

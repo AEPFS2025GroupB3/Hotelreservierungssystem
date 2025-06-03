@@ -29,6 +29,11 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             check_out_date=check_out_date,
             status=booking_status
         )
+
+    def get_all_bookings(self) -> list[model.Booking]: #Methode User Story 5
+        sql = "SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, status FROM Booking"
+        rows = self.fetchall(sql)
+        return [model.Booking(*row) for row in rows]
     
     def update_booking_status(self, booking_id: int, new_status: str) -> None: #Methode User Story 6
         if not booking_id:
@@ -41,7 +46,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         """
         self.execute(sql, (new_status, booking_id))
 
-    def read_invoice_by_booking_id(self, booking_id: int) -> model.Booking | None:
+    def read_booking_id(self, booking_id: int) -> model.Booking | None:
         sql = """
         SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, status
         FROM Booking
@@ -69,7 +74,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         b.booking_id, b.check_in_date, b.check_out_date, b.is_cancelled, b.total_amount,
         h.hotel_id, h.name, h.stars, 
         a.address_id, a.street, a.city, a.zip_code,
-        g.guest_id, g.first_name, g.last_name
+        g.guest_id, g.first_name, g.last_name, g.email
         FROM Booking b
         JOIN Room r ON b.room_id = r.room_id
         JOIN Hotel h ON r.hotel_id = h.hotel_id
@@ -81,10 +86,36 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         return [
             model.Booking(
-                booking_id=booking_id, check_in_date=check_in_date, check_out_date=check_out_date, is_cancelled=is_cancelled, total_amount=total_amount,
-                hotel=model.Hotel(hotel_id=hotel_id, name=name, stars=stars),
-                address=model.Address(address_id=address_id, street=street,city=city, zip_code=zip_code),
-                guest=model.Guest(guest_id=guest_id, first_name=first_name, last_name=last_name)
+                booking_id=booking_id,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
+                is_cancelled=is_cancelled,
+                total_amount=total_amount,
+                hotel=model.Hotel(
+                    hotel_id=hotel_id,
+                    name=name,
+                    stars=stars,
+                    address=model.Address(
+                        address_id=address_id,
+                        street=street,
+                        city=city,
+                        zip_code=zip_code
+                    )
+                ),
+                guest=model.Guest(
+                    guest_id=guest_id,
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    address=None
+                    
                 )
-            for booking_id, check_in_date, check_out_date, is_cancelled, total_amount, hotel_id, name, stars, address_id, street, city, zip_code, guest_id, first_name, last_name in results
-        ]
+        )
+        for booking_id, check_in_date, check_out_date, is_cancelled, total_amount,
+            hotel_id, name, stars,
+            address_id, street, city, zip_code,
+            guest_id, first_name, last_name, email in results
+    ]
+
+
+        

@@ -26,6 +26,10 @@ class BookingManager:
             check_out_date,
             booking_status
         )
+
+    #Methode User Story 5
+    def get_booking(self, booking_id: int) -> Booking:
+        return self.__booking_da.read_booking_by_id(booking_id)
     
     #Methode User Story 6 (Booking Manager)
     def cancel_booking(self, booking_id: int) -> bool:
@@ -34,6 +38,12 @@ class BookingManager:
         if invoice:
             invoice_da.update_invoice_status(invoice.invoice_id, "canceled")
         return True
+
+    def get_all_bookings(self) -> list[Booking]:
+        return self.__booking_da.get_all_bookings()  # oder read_all_bookings() je nach Implementierung
+
+    def get_booking(self, booking_id: int) -> Booking:
+        return self.__booking_da.read_booking_by_id(booking_id)
         
     #Methode User Story 8(Booking Manager)
     def read_bookings_by_hotel(self, hotel_id: int) -> list[model.Booking]: 

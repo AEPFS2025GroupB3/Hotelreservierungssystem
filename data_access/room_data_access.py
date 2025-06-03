@@ -70,6 +70,38 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         return list(rooms.values())
 
+    
+    def read_room_by_id(self, room_id: int) -> model.Room: #Methode User Story 5
+        sql = """
+        SELECT r.room_id, r.room_number, r.price_per_night,
+            rt.type_id, rt.max_guests, rt.description,
+            h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Room r
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        JOIN Hotel h ON r.hotel_id = h.hotel_id
+        JOIN Address a ON h.address_id = a.address_id
+        WHERE r.room_id = ?
+        """
+        params = (room_id,)
+        row = self.fetchone(sql, params)
+
+        if row:
+            (
+                room_id, room_number, price_per_night,
+                type_id, max_guests, description,
+                hotel_id, hotel_name, stars,
+                address_id, street, city, zip_code
+            ) = row
+
+            address = model.Address(address_id, street, city, zip_code)
+            hotel = model.Hotel(hotel_id, hotel_name, stars, address)
+            room_type = model.RoomType(type_id, max_guests, description)
+            return model.Room(room_id, room_number, price_per_night, hotel, room_type)
+        else:
+            return None
+
+            
 
     def read_rooms_with_facilities(self) -> list[model.Room]: #Methode User Story 9
         sql = """
@@ -98,9 +130,9 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             rt.description, rt.max_guests,
             GROUP_CONCAT(f.facility_name, ', ') as facilities
         FROM Room r
-        JOIN RoomType rt ON r.room_type_id = rt.room_type_id
-        LEFT JOIN RoomFacility rf ON r.room_id = rf.room_id
-        LEFT JOIN Facility f ON rf.facility_id = f.facility_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        LEFT JOIN Facilities rf ON r.room_id = rf.room_id
+        LEFT JOIN Facilities f ON rf.facility_id = f.facility_id
         GROUP BY r.room_id, r.room_number, r.price_per_night, rt.description, rt.max_guests
         ORDER BY r.room_number
         """

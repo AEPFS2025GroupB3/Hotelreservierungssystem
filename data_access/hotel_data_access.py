@@ -203,6 +203,21 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         address_params = (address.street, address.zip_code, address.city, address.address_id)
         self.execute(address_sql, address_params)
 
+    def read_hotel_by_id(self, hotel_id: int) -> model.Hotel: #Methode User Story 5
+        sql = """
+        SELECT h.hotel_id, h.name, h.stars,
+            a.address_id, a.street, a.city, a.zip_code
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id
+        WHERE h.hotel_id = ?
+        """
+        row = self.fetchone(sql, (hotel_id,))
+        if row:
+            hotel_id, name, stars, address_id, street, city, zip_code = row
+            address = model.Address(address_id, street, city, zip_code)
+            return model.Hotel(hotel_id, name, stars, address)
+        return None
+
     
         
 
