@@ -25,9 +25,9 @@ class Booking:
         if not isinstance (is_cancelled, bool):
             raise ValueError("is_cancelled must be a boolean")
 
-        if not total_amount: #Sicherstellen das eine booking_status übergeben worden ist
+        if total_amount is None: #Sicherstellen das eine booking_status übergeben worden ist
             raise ValueError("total_amount is required")
-        if not isinstance (total_amount, float):
+        if not isinstance (total_amount, (float, int)):
             raise ValueError("total_amount must be a float")
         
         # Guest- und Room-Objekte sind Pflicht, da ohne diese keine gültige Buchung möglich ist
@@ -89,7 +89,7 @@ class Booking:
 
     @is_cancelled.setter
     def is_cancelled(self, value):
-        if not value:
+        if value is None:
             raise ValueError("is_cancelled is required")
         if not isinstance(value, bool):
             raise ValueError("is_cancelled must be a boolean")
@@ -109,6 +109,7 @@ class Booking:
             raise ValueError("total_amount cannot be negative")
         self.__total_amount = value
     
+
     @property
     def guest(self):
         return self.__guest
@@ -145,6 +146,11 @@ class Booking:
         if not isinstance(value, Invoice):
             raise ValueError("invoice must be an Invoice object")
         self.__invoice = value
+
+    @property
+    def guest_id(self):
+        return self.__guest.guest_id
+
 
 
     # Methode zum Stornieren der Buchung. Der Buchungsstatus wird auf "canceled" gesetzt, z. B. wenn der Gast absagt.

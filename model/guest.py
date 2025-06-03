@@ -90,6 +90,10 @@ class Guest:
             raise ValueError("address must be an Address object")
         self.__address = value
 
+    @property
+    def guest(self):
+        return self.__guest
+
 
     # Hilfsmethode: vollständiger Name
     def get_full_name(self):
