@@ -131,7 +131,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             GROUP_CONCAT(f.facility_name, ', ') as facilities
         FROM Room r
         JOIN Room_Type rt ON r.type_id = rt.type_id
-        LEFT JOIN Facilities rf ON r.room_id = rf.room_id
+        LEFT JOIN Room_Facilities rf ON r.room_id = rf.room_id
         LEFT JOIN Facilities f ON rf.facility_id = f.facility_id
         GROUP BY r.room_id, r.room_number, r.price_per_night, rt.description, rt.max_guests
         ORDER BY r.room_number

@@ -3,6 +3,7 @@ import model
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
 from data_access.guest_data_access import GuestDataAccess
 from data_access.room_data_access import RoomDataAccess
+from data_access.invoice_data_access import InvoiceDataAccess
 
 
 class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
@@ -43,11 +44,14 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         guest_da = GuestDataAccess()
         room_da = RoomDataAccess()
+        invoice_da = InvoiceDataAccess()
 
         bookings = []
         for booking_id, guest_id, room_id, check_in, check_out, is_cancelled, total in rows:
             guest = guest_da.read_guest_by_id(guest_id)
             room = room_da.read_room_by_id(room_id)
+            invoice = invoice_da.read_invoice_by_booking_id(booking_id)
+
             booking = model.Booking(
                 booking_id=booking_id,
                 check_in_date=check_in,
@@ -57,6 +61,10 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 guest=guest,
                 room=room
             )
+
+            if invoice:
+                booking.invoice = invoice
+
             bookings.append(booking)
 
         return bookings

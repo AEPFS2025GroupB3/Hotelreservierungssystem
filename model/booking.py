@@ -156,8 +156,7 @@ class Booking:
         return self.__guest.guest_id
 
 
-
     # Methode zum Stornieren der Buchung. Der Buchungsstatus wird auf "canceled" gesetzt, z. B. wenn der Gast absagt.
     def cancel(self):
-        self.__is_cancelled = 1
+        self.__is_cancelled = True #True wegen Bool
  

@@ -47,11 +47,33 @@ class AdminManager:
     #Methode User Story 3.1 
     def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
         return self.__hotel_da.create_new_hotel(name, stars, address)
-        
+    
+    # def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
+    # return self.__hotel_da.create_new_hotel(name, stars, address)
+    #Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
+
+
     #Methode User Story 3.2 
     def delete_hotel(hotel_id: int) -> bool:
         return hotel_da.delete_hotel(hotel_id)
-        
+    
+    #def delete_hotel(self, hotel_id: int) -> bool:
+    #return self.__hotel_da.delete_hotel(hotel_id)    
+    #Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
+
     #Methode User Story 3.3 
     def update_hotel(self, hotel: model.Hotel) -> None:
         return hotel_da.update_hotel(hotel)
+    #def update_hotel(self, hotel: model.Hotel) -> None:
+        return self.__hotel_da.update_hotel(hotel)
+    
+    # def update_hotel(self, hotel: model.Hotel) -> None:
+    #return self.__hotel_da.update_hotel(hotel)
+    # Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
+    # Sollten für die USerstorys 3.1,3.2 und 3.3 ein self verwendet werden? sonst haben wir eine inkonsistenz,
+    # es geht ja um genau ein bestimmtes hotel
+
+    # ---- Für USerstory 3.2 + 3.3
+    #def get_hotel_by_id(self, hotel_id: int):
+    #return self.__hotel_da.read_hotel_by_id(hotel_id)
+
