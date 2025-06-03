@@ -12,6 +12,7 @@ class BookingManager:
     def __init__(self) -> None:
         self.__booking_da = data_access.BookingDataAccess()
         self.__room_da = data_access.RoomDataAccess()
+        self.__invoice_da = data_access.InvoiceDataAccess()
         #self.__price & invoice manager??
         
     #Methode User Story 4 (BookingManager)

@@ -28,3 +28,25 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def calculate_total_price(self, booking: Booking) -> float:
         duration = (booking.check_out_date - booking.check_in_date).days
         return booking.room.price_per_night * duration
+
+    def read_invoice_by_booking_id(self, booking_id: int)-> model.Invoice | None:
+        sql = """
+        SELECT invoice_id, issue_date, total_amount, invoice_status
+        FROM Invoice
+        WHERE booking_id = ?
+        """
+        
+        row = self.fetchone(sql, (booking_id,))
+        if row:
+            invoice_id, issue_date, total_amount, invoice_status = row
+            return model.Invoice(
+                invoice_id=invoice_id,
+                issue_date=issue_date,
+                total_amount=total_amount,
+                invoice_status=invoice_status,
+                booking=booking,
+                guest=guest,
+                hotel=hotel,
+                room=room
+            )
+        return None

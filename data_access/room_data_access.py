@@ -94,7 +94,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 address_id, street, city, zip_code
             ) = row
 
-            address = model.Address(address_id, street, city, zip_code)
+            address = model.Address(street, city, zip_code, address_id)
             hotel = model.Hotel(hotel_id, hotel_name, stars, address)
             room_type = model.RoomType(type_id, max_guests, description)
             return model.Room(room_id, room_number, price_per_night, hotel, room_type)
