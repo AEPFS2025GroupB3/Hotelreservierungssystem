@@ -14,6 +14,7 @@ class AdminManager:
         self.__room_da = data_access.RoomDataAccess()
         #self.__facility_da = data_access.FacilityDataAccess()
         self.__roomtype_da = data_access.RoomTypeDataAccess()
+        self.__hotel_da=data_access.HotelDataAccess()
     
     # --- Facility ---
     def create_facility(self, name: str):
@@ -44,8 +45,8 @@ class AdminManager:
 
     # --- Hotel ---
     #Methode User Story 3.1 
-    def create_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
-        return self.__hotel_da.create_hotel(name, stars, address)
+    def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
+        return self.__hotel_da.create_new_hotel(name, stars, address)
         
     #Methode User Story 3.2 
     def delete_hotel(hotel_id: int) -> bool:

@@ -137,12 +137,9 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         sql = """
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
-            a.address_id, a.street, a.city, a.zip_code,
-            rt.type_id, rt.description, rt.max_guests
+            a.address_id, a.street, a.city, a.zip_code
         FROM Hotel h
         JOIN Address a ON h.address_id = a.address_id 
-        JOIN Room r ON h.hotel_id = r.hotel_id
-        JOIN Room_Type rt ON r.type_id = rt.type_id
         """
         results = self.fetchall(sql)
 
@@ -150,9 +147,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
                 address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code),
-                room_type=model.RoomType(type_id=int(type_id), description="", max_guests=max_guests)
             )
-            for hotel_id, name, stars, address_id, street, city, zip_code, type_id, description, max_guests in results
+            for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
 
     def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel: #Methode User Story 3.1
@@ -169,10 +165,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         """
         hotel_params = (name, stars, address_id)
         hotel_id, _ = self.execute(hotel_sql, hotel_params)
-        hotel = model.Hotel()
         
-        last_row_id, row_count = self.execute(sql, params)
-        return model.Hotel(last_row_id, address)
+        return model.Hotel(hotel_id=hotel_id, name=name, stars=stars, address=model.Address(street=address.street, city=address.city, zip_code=address.zip_code, address_id=address_id))
 
     def delete_hotel(self, hotel: model.Hotel) -> None: #Methode User Story 3.2
         if hotel is None:

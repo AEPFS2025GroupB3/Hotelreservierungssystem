@@ -50,7 +50,7 @@ class Booking:
         self.__guest: Guest = guest
         self.__room: Room = room
         self.__invoice: Invoice | None = None #Rechnung wird meist erst später ergänzt
-        self.hotel = hotel
+        self.__hotel = hotel
         self.guest = guest
 
 
@@ -126,6 +126,10 @@ class Booking:
     @property
     def room(self):
         return self.__room
+
+    @property
+    def hotel(self):
+        return self.__hotel
 
     @room.setter
     def room(self, value):

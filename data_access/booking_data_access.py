@@ -99,12 +99,14 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         sql = """
         SELECT 
         b.booking_id, b.check_in_date, b.check_out_date, b.is_cancelled, b.total_amount,
-        r.room_id, r.room_number, r.price_per_night, r.room_type,
+        r.room_id, r.room_number, r.price_per_night, r.type_id,
+        rt.type_id, rt.max_guests, rt.description,
         h.hotel_id, h.name, h.stars, 
         a.address_id, a.street, a.city, a.zip_code,
         g.guest_id, g.first_name, g.last_name, g.email
         FROM Booking b
         JOIN Room r ON b.room_id = r.room_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
         JOIN Hotel h ON r.hotel_id = h.hotel_id
         JOIN Address a ON h.address_id = a.address_id
         JOIN Guest g ON b.guest_id = g.guest_id
@@ -117,7 +119,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 booking_id=booking_id,
                 check_in_date=check_in_date,
                 check_out_date=check_out_date,
-                is_cancelled=is_cancelled,
+                is_cancelled=bool(is_cancelled),
                 total_amount=total_amount,
                 hotel=model.Hotel(
                     hotel_id=hotel_id,
@@ -135,18 +137,38 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
-                    address=None
+                    address=model.Address(
+                        address_id=address_id,
+                        street=street,
+                        city=city,
+                        zip_code=zip_code
+                    )
                 ),
                 room = model.Room(
                     room_id=room_id,
                     room_number=room_number,
                     price_per_night=price_per_night,
-                    room_type=room_type,
-                    hotel=None
+                    room_type=model.RoomType(
+                        type_id=type_id,
+                        max_guests=max_guests,
+                        description=description
+                    ),
+                    hotel=model.Hotel(
+                        hotel_id=hotel_id,
+                        name=name,
+                        stars=stars,
+                        address=model.Address(
+                            address_id=address_id,
+                            street=street,
+                            city=city,
+                            zip_code=zip_code
+                        )
+                    )
                 )
             )
             for booking_id, check_in_date, check_out_date, is_cancelled, total_amount,
-                room_id, room_number, price_per_night, room_type,
+                room_id, room_number, price_per_night, room_type_id,
+                type_id, max_guests, description,
                 hotel_id, name, stars,
                 address_id, street, city, zip_code,
                 guest_id, first_name, last_name, email in results

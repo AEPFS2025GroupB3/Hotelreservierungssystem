@@ -2,14 +2,8 @@ from datetime import date
 
 class Address:
     #Konstruktor zur Initialisierung einer Adresse mit Validierung
-    def __init__(self, address_id: int, street: str, city: str, zip_code: str):
-        
-        #address_id ist zwingend und darf nur eine ganze Zahl sein
-        if not address_id:
-            raise ValueError("address_id is required")
-        if not isinstance(address_id, int):
-            raise ValueError("address_id must be an integer")
-        
+    def __init__(self, street: str, city: str, zip_code: str, address_id: int = None):
+             
         #Strasse muss angegeben sein und ein String sein
         if not street:
             raise ValueError("street is required")
@@ -27,6 +21,10 @@ class Address:
             raise ValueError("zip code is required")
         if not isinstance(zip_code, str):
             raise ValueError("zip code must be a string")
+
+        #address_id darf nur eine ganze Zahl sein
+        if address_id is not None and not isinstance(address_id, int):
+            raise ValueError("address_id must be an integer")
 
         # Zuweisung zu privaten Attributen
         self.__address_id: int = address_id

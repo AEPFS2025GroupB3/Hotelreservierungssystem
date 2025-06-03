@@ -119,7 +119,7 @@ class Invoice:
     def room(self):
         return self.__room
 
-    # === Zusatzmethoden ===
+    # Methoden
     
     def get_invoice_summary(self) -> str:
         from model.booking import Booking
