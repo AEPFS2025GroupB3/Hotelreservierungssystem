@@ -11,6 +11,7 @@ import data_access #Importiert data_access
 class BookingManager:
     def __init__(self) -> None:
         self.__booking_da = data_access.BookingDataAccess()
+        self.__room_da = data_access.RoomDataAccess()
         #self.__price & invoice manager??
         
     #Methode User Story 4 (BookingManager)

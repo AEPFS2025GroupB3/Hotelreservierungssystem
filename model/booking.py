@@ -20,7 +20,7 @@ class Booking:
         if not isinstance (check_in_date, date) or not isinstance(check_out_date, date):
             raise ValueError("check_in_date and check_out_date must be date objects")
         
-        if not is_cancelled: #Sicherstellen das eine booking_status übergeben worden ist
+        if is_cancelled is None: #Sicherstellen das eine booking_status übergeben worden ist
             raise ValueError("is_cancelled is required")
         if not isinstance (is_cancelled, bool):
             raise ValueError("is_cancelled must be a boolean")

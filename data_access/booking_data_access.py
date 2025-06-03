@@ -1,6 +1,9 @@
 from datetime import date 
 import model 
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.guest_data_access import GuestDataAccess
+from data_access.room_data_access import RoomDataAccess
+
 
 class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
@@ -11,8 +14,9 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         if not is_available:
             raise Exception("Das Zimmer ist im gewählten Zeitraum nicht verfügbar.")
  
+        # changed status to is_cancelled by Charuta
         sql = """
-        INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, status)
+        INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
         VALUES (?, ?, ?, ?, ?)
         """
         params = (guest_id, room_id, check_in_date, check_out_date, booking_status)
@@ -31,9 +35,32 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         )
 
     def get_all_bookings(self) -> list[model.Booking]: #Methode User Story 5
-        sql = "SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, status FROM Booking"
+        sql = """
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount
+        FROM Booking
+        """
         rows = self.fetchall(sql)
-        return [model.Booking(*row) for row in rows]
+
+        guest_da = GuestDataAccess()
+        room_da = RoomDataAccess()
+
+        bookings = []
+        for booking_id, guest_id, room_id, check_in, check_out, is_cancelled, total in rows:
+            guest = guest_da.read_guest_by_id(guest_id)
+            room = room_da.read_room_by_id(room_id)
+            booking = model.Booking(
+                booking_id=booking_id,
+                check_in_date=check_in,
+                check_out_date=check_out,
+                is_cancelled=bool(is_cancelled),
+                total_amount=total,
+                guest=guest,
+                room=room
+            )
+            bookings.append(booking)
+
+        return bookings
+
     
     def update_booking_status(self, booking_id: int, new_status: str) -> None: #Methode User Story 6
         if not booking_id:
@@ -48,7 +75,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def read_booking_id(self, booking_id: int) -> model.Booking | None:
         sql = """
-        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, status
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
         FROM Booking
         WHERE booking_id = ?
         """
@@ -59,7 +86,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def read_invoice_by_booking_id(self, booking_id: int) -> model.Booking | None:
         sql = """
-        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, booking_status
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
         FROM Booking
         WHERE booking_id = ?
         """
@@ -72,6 +99,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         sql = """
         SELECT 
         b.booking_id, b.check_in_date, b.check_out_date, b.is_cancelled, b.total_amount,
+        r.room_id, r.room_number, r.price_per_night, r.room_type,
         h.hotel_id, h.name, h.stars, 
         a.address_id, a.street, a.city, a.zip_code,
         g.guest_id, g.first_name, g.last_name, g.email
@@ -108,14 +136,18 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     last_name=last_name,
                     email=email,
                     address=None
-                    
+                ),
+                room = model.Room(
+                    room_id=room_id,
+                    room_number=room_number,
+                    price_per_night=price_per_night,
+                    room_type=room_type,
+                    hotel=None
                 )
-        )
-        for booking_id, check_in_date, check_out_date, is_cancelled, total_amount,
-            hotel_id, name, stars,
-            address_id, street, city, zip_code,
-            guest_id, first_name, last_name, email in results
-    ]
-
-
-        
+            )
+            for booking_id, check_in_date, check_out_date, is_cancelled, total_amount,
+                room_id, room_number, price_per_night, room_type,
+                hotel_id, name, stars,
+                address_id, street, city, zip_code,
+                guest_id, first_name, last_name, email in results
+        ]
