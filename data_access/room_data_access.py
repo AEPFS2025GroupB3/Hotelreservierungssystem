@@ -214,18 +214,22 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     # Seasonal factor für User Story 7 mit liste
 
     def get_all_rooms(self) -> list[model.Room]:
-    sql = """
-    SELECT room_id, hotel_id, type_id, price_per_night, max_guests
-    FROM Room
-    """
-    rows = self.fetchall(sql)
-    print("DEBUG Rows:", rows)
+        sql = """
+        SELECT r.room_id, r.hotel_id, r.type_id, r.price_per_night, rt.max_guests
+        FROM Room r
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        """
 
-    room_list = []
-    for room_id, hotel_id, type_id, price_per_night, max_guests in rows:
-        room_type = model.RoomType(type_id, max_guests)
-        room = model.Room(room_id, None, price_per_night, hotel_id, None, room_type)
-        room_list.append(room)
+        
+        rows = self.fetchall(sql)
+        print("DEBUG Rows:", rows)
 
-    return room_list
+        for room_id, hotel_id, type_id, price_per_night, max_guests in rows:
+                room_type = model.RoomType(type_id, max_guests)
+                room = model.Room(room_id, None, price_per_night, hotel_id, None, room_type)
+                room_list.append(room)
+
+
+        return room_list
+
 
