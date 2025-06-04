@@ -104,3 +104,17 @@ def input_y_n(prompt: str, default: YesOrNo = None) -> bool:
                 return bool(default.value)
             else:
                 raise ValueError(f"Invalid input. Please enter 'y' or 'n'.")
+
+# Für User Story 7
+
+from datetime import datetime, date
+
+def input_valid_date(prompt: str) -> date:
+    """Function to get a valid date input in the format YYYY-MM-DD."""
+    while True:
+        user_input = input(prompt).strip()
+        try:
+            return datetime.strptime(user_input, "%Y-%m-%d").date()
+        except ValueError:
+            print("Ungültiges Datum. Bitte im Format YYYY-MM-DD eingeben.")
+

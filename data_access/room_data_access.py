@@ -62,8 +62,9 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                 room_type = model.RoomType(type_id, max_guests, description)
                 
-                room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
-                
+                # test Andrea vorher war es so:room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
+                room = model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
+
                 rooms[room_id] = room #Im Dict speichern, damit es später nicht doppelt erstellt wird
 
             if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN → kann NULL sein), dann hinzufügen
@@ -108,7 +109,9 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                     room_type = model.RoomType(type_id, max_guests, description)
                     
-                    room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
+                    room = model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
+ 
+                    #test andrea vorher war es so: room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
                     
                     #total_price berechnen & setzen
                     stay_duration = (check_out_date - check_in_date).days
@@ -150,7 +153,8 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             address = model.Address(street, city, zip_code, address_id)
             hotel = model.Hotel(hotel_id, hotel_name, stars, address)
             room_type = model.RoomType(type_id, max_guests, description)
-            return model.Room(room_id, room_number, price_per_night, hotel, room_type)
+            #test andrea vorher war es so: return model.Room(room_id, room_number, price_per_night, hotel, room_type)
+            return model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
         else:
             return None
 
@@ -215,21 +219,28 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def get_all_rooms(self) -> list[model.Room]:
         sql = """
-        SELECT r.room_id, r.hotel_id, r.type_id, r.price_per_night, rt.max_guests
+        SELECT r.room_id, r.hotel_id, r.room_number, rt.type_id, r.price_per_night, rt.max_guests
         FROM Room r
         JOIN Room_Type rt ON r.type_id = rt.type_id
         """
 
-        
         rows = self.fetchall(sql)
         print("DEBUG Rows:", rows)
 
-        for room_id, hotel_id, type_id, price_per_night, max_guests in rows:
-                room_type = model.RoomType(type_id, max_guests)
-                room = model.Room(room_id, None, price_per_night, hotel_id, None, room_type)
-                room_list.append(room)
+        room_list = []
+        for room_id, hotel_id, room_number, type_id, price_per_night, max_guests in rows:
+            room_type = model.RoomType(type_id, max_guests)
 
+            # für User Story 7: Standardwert für seasonal_factor gesetzt, da kein Check-in-Datum verfügbar ist
+            dummy_address = model.Address(street="N/A", city="N/A", zip_code="0000", address_id=0)
+            dummy_hotel = model.Hotel(hotel_id=hotel_id, name="Unbekannt", stars=1, address=dummy_address)
+            room = model.Room(room_id, room_number, price_per_night, dummy_hotel, room_type, seasonal_factor=1.0)
+
+            room_list.append(room)
 
         return room_list
 
 
+                # Hinweis: Für User Story 7 wäre der seasonal_factor relevant.
+                # Da kein Check-in-Datum vorhanden ist, setzen wir einen statischen seasonal_factor = 1.0
+                # Die tatsächliche dynamische Preisberechnung erfolgt später im PriceManager bei der Buchung.
