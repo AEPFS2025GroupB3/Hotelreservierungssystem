@@ -44,6 +44,10 @@ class HotelManager:
     def get_detailed_rooms_by_hotel(self, hotel_id: int) -> list[model.Room]:
         return self.__room_da.read_rooms_with_facilities_by_hotel(hotel_id)
 
+    #Methode User Story 2.2
+    def read_rooms_with_facilities_by_hotel_and_date(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]:
+        return self.__room_da.read_rooms_with_facilities_by_hotel_and_date(hotel_id, check_in_date, check_out_date)
+
     #Methode User Story 5
     def get_hotel(self, hotel_id: int) -> list[model.Hotel]:
         return self.__hotel_da.read_hotel_by_id(hotel_id)

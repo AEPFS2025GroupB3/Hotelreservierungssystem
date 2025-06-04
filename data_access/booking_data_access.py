@@ -10,7 +10,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
         super().__init__(db_path) #Übergibt db_path an die Basisklasse
 
-    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, booking_status: str = "confirmed") -> model.Booking: #Methode User Story 4
+    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool = True) -> model.Booking: #Methode User Story 4
         is_available = self.__room_da.is_room_available(room_id, check_in_date, check_out_date)
         if not is_available:
             raise Exception("Das Zimmer ist im gewählten Zeitraum nicht verfügbar.")
@@ -20,7 +20,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
         VALUES (?, ?, ?, ?, ?)
         """
-        params = (guest_id, room_id, check_in_date, check_out_date, booking_status)
+        params = (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
         booking_id, _ = self.execute(sql, params)
     
         last_row_id, row_count = self.execute(sql, params)
@@ -32,7 +32,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             room_id=room_id,
             check_in_date=check_in_date,
             check_out_date=check_out_date,
-            status=booking_status
+            is_cancelled=is_cancelled
         )
 
     def get_all_bookings(self) -> list[model.Booking]: #Methode User Story 5

@@ -175,7 +175,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         sql = """
         DELETE FROM Hotel WHERE hotel_id = ?
         """
-        params = (h.hotel_id,)
+        params = (hotel.hotel_id,)
         last_row_id, row_count = self.execute(sql, params)
     
     def update_hotel(self, hotel: model.Hotel) -> None: #Methode User Story 3.3
@@ -208,11 +208,18 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (hotel_id,))
         if row:
             hotel_id, name, stars, address_id, street, city, zip_code = row
-            address = model.Address(address_id, street, city, zip_code)
+            print("DEBUG:", address_id, street, type(street), city, zip_code)
+            address = model.Address(street, city, zip_code, address_id)
             return model.Hotel(hotel_id, name, stars, address)
         return None
 
-    
+# Userstory 3.2 Methode
+    def delete_hotel_by_id(self, hotel_id: int) -> bool:
+        sql = "DELETE FROM Hotel WHERE hotel_id = ?"
+        params = (hotel_id,)
+        self.execute(sql, params)
+        return True
+
         
 
  

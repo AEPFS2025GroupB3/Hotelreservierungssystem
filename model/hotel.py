@@ -102,13 +102,6 @@ class Hotel:
 
     # Zimmerverwaltung
 
-    #Zimmer hinzufügen V1 mit ID
-    def add_room(self, room: Room): #Validierung des Parameters hinzufügen
-        room._Room__hotel_id = self.__hotel_id #Wir greifen absichtlich auf gemangelte Attribute zu
-        if room not in self.__rooms:
-            #Room wird zur internen Liste hinzugefügt
-            self.__rooms.append(room)
-
     #Zimmer hinzufügen V2 mit Objekt
     def add_room(self, room: Room):
         if not isinstance(room, Room):

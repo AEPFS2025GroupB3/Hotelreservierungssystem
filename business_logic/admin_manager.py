@@ -50,30 +50,44 @@ class AdminManager:
     
     # def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel:
     # return self.__hotel_da.create_new_hotel(name, stars, address)
+
     #Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
 
 
     #Methode User Story 3.2 
-    def delete_hotel(hotel_id: int) -> bool:
-        return hotel_da.delete_hotel(hotel_id)
+    #ursprünglich def delete_hotel(hotel_id: int) -> bool:
+        #ursprünglich return hotel_da.delete_hotel(hotel_id)
     
-    #def delete_hotel(self, hotel_id: int) -> bool:
-    #return self.__hotel_da.delete_hotel(hotel_id)    
+    def get_all_hotels(self):
+        return self.__hotel_da.get_hotel_details()
+
+
+    def delete_hotel(self, hotel_id: int) -> bool: 
+        return self.__hotel_da.delete_hotel_by_id(hotel_id)
+    #neu, da in 3.2 das hotel durch hotel_id geholt wird und nicht durch hotel
+
+    #alt def delete_hotel(self, hotel_id: int) -> bool:
+    #    return self.__hotel_da.delete_hotel(hotel_id)
+    
+     
+
     #Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
 
     #Methode User Story 3.3 
+    # ursprünglich def update_hotel(self, hotel: model.Hotel) -> None:
+        #ursprünglich return hotel_da.update_hotel(hotel)
+
     def update_hotel(self, hotel: model.Hotel) -> None:
-        return hotel_da.update_hotel(hotel)
-    #def update_hotel(self, hotel: model.Hotel) -> None:
         return self.__hotel_da.update_hotel(hotel)
     
-    # def update_hotel(self, hotel: model.Hotel) -> None:
-    #return self.__hotel_da.update_hotel(hotel)
     # Die oberen zwei Kommentare sind extra so um mit der Gruppe zu besprechen
-    # Sollten für die USerstorys 3.1,3.2 und 3.3 ein self verwendet werden? sonst haben wir eine inkonsistenz,
+    # Sollten für die Userstorys 3.1,3.2 und 3.3 ein self verwendet werden? sonst haben wir eine inkonsistenz,
     # es geht ja um genau ein bestimmtes hotel
+    #Alles was zu adminmanager gehört muss mit self abgerufen werden oder? sonst weiss Python nicht, woher es das Objekt nehmen soll
+    #Frage an Charuta: Müssen wir im AdminManager bei Methoden wie delete_hotel immer self.__hotel_da verwenden – oder geht auch einfach hotel_da im return?
 
-    # ---- Für USerstory 3.2 + 3.3
-    #def get_hotel_by_id(self, hotel_id: int):
-    #return self.__hotel_da.read_hotel_by_id(hotel_id)
+    # ---- Für Userstory 3.2 + 3.3
+
+    def get_hotel_by_id(self, hotel_id: int) -> model.Hotel:
+        return self.__hotel_da.read_hotel_by_id(hotel_id)
 

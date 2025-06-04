@@ -20,7 +20,7 @@ class Review:
         if not isinstance(comment, str): #Sicherstellen das comment einen String ist
             raise ValueError("comment must be a string")
 
-        if not review_date: #Sicherstellen das Datum übergeben wurde
+        if not review_date: #Scherstellen das Datum übergeben wurde
             raise ValueError("review date is required")
         if not isinstance(review_date, date):
             raise ValueError("review date must be a date")

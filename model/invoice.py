@@ -99,7 +99,7 @@ class Invoice:
     def invoice_status(self, value):
         if not value:
             raise ValueError("invoice_status is required")
-        if not isinstance(value, str):
+        if not isinstance(value, bool):
             raise ValueError("invoice_status must be a string")
         self.__invoice_status = value
 

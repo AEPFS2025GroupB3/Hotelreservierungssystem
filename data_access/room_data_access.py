@@ -26,7 +26,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Room(room_id=room_id, room_number=room_number, price_per_night=price_per_night,
             room_type=model.RoomType(type_id, max_guests, description),
-            hotel=model.Hotel(hotel_id, name, stars, model.Address(address_id, street, city, zip_code))
+            hotel=model.Hotel(hotel_id, name, stars, model.Address(street, city, zip_code, address_id))
             )
             for room_id, room_number, price_per_night, type_id, max_guests, description, hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
@@ -57,7 +57,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             ) = row
 
             if room_id not in rooms: ## Wenn das Zimmer noch nicht im Dictionary ist, erstelle es mit allen zugehörigen Objekten
-                hotel_address = model.Address(address_id, street, city, zip_code)
+                hotel_address = model.Address(street, city, zip_code, address_id)
                 hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                 room_type = model.RoomType(type_id, max_guests, description)
                 
@@ -70,7 +70,59 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         return list(rooms.values())
 
-    
+    def read_rooms_with_facilities_by_hotel_and_date(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]: #Methode User Story 2.2
+            sql = """
+            SELECT r.room_id, r.room_number, r.price_per_night, 
+                rt.type_id, rt.max_guests, rt.description,
+                h.hotel_id, h.name, h.stars,
+                a.address_id, a.street, a.city, a.zip_code,
+                f.facility_id, f.facility_name
+            FROM Room r
+            JOIN Room_Type rt ON r.type_id = rt.type_id
+            JOIN Hotel h ON r.hotel_id = h.hotel_id
+            JOIN Address a ON h.address_id = a.address_id
+            LEFT JOIN Room_Facilities rf ON r.room_id = rf.room_id
+            LEFT JOIN Facilities f ON rf.facility_id = f.facility_id
+            LEFT JOIN Booking b ON r.room_id = b.room_id 
+            WHERE h.hotel_id = ? 
+            AND NOT EXISTS (
+                SELECT 1 FROM Booking b
+                WHERE b.room_id = r.room_id
+                AND NOT (
+                    b.check_out_date <= ? OR
+                    b.check_in_date >= ?
+                )
+            )
+            ORDER BY r.room_id
+            """
+
+            results = self.fetchall(sql, (hotel_id, check_in_date, check_out_date)) #Übergabgeparameter als Tuple --> (hotel_id,) muss ein Tupel sein
+            rooms = {} #Dictionary als Zwischenspeicher, um jedes Zimmer nur 1x zu erstellen
+
+            for row in results: 
+                (room_id, room_number, price_per_night, type_id, max_guests, description, hotel_id, name, stars, address_id, street, city, zip_code, facility_id, facility_name) = row
+
+                if room_id not in rooms: ## Wenn das Zimmer noch nicht im Dictionary ist, erstelle es mit allen zugehörigen Objekten
+                    hotel_address = model.Address(street, city, zip_code, address_id)
+                    hotel = model.Hotel(hotel_id, name, stars, hotel_address)
+                    room_type = model.RoomType(type_id, max_guests, description)
+                    
+                    room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
+                    
+                    #total_price berechnen & setzen
+                    stay_duration = (check_out_date - check_in_date).days
+                    room.get_total_price(price_per_night * stay_duration)
+
+                    rooms[room_id] = room #Im Dict speichern, damit es später nicht doppelt erstellt wird
+
+                if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN → kann NULL sein), dann hinzufügen
+                    rooms[room_id].add_facility(model.Facility(facility_id, facility_name))
+
+            return list(rooms.values())
+
+
+
+
     def read_room_by_id(self, room_id: int) -> model.Room: #Methode User Story 5
         sql = """
         SELECT r.room_id, r.room_number, r.price_per_night,

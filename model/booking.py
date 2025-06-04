@@ -25,7 +25,7 @@ class Booking:
         if not isinstance (is_cancelled, bool):
             raise ValueError("is_cancelled must be a boolean")
 
-        if total_amount is None: #Sicherstellen das eine booking_status übergeben worden ist
+        if total_amount is None: #Sicherstellen das eine total_amount übergeben worden ist
             raise ValueError("total_amount is required")
         if not isinstance (total_amount, (float, int)):
             raise ValueError("total_amount must be a float")
@@ -46,7 +46,7 @@ class Booking:
         self.__check_in_date: date = check_in_date
         self.__check_out_date: date = check_out_date
         self.__is_cancelled: bool = is_cancelled
-        self.__total_amount: float = total_amount
+        self.__total_amount: float = float(total_amount)
         self.__guest: Guest = guest
         self.__room: Room = room
         self.__invoice: Invoice | None = None #Rechnung wird meist erst später ergänzt

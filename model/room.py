@@ -132,10 +132,13 @@ class Room: #Klasse Room erstellen
         if not isinstance(booking, Booking):
             raise ValueError("Must be a Booking object")
         self.__bookings.append(booking)
+    
+    def stay_duration(self, check_in_date, check_out_date) -> int:
+        return (self.__check_out_date - self.__check_in_date)
 
     #Preisberechnung ohne Faktor
-    def get_total_price(self, nights: int) -> float:
-        return round(self.price_per_night * nights, 2)
+    def get_total_price(self, stay_duration: int) -> float:
+        return round(self.price_per_night * stay_duration, 2)
     
     #Methode, um Preis mit Faktor zu berechnen
     def calculate_dynamic_price(self) -> float:
