@@ -5,3 +5,4 @@ from .hotel_manager import HotelManager
 from .invoice_manager import InvoiceManager 
 from .price_manager import PriceManager
 from .room_manager import RoomManager 
+from .review_manager import ReviewManager 

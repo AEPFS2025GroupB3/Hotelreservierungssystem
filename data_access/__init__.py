@@ -8,7 +8,7 @@ from .booking_data_access import BookingDataAccess
 from .guest_data_access import GuestDataAccess
 from .hotel_data_access import HotelDataAccess
 from .invoice_data_access import InvoiceDataAccess
-#from .review_data_access import ReviewDataAccess
+from .review_data_access import ReviewDataAccess
 from .room_data_access import RoomDataAccess
 from .room_type_data_access import RoomTypeDataAccess
 

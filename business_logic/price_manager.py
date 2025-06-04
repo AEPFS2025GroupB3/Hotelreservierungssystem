@@ -1,3 +1,5 @@
+from data_access.room_data_access import RoomDataAccess #NEU von Andrea
+
 from datetime import date
 import model
 from model.booking import Booking
@@ -8,7 +10,9 @@ import data_access #Importiert data_access
 
 class PriceManager:
     def __init__(self): #Evtl. highseason, lowseason etc. ergänzen
-        self.__room_da = data_access.RoomDataAccess()
+       self.room_da = RoomDataAccess()  # <--- NEU: ohne Unterstrich
+       
+        # VORHER: self.__room_da = data_access.RoomDataAccess()
         #Evtl. highseason, lowseason etc. ergänzen
 
     def get_seasonal_factor(self, check_in_date: date) -> float: #Methode User Story 7
@@ -24,3 +28,8 @@ class PriceManager:
 
     #Methode User Story 7
     #def calculate_dynamic_price(self, price_per_night: float, seasonal_factor: float):
+
+    # Methode User Story 7
+    def calculate_dynamic_price(self, price_per_night: float, check_in_date: date) -> float:
+        seasonal_factor = self.get_seasonal_factor(check_in_date)
+        return round(price_per_night * seasonal_factor, 2)

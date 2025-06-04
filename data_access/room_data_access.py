@@ -49,6 +49,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         ORDER BY r.room_id
         """
 
+
         results = self.fetchall(sql, (hotel_id,)) #Übergabgeparameter als Tuple --> (hotel_id,) muss ein Tupel sein
         rooms = {} #Dictionary als Zwischenspeicher, um jedes Zimmer nur 1x zu erstellen
 
@@ -209,3 +210,22 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def update_seasonal_factor(self, room_id: int, new_factor: float):
         sql = "UPDATE Room SET seasonal_factor = ? WHERE room_id = ?"
         self.execute(sql, (new_factor, room_id))
+
+    # Seasonal factor für User Story 7 mit liste
+
+    def get_all_rooms(self) -> list[model.Room]:
+    sql = """
+    SELECT room_id, hotel_id, type_id, price_per_night, max_guests
+    FROM Room
+    """
+    rows = self.fetchall(sql)
+    print("DEBUG Rows:", rows)
+
+    room_list = []
+    for room_id, hotel_id, type_id, price_per_night, max_guests in rows:
+        room_type = model.RoomType(type_id, max_guests)
+        room = model.Room(room_id, None, price_per_night, hotel_id, None, room_type)
+        room_list.append(room)
+
+    return room_list
+
