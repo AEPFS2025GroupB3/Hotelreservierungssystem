@@ -1,3 +1,21 @@
+XXXXXXXXXXXXX LÖSCHEN VOR ABGABE XXXXXXXXXXXXX
+
+Das README.md-File sollte Folgendes enthalten:
+
+1. Name und Vorname der Teammitglieder, die am Projekt mitgearbeitet haben
+2. Eine kurze Übersicht, wer zu welchen Projekt-Themen beigetragen hat (also z. B. zu welchen User-Stories, Files, Projektphasen, Rollen innerhalb des Teams etc.).
+   Themen, die durch mehrere Teammitglieder bearbeitet wurden, dürft ihr bei allen jeweiligen Teammitgliedern aufführen.
+3. Instruktion für uns, wie eure Applikation benutzt werden muss (Schritt-für-Schritt-Anleitung, insb. welche Notebooks oder Files ausgeführt werden müssen).
+4. Annahmen und Interpretationen, falls welche vorhanden sind.
+x
+x
+x
+x
+x
+x
+x
+x
+
 # Hotelreservierungssystem - Projektdokumentation
 
 
@@ -219,7 +237,7 @@ Felder: room_type, description, max_guests, price, facilities
 
 **User Story 2.2 - Nur verfügbare Zimmer anzeigen**
 
--Ziel:
+- Ziel:
 Der Gast möchte nur Zimmer angezeigt bekommen, die im gewählten Zeitraum verfügbar sind.
 
 - Umsetzung im Code:
@@ -354,42 +372,49 @@ Neue Ausstattung hinzufügen oder bestehende Typen bearbeiten → Änderungen so
 
 
 
-## Erweiterte User Stories
+## User Stories mit DB-Schemaänderung
 
-Diese User Stories erfordern eine Änderung des Datenbankschemas und werdemn im weiteren Verlauf ergänzt.
-
-**User Story 1**
-
-- Ziel:
-sdöfjlsfgsfgsfdg
-
-- Umsetzung im Code:
-sdflsjflskdjfnalsdf
-
-- Nutzung im Notebook:
-lsdkfjsdfsadflsadf
-
-**User Story 2**
-
-- Ziel:
-sdöfjlsfgsfgsfdg
-
-- Umsetzung im Code:
-sdflsjflskdjfnalsdf
-
-- Nutzung im Notebook:
-lsdkfjsdfsadflsadf
+Diese User Stories erfordern eine Änderung des Datenbankschemas und werden im weiteren Verlauf ergänzt. 
+Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews erfordern. Aufgrund dessen haben wir mittels sqlite online die Klasse Review ergänzt und zusätzlich auch noch ein Beispieldatensatz hinzugefügt.
 
 **User Story 3**
 
 - Ziel:
-sdöfjlsfgsfgsfdg
+Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
 
 - Umsetzung im Code:
-sdflsjflskdjfnalsdf
+Im ReviewManager haben wir die Methode add_review definiert. Diese Methode erwartet die Parameter guest_id, hotel_id, rating, comment und review_date. 
+Mit Hilfe eines SQL-Insert-Statements ergänzen wir die Werte in die Datenbank. Das Einfügen der Daten wird anschliessend mit self.execute ausgeführt.
 
 - Nutzung im Notebook:
-lsdkfjsdfsadflsadf
+Diese User Story verlangt die Eingabe der guest_id und hotel_id, einer Bewertung zwischen 1 bis 5, eines Kommentars sowie des Datums. Die Eingabe der guest_id und hotel_id scheint auf den ersten Blick für den Gast unmöglich und komisch.
+Diese Informationen sind aber notwendig und werden auf der Rechnung ausgewiesen. Sie verhindern, dass das Hotel Bewertungen von Kunden erhält die nicht im Hotel waren. 
+
+**User Story 4**
+
+- Ziel:
+Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
+
+- Umsetzung im Code:
+Im Review Manager haben wir eine Methode get_reviews_by_hotel erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
+Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt:
+- Review
+- Guest
+- Address
+- Hotel
+
+Die JOINS erfolgen über die gemeinsamen IDs:
+- guest_id = um die Verbindung zwischen Review und Guest herzustellen
+- address_id = um die jeweilige Addresse von Gast und Hotel zu ermitteln 
+- hotel_id = um die Verbindung zwischen Review und Hotel herzustellen
+
+Mit WHERE wird der Hotelname abgefragt(case-insensitive). 
+Mit fetchall werden alle passenden Ergebnisse der SQL-Abfrage aus der Datenbank geladen. Daraus wird für jede Zeiel ein Review-Objekt erzeugt, das zusätzlich Informationen zum Gast und Hotel enthält. 
+Die Objekte werden in einer Liste gesammelt und über return zurückgegeben.
+
+- Nutzung im Notebook:
+Die User Story verlangt eine Eingabe des Namens des Hotels, wessen Bewertung der Gast lesen möchte. 
+
 
 ## Klassendiagramm
 

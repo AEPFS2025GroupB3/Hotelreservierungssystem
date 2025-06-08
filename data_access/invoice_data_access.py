@@ -25,58 +25,34 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room=room
         )
         
-        #return [
-         #   model.Invoice(
-          #      invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled,
-           #     booking=model.Booking( booking_id=booking_id, check_in_date=check_in_date, check_out_date=check_out_date, is_cancelled=bool(is_cancelled), total_amount=total_amount, 
-            #        hotel=model.Hotel(hotel_id=hotel_id, name=name, stars=stars, 
-             #           address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
-              #      )
-               # ),
-                #guest=model.Guest(guest_id=guest_id, first_name=first_name, last_name=last_name, email=email,
-                 #   address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code
-                  #  )
-              #  ),
-               # room = model.Room(room_id=room_id, room_number=room_number, price_per_night=price_per_night,
-                #    room_type=model.RoomType(type_id=type_id, max_guests=max_guests, description=description),
-                 #   hotel=model.Hotel(hotel_id=hotel_id, name=name, stars=stars, 
-                  #      address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
-                   # )  
-             #   )
-            #)
-        
-        
-            #for booking_id, check_in_date, check_out_date, is_cancelled, total_amount,
-             #   room_id, room_number, price_per_night, room_type_id,
-              #  type_id, max_guests, description,
-               # hotel_id, name, stars,
-                #address_id, street, city, zip_code,
-                #guest_id, first_name, last_name, email in results
-        #]
-
     def calculate_total_price(self, booking: Booking) -> float:
         duration = (booking.check_out_date - booking.check_in_date).days
         return booking.room.price_per_night * duration
 
 
 #Methode User Story 6
-    def read_invoice_by_booking_id(self, booking_id:int)->model.Invoice| None:
+    def read_invoice_by_booking_id(self, booking_id:int) -> model.Invoice | None:
         sql = """
-        SELECT invoice_id, issue_date, total_amount, i_is_cancelled
+        SELECT invoice_id, issue_date, total_amount, i_is_cancelled, total_amount
         FROM Invoice
         WHERE booking_id = ?
         """
         row = self.fetchone(sql, (booking_id,))
         
-        if row:
-            invoice_id, issue_date, total_amount, i_is_cancelled = row
+        if row is None:
+            return None #keine RG gefunden
+
+            invoice_id, issue_date, total_amount, i_is_cancelled, total_amount = row
             
+            if i_is_cancelled is None:
+                raise ValueError (f"i_is_cancelled ist NULL für booking_id = {booking_id}")
+
             # Holt die verknüpften Objekte aus anderen DataAccess-Klassen
             from data_access.booking_data_access import BookingDataAccess
             booking_da = BookingDataAccess()
             booking = booking_da.read_booking_by_id(booking_id)       
 
-            if booking in None:
+            if booking is None:
                 raise ValueError(f"Booking mit ID {booking_id} nicht gefunden.")   
 
             return model.Invoice(

@@ -54,7 +54,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def get_all_bookings(self) -> list[model.Booking]: #Methode User Story 5
         sql = """
-        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount
+        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
         FROM Booking
         """
         rows = self.fetchall(sql)
@@ -64,17 +64,21 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         invoice_da = InvoiceDataAccess()
 
         bookings = []
-        for booking_id, guest_id, room_id, check_in, check_out, is_cancelled, total in rows:
+        for booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled in rows:
             guest = guest_da.read_guest_by_id(guest_id)
             room = room_da.read_room_by_id(room_id)
             invoice = invoice_da.read_invoice_by_booking_id(booking_id)
 
+            #Dauer Berechnen und total amount
+            duration = (check_out_date - check_in_date).days
+            total_amount = room.price_per_night * duration 
+
             booking = model.Booking(
                 booking_id=booking_id,
-                check_in_date=check_in,
-                check_out_date=check_out,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
                 is_cancelled=bool(is_cancelled),
-                total_amount=total,
+                total_amount=float(total_amount),
                 guest=guest,
                 room=room
             )

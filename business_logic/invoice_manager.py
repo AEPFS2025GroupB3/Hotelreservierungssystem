@@ -18,6 +18,6 @@ class InvoiceManager:
     #Methode User Story 5 (Invoice Manager)
     def create_invoice(self, booking: Booking, guest: Guest, hotel: Hotel) -> model.Invoice:
         issue_date = date.today()
-        nights = (booking.check_out_date - booking.check_in_date).days
+
         total_amount = self.__invoice_da.calculate_total_price(booking)
-        return self.__invoice_da.create_invoice(issue_date, total_amount, False, booking, guest, hotel, booking.room.room_id) 
+        return self.__invoice_da.create_invoice(issue_date=issue_date, total_amount=total_amount, i_is_cancelled=booking.is_cancelled), booking, guest, hotel, booking.room.room_id) 

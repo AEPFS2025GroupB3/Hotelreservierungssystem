@@ -4,28 +4,43 @@ from model.guest import Guest
 from model.hotel import Hotel
 from model.invoice import Invoice
 from model.room import Room
-#from model.facility import Facility
-from model.room_type import RoomType
+from model.facility import Facility
+#from model.room_type import RoomTyp
+from data_access.facility_data_access import FacilityDataAccess
 
 import data_access #Importiert data_access
 
 class AdminManager:
     def __init__(self):
         self.__room_da = data_access.RoomDataAccess()
-        #self.__facility_da = data_access.FacilityDataAccess()
+        self.__facility_da = FacilityDataAccess()
         self.__roomtype_da = data_access.RoomTypeDataAccess()
-        self.__hotel_da=data_access.HotelDataAccess()
+        self.__hotel_da = data_access.HotelDataAccess()
     
     # --- Facility ---
     def create_facility(self, name: str):
         return self.__facility_da.create_facility(name)
 
-    def update_facility_name(self, facility_id: int, new_name: str):
+    def update_facility(self, facility_id: int, new_name: str):
         return self.__facility_da.update_facility_name(facility_id, new_name)
 
     def delete_facility(self, facility_id: int):
         return self.__facility_da.delete_facility(facility_id)
     
+    def facility_id_exists(self, facility_id: int) -> bool:
+        return any(fac.facility_id == facility_id for fac in self.__facility_da.get_all_facilities())
+
+    def facility_name_exists(self, name: str) -> bool:
+        return any(fac.facility_name.lower() == name.lower() for fac in self.__facility_da.get_all_facilities())
+    
+    def get_facility_name_by_id(self, facility_id: int) -> str:
+        facilities = self.__facility_da.get_all_facilities()
+        for fac in facilities:
+            if fac.facility_id == facility_id:
+                return fac.facility_name
+        return None
+
+
     # --- RoomType ---
     def create_room_type(self, description: str, max_guests: int):
         return self.__roomtype_da.create_room_type(description, max_guests)
@@ -90,4 +105,3 @@ class AdminManager:
 
     def get_hotel_by_id(self, hotel_id: int) -> model.Hotel:
         return self.__hotel_da.read_hotel_by_id(hotel_id)
-

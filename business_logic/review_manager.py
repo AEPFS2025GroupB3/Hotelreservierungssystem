@@ -15,4 +15,5 @@ class ReviewManager:
         self.__review_da.add_review(guest_id, hotel_id, rating, comment, review_date)
 
     def get_reviews_by_hotel(self, name):
-        self.__review_da.get_reviews_by_hotel(name)
+        return self.__review_da.get_reviews_by_hotel(name)
+        
