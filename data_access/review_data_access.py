@@ -23,8 +23,10 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         h.hotel_id, h.name, h.stars,
         ad.street, ad.city, ad.zip_code, ad.address_id
         FROM Review r
-        JOIN Guest g 
-        params = (hotel_id,)
+        JOIN Guest g ON r.guest_id = g.guest_id
+        JOIN Address a ON g.add
+        """
+        params = (name,)
         rows = self.fetchall(sql, params)
 
         return [
@@ -59,4 +61,4 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             )
             for review_id, rating, comment, review_date, guest_id, first_name, last_name, email, guest_street, guest_city, guest_zip_code, guest_address_id, hotel_id, name, stars, hotel_street, hotel_city, hotel_zip_code, hotel_address_id in rows #jede Zeile in diese Variablen packen
         ]
- 
+re

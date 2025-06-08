@@ -86,15 +86,6 @@ Die Kommunikation erfolgt über Python-Importe zwischen den Modulen.
 | `ui/`             | Eingabevalidierung & User Interaction via Notebooks     |
 | `notebooks/`      | Deepnote-Notebooks zur Ausführung der Use Cases         |
 
-Hotelreservierungssystem/
-│
-├── database/          # SQLite-Datenbankdatei (hotel_reservation_sample.db)
-├── model/             # Klassen für Datenmodelle wie Hotel, Room, Booking etc.
-├── data_access/       # Data Access Layer: SQL-Zugriff (CRUD)
-├── business_logic/    # Geschäftslogik: Preisberechnung, Buchung, Rechnung usw.
-├── ui/                # Eingabevalidierung & User Interaction via Notebooks
-└── notebooks/         # Deepnote-Notebooks zur Ausführung der Use Cases
-
 ## Verwendete Technologien
 
 Wir haben die folgenden Technologien verwendet:
