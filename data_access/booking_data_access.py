@@ -31,7 +31,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             booking_id=booking_id,
             check_in_date=check_in_date,
             check_out_date=check_out_date,
-            is_cancelled=is_cancelled,
+            is_cancelled=bool(is_cancelled),
             total_amount=room.price_per_night * (check_out_date - check_in_date).days,
             guest=guest,
             room=room
@@ -93,7 +93,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         sql = """
         UPDATE Booking
-        SET status = ?
+        SET is_cancelled = ?
         WHERE booking_id = ?
         """
         self.execute(sql, (int(is_cancelled), booking_id))
@@ -106,9 +106,14 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         """
         row = self.fetchone(sql, (booking_id,))
         if row:
-            booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled = row
-            guest = self.__guest_da.read_guest_by_id(guest_id)
-            room = self.__room_da.read_room_by_id(room_id)
+            booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount = row
+
+            guest_da = GuestDataAccess()
+            room_da = RoomDataAccess()
+
+            guest = guest_da.read_guest_by_id(guest_id)
+            room = room_da.read_room_by_id(room_id)
+            
             total_amount = room.price_per_night * (check_out_date - check_in_date).days
             
             return model.Booking(

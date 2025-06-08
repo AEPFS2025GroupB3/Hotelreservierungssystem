@@ -17,8 +17,8 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
     def get_reviews_by_hotel(self,hotel_id) -> list[model.Review]: #Methode User Story mit DB Schemaänderung geschaut von Refernce Projekt track_Data_access 103
         sql="""
-        SELECT r.review_id, r.rating, r.comment, r.review_date, 
-        g.guest_id, g.first_name, g.last_name, g.email, 
+        SELECT r.review_id, r.rating, r.comment, r.review_date,
+        g.guest_id, g.first_name, g.last_name, g.email,
         a.street, a.city, a.zip_code, a.address_id, 
         h.hotel_id, h.name, h.stars,
         ad.street, ad.city, ad.zip_code, ad.address_id
@@ -34,7 +34,7 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
         return [
             model.Review(
-                review_id =review_id,
+                review_id= int(review_id),
                 rating=rating,
                 comment=comment,
                 review_date=review_date,
@@ -44,10 +44,10 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     last_name=last_name,
                     email=email,
                     address=model.Address(
-                        street=street,
+                        street=str(street),
                         city=city,
                         zip_code=zip_code,
-                        address_id=address_id,
+                        address_id=int(address_id),
                     )
                 ),
                 hotel=model.Hotel(
@@ -55,12 +55,12 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     name=name,
                     stars=stars,
                     address=model.Address(
-                        street=street,
+                        street=str(street),
                         city=city,
                         zip_code=zip_code,
-                        address_id=address_id,
+                        address_id=int(address_id),
                     )   
                 )
             )
-        for review_id, rating, comment, review_date, guest_id, first_name, last_name, email, street, city, zip_code, address_id, hotel_id, name, street, city, zip_code, address_id, hotel_id in rows #jede Zeile in diese Variablen packen
+            for review_id, rating, comment, review_date, guest_id, first_name, last_name, email, guest_street, guest_city, guest_zip_code, guest_address_id, hotel_id, name, stars, hotel_street, hotel_city, hotel_zip_code, hotel_address_id in rows #jede Zeile in diese Variablen packen
         ]

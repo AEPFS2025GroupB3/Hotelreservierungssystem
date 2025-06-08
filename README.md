@@ -105,20 +105,16 @@ Projekt klonen:
 git clone https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem.git
 
 Deepnote-Projekt öffnen (alternativ lokal mit PyCharm starten)
+Arbeitsverzeichnis in Deepnote setzen:
+Rechtsklick auf das Notebook → Set Working Directory → /Hotelreservierungssystem
+Notebook öffnen:
+Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
+Hinweis: Die verwendete SQLite-Datenbank befindet sich im Ordner database/. Die Originaldatei heisst hotel_reservation_sample.db.
+Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird.
 
-Arbeitsverzeichnis in Deepnote setzen:Rechtsklick auf das Notebook → "Set Working Directory" → /Hotelreservierungssystem
+## Umgesetzte User Stories
 
-Beispiel-Notebooks ausführen:
-
-01_Suche_und_Filterung.ipynb
-
-02_Buchung_und_Rechnung.ipynb
-
-Hinweis: Die SQLite-Datenbank (hotel_reservation_sample.db) befindet sich im Ordner database/.
-
-Umgesetzte User Stories
-
-## Technolige hiner den User Stories
+**Technolige hiner den User Stories**
 
 Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
 

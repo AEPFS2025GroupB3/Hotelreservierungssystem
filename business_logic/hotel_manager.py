@@ -3,6 +3,7 @@ import model
 from model.room_type import RoomType
 from model.address import Address
 from model.room import Room
+ 
 
 import data_access #Importiert data_access
 
@@ -25,11 +26,11 @@ class HotelManager:
         return self.__hotel_da.read_hotels_by_city_number_of_guests(city, max_guests)
 
     #Methode User Story 1.4
-    def read_available_hotels_by_city_and_date(self, city: str, check_in_date: date, check_out_date: date) -> list[model.hotel]:
+    def read_available_hotels_by_city_and_date(self, city: str, check_in_date: date, check_out_date: date) -> list[model.Hotel]:
         return self.__hotel_da.read_available_hotels_by_city_and_date(city, check_in_date, check_out_date)
 
     #Methode User Story 1.5
-    def read_hotels_by_criteria(self, city:str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.hotel]:
+    def read_hotels_by_criteria(self, city:str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.Hotel]:
         return self.__hotel_da.read_hotels_by_criteria(city, check_in_date, check_out_date, max_guests, stars)
 
     #Methode User Story 1.6
