@@ -124,21 +124,6 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
             return list(rooms.values())
 
-    def is_room_available(self, room_id: int, check_in_date: date, check_out_date: date) -> bool: #Mehtode User Story 4
-        sql = """
-        SELECT COUNT (*)
-        FROM Booking
-        WHERE room_id = ?
-            AND NOT (
-                check_out_date <= ? OR 
-                check_in_date >= ?
-            )
-        """
-
-        params = (room_id, check_in_date, check_out_date)
-        count, = self.fetchone(sql, params)
-        return count == 0 #True wenn kein koflikt = vefügbar
-
     def read_room_by_id(self, room_id: int) -> model.Room: #Methode User Story 5
         sql = """
         SELECT r.room_id, r.room_number, r.price_per_night,

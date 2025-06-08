@@ -12,6 +12,9 @@ class InvoiceManager:
         self.__invoice_da = data_access.InvoiceDataAccess()
         self.__room_da = data_access.RoomDataAccess()
 
+    def read_invoice_by_booking_id(self, booking_id: int) -> Invoice | None:
+        return self.__invoice_da.read_invoice_by_booking_id(booking_id)
+    
     #Methode User Story 5 (Invoice Manager)
     def create_invoice_for_booking(self, booking: Booking, guest: Guest, hotel: Hotel, issue_date: date, i_is_cancelled: bool) -> Invoice:
         nights = (booking.check_out_date - booking.check_in_date).days

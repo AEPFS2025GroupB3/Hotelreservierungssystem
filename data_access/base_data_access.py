@@ -17,7 +17,7 @@ class BaseDataAccess:
 
     def fetchone(self, sql: str, params: tuple | None = ()):
         with self._connect() as conn:
-            try:
+            try: 
                 cur = conn.cursor()
                 cur.execute(sql, params)
                 result = cur.fetchone()

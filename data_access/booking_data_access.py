@@ -9,12 +9,10 @@ from data_access.invoice_data_access import InvoiceDataAccess
 class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
         super().__init__(db_path) #Übergibt db_path an die Basisklasse
+        self.__guest_da = GuestDataAccess()
+        self.__room_da = RoomDataAccess()
 
     def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool = True) -> model.Booking: #Methode User Story 4
-        is_available = self.__room_da.is_room_available(room_id, check_in_date, check_out_date)
-        if not is_available:
-            raise Exception("Das Zimmer ist im gewählten Zeitraum nicht verfügbar.")
- 
         # changed status to is_cancelled by Charuta
         sql = """
         INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
@@ -26,14 +24,33 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         #last_row_id, row_count = self.execute(sql, params)
         #return model.Booking(last_row_id, room, guest)
 
+        guest = self.__guest_da.read_guest_by_id(guest_id)
+        room = self.__room_da.read_room_by_id(room_id)
+        
         return model.Booking(
             booking_id=booking_id,
-            guest_id=guest_id,
-            room_id=room_id,
             check_in_date=check_in_date,
             check_out_date=check_out_date,
-            is_cancelled=is_cancelled
+            is_cancelled=is_cancelled,
+            total_amount=room.price_per_night * (check_out_date - check_in_date).days,
+            guest=guest,
+            room=room
         )
+
+    def is_room_available(self, room_id: int, check_in_date: date, check_out_date: date) -> bool: #Mehtode User Story 4
+        sql = """
+        SELECT COUNT (*)
+        FROM Booking
+        WHERE room_id = ?
+            AND NOT (
+                check_out_date <= ? OR 
+                check_in_date >= ?
+            )
+        """
+
+        params = (room_id, check_in_date, check_out_date)
+        count, = self.fetchone(sql, params)
+        return count == 0 #True wenn kein koflikt = vefügbar
 
     def get_all_bookings(self) -> list[model.Booking]: #Methode User Story 5
         sql = """
@@ -70,7 +87,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return bookings
 
     
-    def update_booking_status(self, booking_id: int, new_status: str) -> None: #Methode User Story 6
+    def update_booking_status(self, booking_id: int, is_cancelled: bool) -> None: #Methode User Story 6
         if not booking_id:
             raise ValueError("booking_id is required")
 
@@ -79,9 +96,9 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         SET status = ?
         WHERE booking_id = ?
         """
-        self.execute(sql, (new_status, booking_id))
+        self.execute(sql, (int(is_cancelled), booking_id))
 
-    def read_booking_id(self, booking_id: int) -> model.Booking | None:
+    def read_booking_by_id(self, booking_id: int) -> model.Booking | None:
         sql = """
         SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
         FROM Booking
@@ -89,19 +106,22 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         """
         row = self.fetchone(sql, (booking_id,))
         if row:
-            return model.Booking(*row)
+            booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled = row
+            guest = self.__guest_da.read_guest_by_id(guest_id)
+            room = self.__room_da.read_room_by_id(room_id)
+            total_amount = room.price_per_night * (check_out_date - check_in_date).days
+            
+            return model.Booking(
+                booking_id=booking_id,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
+                is_cancelled=bool(is_cancelled),
+                total_amount=total_amount,
+                guest=guest,
+                room=room
+            )
         return None
 
-    def read_invoice_by_booking_id(self, booking_id: int) -> model.Booking | None:
-        sql = """
-        SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
-        FROM Booking
-        WHERE booking_id = ?
-        """
-        row = self.fetchone(sql, (booking_id,))
-        if row:
-            return model.Booking(*row)
-        return None
 
     def read_bookings_by_hotel(self, hotel_id: int) -> list[model.Booking]: #Methode User Story 8
         sql = """

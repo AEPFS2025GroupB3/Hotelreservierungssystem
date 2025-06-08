@@ -17,9 +17,6 @@ class BookingManager:
         
     #Methode User Story 4 (BookingManager)
     def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool) -> model.Booking:
-        is_available = self.__room_da.is_room_available(room_id, check_in_date, check_out_date)
-        if not is_available:
-            raise Exception("Zimmer ist im gewünschten Zeitraum nicht verfügbar.")
         
         return self.__booking_da.create_booking(
             guest_id,
@@ -29,18 +26,29 @@ class BookingManager:
             is_cancelled
         )
 
+    #Methode User Story 4
+    def is_room_available(self, room_id, check_in_date, check_out_date): 
+        self.__booking_da = data_access.BookingDataAccess
+
     #Methode User Story 5
     def get_booking(self, booking_id: int) -> Booking:
         return self.__booking_da.read_booking_by_id(booking_id)
     
-    #Methode User Story 6 (Booking Manager)
-    def cancel_booking(self, booking_id: int) -> bool:
-        self.update_booking_status(booking_id, "canceled")
-        invoice = invoice_da.read_invoice_by_booking_id(booking_id)
-        if invoice:
-            invoice_da.update_invoice_status(invoice.invoice_id, "canceled")
-        return True
+    #Methode User Story 6 (Booking Manager
+    def read_booking_by_id(self, booking_id: int):
+        return self.__booking_da.read_booking_by_id(booking_id)
 
+    def cancel_booking(self, booking_id: int) -> bool:
+        self.update_booking_status(booking_id, True)
+        invoice = self.__invoice_da.read_invoice_by_booking_id(booking_id)
+        if invoice:
+            self.__invoice_da.update_invoice_status(invoice.invoice_id, "canceled")
+        return True
+    
+    def update_booking_status(self, booking_id: int, is_cancelled: bool):
+        self.__booking_da.update_booking_status(booking_id, is_cancelled)
+
+    #Hilfsmethode damit cancel_booking funktioniert
     def get_all_bookings(self) -> list[Booking]:
         return self.__booking_da.get_all_bookings()  # oder read_all_bookings() je nach Implementierung
 

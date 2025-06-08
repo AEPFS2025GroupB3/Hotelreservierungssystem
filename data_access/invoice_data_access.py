@@ -2,6 +2,10 @@ from datetime import date
 import model 
 from model import Booking, Guest, Hotel
 from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.booking_data_access import BookingDataAccess
+from data_access.guest_data_access import GuestDataAccess
+from data_access.hotel_data_access import HotelDataAccess
+from data_access.room_data_access import RoomDataAccess
 
 class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
@@ -48,7 +52,7 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         duration = (booking.check_out_date - booking.check_in_date).days
         return booking.room.price_per_night * duration
 
-    def read_invoice_by_invoice_id(self, invoice_id: int)-> model.Invoice | None:
+    def read_invoice_by_booking_id(self, booking_id: int)-> model.Invoice | None:
         sql = """
         SELECT invoice_id, issue_date, total_amount, i_is_cancelled
         FROM Invoice
@@ -58,9 +62,17 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (booking_id,))
         if row:
             invoice_id, issue_date, total_amount, i_is_cancelled = row
+
+            booking_da = BookingDataAccess()
+            guest_da = GuestDataAccess()
+            hotel_da = HotelDataAccess()
+            room_da = RoomDataAccess()
+
             return [
                 model.Invoice(    
-                    invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled)
+                    invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled))
             ]
         return None
+
+
 #Falls wir Zeit und Lust haben, is_paid in sqlite hinzufügn
