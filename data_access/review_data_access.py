@@ -15,20 +15,15 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         params=(guest_id, hotel_id, rating, comment, review_date)
         self.execute(sql,params)
 
-    def get_reviews_by_hotel(self,hotel_id) -> list[model.Review]: #Methode User Story mit DB Schemaänderung geschaut von Refernce Projekt track_Data_access 103
-        sql="""
+    def get_reviews_by_hotel(self,name) -> list[model.Review]: #Methode User Story mit DB Schemaänderung geschaut von Refernce Projekt track_Data_access 103
+        sql= """
         SELECT r.review_id, r.rating, r.comment, r.review_date,
         g.guest_id, g.first_name, g.last_name, g.email,
         a.street, a.city, a.zip_code, a.address_id, 
         h.hotel_id, h.name, h.stars,
         ad.street, ad.city, ad.zip_code, ad.address_id
-        FROM Review r 
-        JOIN Guest g ON r.guest_id = g.guest_id
-        JOIN Address a ON g.address_id = a.address_id
-        JOIN Hotel h ON r.hotel_id = h.hotel_id
-        JOIN Address ad ON h.address_id = ad.address_id
-        WHERE r.hotel_id = ?
-        """
+        FROM Review r
+        JOIN Guest g 
         params = (hotel_id,)
         rows = self.fetchall(sql, params)
 
@@ -64,3 +59,4 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             )
             for review_id, rating, comment, review_date, guest_id, first_name, last_name, email, guest_street, guest_city, guest_zip_code, guest_address_id, hotel_id, name, stars, hotel_street, hotel_city, hotel_zip_code, hotel_address_id in rows #jede Zeile in diese Variablen packen
         ]
+ 

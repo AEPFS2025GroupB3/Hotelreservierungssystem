@@ -1,13 +1,13 @@
 from datetime import date
-import model
 from model.facility import Facility
+from data_access.facility_data_access import FacilityDataAccess
 
 import data_access
 
 
 class FacilityManager:
     def __init__(self) -> None:
-        self.__facility_da = data_access.FacilityDataAccess()
+        self.__facility_da = FacilityDataAccess()
 
     def create_facility(self, name: str):
         self.__facility_da.create_facility(name)

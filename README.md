@@ -76,6 +76,16 @@ Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele stru
 Unser Projekt folgt einer modularen Architektur, bei der jede Schicht eine klar definierte Verantwortung übernimmt.
 Die Kommunikation erfolgt über Python-Importe zwischen den Modulen.
 
+
+| Verzeichnis       | Beschreibung                                            |
+| ----------------- | ------------------------------------------------------- |
+| `database/`       | SQLite-Datenbankdatei (`hotel_reservation_sample.db`)   |
+| `model/`          | Klassen für Datenmodelle wie Hotel, Room, Booking etc.  |
+| `data_access/`    | Data Access Layer: SQL-Zugriff (CRUD)                   |
+| `business_logic/` | Geschäftslogik: Preisberechnung, Buchung, Rechnung usw. |
+| `ui/`             | Eingabevalidierung & User Interaction via Notebooks     |
+| `notebooks/`      | Deepnote-Notebooks zur Ausführung der Use Cases         |
+
 Hotelreservierungssystem/
 │
 ├── database/          # SQLite-Datenbankdatei (hotel_reservation_sample.db)

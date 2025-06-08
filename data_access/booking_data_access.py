@@ -101,6 +101,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
     def read_booking_by_id(self, booking_id: int) -> model.Booking | None:
         sql = """
         SELECT booking_id, guest_id, room_id, check_in_date, check_out_date, is_cancelled
+        FROM Booking
         WHERE booking_id = ?
         """
         row = self.fetchone(sql, (booking_id,))
