@@ -18,8 +18,8 @@ class AdminManager:
         self.__hotel_da = data_access.HotelDataAccess()
     
     # --- Facility ---
-    def create_facility(self, name: str):
-        return self.__facility_da.create_facility(name)
+    def create_facility(self, facility_name: str):
+        return self.__facility_da.create_facility(facility_name)
 
     def update_facility(self, facility_id: int, new_name: str):
         return self.__facility_da.update_facility_name(facility_id, new_name)

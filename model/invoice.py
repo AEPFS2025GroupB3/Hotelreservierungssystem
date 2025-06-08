@@ -25,7 +25,7 @@ class Invoice:
         if total_amount < 0:
             raise ValueError("total_amount cannot be negative")
 
-        if not i_is_cancelled:
+        if i_is_cancelled is None:
             raise ValueError("i_is_cancelled is required")
         if not isinstance(i_is_cancelled, bool):
             raise ValueError("i_is_cancelled must be a boolean")

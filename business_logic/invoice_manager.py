@@ -20,5 +20,6 @@ class InvoiceManager:
         issue_date = date.today()
 
         total_amount = self.__invoice_da.calculate_total_price(booking)
-        return self.__invoice_da.create_invoice(issue_date=issue_date, total_amount=total_amount, i_is_cancelled=booking.is_cancelled, booking=booking, guest=guest, hotel=hotel, room_id=booking.room.room_id)
+        i_is_cancelled = bool(booking.is_cancelled)
+        return self.__invoice_da.create_invoice(issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room_id=booking.room.room_id)
 
