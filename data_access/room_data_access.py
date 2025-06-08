@@ -221,9 +221,6 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         JOIN Room_Type rt ON r.type_id = rt.type_id
         """
 
-        rows = self.fetchall(sql)
-        print("DEBUG Rows:", rows)
-
         room_list = []
         for room_id, hotel_id, room_number, type_id, price_per_night, max_guests in rows:
             room_type = model.RoomType(type_id, max_guests)

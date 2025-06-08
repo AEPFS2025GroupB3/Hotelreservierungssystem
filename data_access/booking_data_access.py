@@ -12,13 +12,13 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         self.__guest_da = GuestDataAccess()
         self.__room_da = RoomDataAccess()
 
-    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool = True) -> model.Booking: #Methode User Story 4
+    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, total_amount, is_cancelled: bool = True) -> model.Booking: #Methode User Story 4
         # changed status to is_cancelled by Charuta
         sql = """
-        INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO Booking (guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount)
+        VALUES (?, ?, ?, ?, ?, ?)
         """
-        params = (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
+        params = (guest_id, room_id, check_in_date, check_out_date, is_cancelled, total_amount)
         booking_id, _ = self.execute(sql, params)
     
         #last_row_id, row_count = self.execute(sql, params)
@@ -32,7 +32,8 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             check_in_date=check_in_date,
             check_out_date=check_out_date,
             is_cancelled=bool(is_cancelled),
-            total_amount=room.price_per_night * (check_out_date - check_in_date).days,
+            total_amount=total_amount,
+            #total_amount=room.price_per_night * (check_out_date - check_in_date).days,
             guest=guest,
             room=room
         )

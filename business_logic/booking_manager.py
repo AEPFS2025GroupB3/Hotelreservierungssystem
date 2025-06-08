@@ -16,13 +16,14 @@ class BookingManager:
         #self.__price & invoice manager??
         
     #Methode User Story 4 (BookingManager)
-    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool) -> model.Booking:
+    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, total_amount: float, is_cancelled: bool) -> model.Booking:
         
         return self.__booking_da.create_booking(
             guest_id,
             room_id,
             check_in_date,
             check_out_date,
+            total_amount,
             is_cancelled
         )
 

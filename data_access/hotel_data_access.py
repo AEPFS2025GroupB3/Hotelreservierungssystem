@@ -208,7 +208,6 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (hotel_id,))
         if row:
             hotel_id, name, stars, address_id, street, city, zip_code = row
-            print("DEBUG:", address_id, street, type(street), city, zip_code)
             address = model.Address(street, city, zip_code, address_id)
             return model.Hotel(hotel_id, name, stars, address)
         return None

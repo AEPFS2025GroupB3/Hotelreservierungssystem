@@ -338,15 +338,14 @@ Datum in der Hochsaison eingeben → höherer Preis sichtbar im Zimmerangebot un
 **User Story 8 - Alle Buchungen anzeigen**
 
 - Ziel:
-Der Admin möchte eine Übersicht über alle bestehenden Buchungen erhalten.
+Als Admin möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht über alle bestehenden Buchungen erhalten.
 
 - Umsetzung im Code:
 Die Funktion get_all_bookings() in booking_data_access.py ruft alle Einträge aus der Datenbank ab. Diese werden im Notebook formatiert dargestellt.
-Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
-Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für das jeweilige Hotel relevanten Bookings angezeigt werden.
 
 - Nutzung im Notebook:
-Ausführung der Admin-Abfrage → Tabelle mit allen Buchungen
+Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
+Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für das jeweilige Hotel relevanten Bookings angezeigt werden.
 
 **User Story 9 - Zimmerliste mit Ausstattung anzeigen**
 
@@ -371,11 +370,10 @@ Die Stammdaten befinden sich in eigenen Tabellen (room_type, facility). Änderun
 Neue Ausstattung hinzufügen oder bestehende Typen bearbeiten → Änderungen sofort in der Zimmeranzeige wirksam
 
 
-
 ## User Stories mit DB-Schemaänderung
 
-Diese User Stories erfordern eine Änderung des Datenbankschemas und werden im weiteren Verlauf ergänzt. 
-Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews erfordern. Aufgrund dessen haben wir mittels sqlite online die Klasse Review ergänzt und zusätzlich auch noch ein Beispieldatensatz hinzugefügt.
+Diese User Storys erfordern eine Erweiterung des bestehenden Datenbankschemas, die nach der Umsetzung der minimalen User Storys umgesetzt wurde. 
+Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews erfordern. Dazu haben wir eine Tabelle Review mit Hilfe von SQLite Online ergänzt und um die Codes zu testen, zusätzlich auch noch ein Beispieldatensatz hinzugefügt.
 
 **User Story 3**
 
@@ -397,11 +395,7 @@ Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste
 
 - Umsetzung im Code:
 Im Review Manager haben wir eine Methode get_reviews_by_hotel erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
-Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt:
-- Review
-- Guest
-- Address
-- Hotel
+Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Review, Guest, Address und Hotel
 
 Die JOINS erfolgen über die gemeinsamen IDs:
 - guest_id = um die Verbindung zwischen Review und Guest herzustellen

@@ -22,7 +22,7 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         invoice_id, _ = self.execute(sql, params)
 
         return model.Invoice(
-            invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room=room
+            invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room=booking.room
         )
         
     def calculate_total_price(self, booking: Booking) -> float:

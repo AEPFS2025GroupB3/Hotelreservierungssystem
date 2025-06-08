@@ -32,13 +32,12 @@ class AdminManager:
 
     def facility_name_exists(self, name: str) -> bool:
         return any(fac.facility_name.lower() == name.lower() for fac in self.__facility_da.get_all_facilities())
-    
+
     def get_facility_name_by_id(self, facility_id: int) -> str:
         facilities = self.__facility_da.get_all_facilities()
         for fac in facilities:
             if fac.facility_id == facility_id:
                 return fac.facility_name
-        return None
 
 
     # --- RoomType ---

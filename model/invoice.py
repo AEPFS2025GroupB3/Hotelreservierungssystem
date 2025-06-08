@@ -121,14 +121,14 @@ class Invoice:
 
     # Methoden
     
-    def get_invoice_summary(self) -> str:
-        from model.booking import Booking
-        return (
-            f"Rechnung {self.invoice_id} für {self.guest.first_name} {self.guest.last_name}\n"
-            f"Hotel: {self.hotel.name}, Zimmer: {self.room.room_no}\n"
-            f"Betrag: CHF {self.total_amount:.2f}\n"
-            f"Datum: {self.issue_date}"
-        )
+    #def get_invoice_summary(self) -> str:
+     #   from model.booking import Booking
+      #  return (
+       #     f"Rechnung {self.invoice_id} für {self.guest.first_name} {self.guest.last_name}\n"
+        #    f"Hotel: {self.hotel.name}, Zimmer: {self.room.room_number}\n"
+         #   f"Betrag: CHF {self.total_amount:.2f}\n"
+          #  f"Datum: {self.issue_date}"
+        #)
 
     def __str__(self):
         return self.get_invoice_summary()
