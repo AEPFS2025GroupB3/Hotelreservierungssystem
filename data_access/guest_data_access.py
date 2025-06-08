@@ -37,11 +37,14 @@ class GuestDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             address=address
         )
 
-    def get_guest_by_email(self, email: str): #Methode User Story 4
-        cursor = self.connection.cursor() #es wird ein cursor auf die aktive Datenbank geschickt
-        cursor.execute("SELCET * FROM guest WHERE email = ? ",(email,)) #führt den SQL Befehl aus
-        row=cursor.fetchone() #Diese Zeile holt den Gast
+    def get_guest_by_email(self, email: str) -> Guest | None: #Methode User Story 4
+        sql = """
+        SELECT * FROM Guest
+        WHERE email = ? 
+        """
+        row = self.fetchone(sql, (email,))
         return Guest(*row) if row else None #Wenn es kein Gast gibt, dann None
+        
  
     def read_guest_by_id(self, guest_id: int) -> model.Guest: #Methode User Story 5
         sql = """

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 import model
 from model.booking import Booking
 from model.guest import Guest
@@ -12,7 +12,7 @@ class ReviewManager:
 
     def add_review(self, guest_id, hotel_id, rating, comment, review_date):
         review_date = datetime.now().strftime('%Y-%m-%d')
-        self.__review_data_access.add_review(guest_id, hotel_id, rating, comment, review_date)
+        self.__review_da.add_review(guest_id, hotel_id, rating, comment, review_date)
 
     def get_reviews_by_hotel(self, hotel_id):
-        self.__review_data_access.get_reviews_by_hotel(hotel_id)
+        self.__review_da.get_reviews_by_hotel(hotel_id)

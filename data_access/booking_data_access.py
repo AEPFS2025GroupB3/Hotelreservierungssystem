@@ -23,8 +23,8 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         params = (guest_id, room_id, check_in_date, check_out_date, is_cancelled)
         booking_id, _ = self.execute(sql, params)
     
-        last_row_id, row_count = self.execute(sql, params)
-        return model.Booking(last_row_id, room, guest)
+        #last_row_id, row_count = self.execute(sql, params)
+        #return model.Booking(last_row_id, room, guest)
 
         return model.Booking(
             booking_id=booking_id,

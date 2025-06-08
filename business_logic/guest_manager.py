@@ -19,3 +19,5 @@ class GuestManager:
     
     def get_guest(self, guest_id: int) -> Guest: #Methode User Story 5
         return self.__guest_da.read_guest_by_id(guest_id)
+
+    

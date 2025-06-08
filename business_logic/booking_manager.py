@@ -16,7 +16,7 @@ class BookingManager:
         #self.__price & invoice manager??
         
     #Methode User Story 4 (BookingManager)
-    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, booking_status: str = "confirmed") -> model.Booking:
+    def create_booking(self, guest_id: int, room_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool) -> model.Booking:
         is_available = self.__room_da.is_room_available(room_id, check_in_date, check_out_date)
         if not is_available:
             raise Exception("Zimmer ist im gewünschten Zeitraum nicht verfügbar.")
@@ -26,7 +26,7 @@ class BookingManager:
             room_id,
             check_in_date,
             check_out_date,
-            booking_status
+            is_cancelled
         )
 
     #Methode User Story 5
