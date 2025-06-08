@@ -5,6 +5,7 @@ class FacilityDataAccess(BaseDataAccess): #User Story 10 Teil 1 (Rest bei RoomTy
     def __init__(self, db_path: str = None):
         super().__init__(db_path)
     
+    #Methoden User Story 10
     def create_facility(self, facility_name: str):
         sql = "INSERT INTO Facilities (facility_name) VALUES (?)"
         self.execute(sql, (facility_name,))
@@ -13,7 +14,10 @@ class FacilityDataAccess(BaseDataAccess): #User Story 10 Teil 1 (Rest bei RoomTy
         sql = "UPDATE Facilities SET facility_name = ? WHERE facility_id = ?"
         self.execute(sql, (new_name, facility_id))
 
+    def get_all_facilities(self) -> list[tuple]:
+        sql = "SELECT facility_id, facility_name FROM Facilities"
+        return self.fetchall(sql)
+
     def delete_facility(self, facility_id: int):
         sql = "DELETE FROM Facilities WHERE facility_id = ?"
         self.execute(sql, (facility_id,))
-

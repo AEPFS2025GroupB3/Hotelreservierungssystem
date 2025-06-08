@@ -71,9 +71,13 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         if row:
             invoice_id, issue_date, total_amount, i_is_cancelled = row
             
-            # Hole die verknüpften Objekte aus anderen DataAccess-Klassen
+            # Holt die verknüpften Objekte aus anderen DataAccess-Klassen
             from data_access.booking_data_access import BookingDataAccess
-            booking = BookingDataAccess().read_booking_by_id(booking_id)          
+            booking_da = BookingDataAccess()
+            booking = booking_da.read_booking_by_id(booking_id)       
+
+            if booking in None:
+                raise ValueError(f"Booking mit ID {booking_id} nicht gefunden.")   
 
             return model.Invoice(
                 invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled), booking=booking, guest=booking.guest, hotel=booking.room.hotel, room=booking.room

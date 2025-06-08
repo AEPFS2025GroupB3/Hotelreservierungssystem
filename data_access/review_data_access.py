@@ -24,7 +24,10 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         ad.street, ad.city, ad.zip_code, ad.address_id
         FROM Review r
         JOIN Guest g ON r.guest_id = g.guest_id
-        JOIN Address a ON g.add
+        JOIN Address a ON g.address_id = a.address_id
+        JOIN Hotel h ON r.hotel_id = h.hotel_id
+        JOIN Address ad ON h.address_id = ad.address_id
+        WHERE UPPER(h.name) = UPPER(?)
         """
         params = (name,)
         rows = self.fetchall(sql, params)
@@ -41,10 +44,10 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     last_name=last_name,
                     email=email,
                     address=model.Address(
-                        street=str(street),
-                        city=city,
-                        zip_code=zip_code,
-                        address_id=int(address_id),
+                        street=str(guest_street),
+                        city=guest_city,
+                        zip_code=guest_zip_code,
+                        address_id=int(guest_address_id),
                     )
                 ),
                 hotel=model.Hotel(
@@ -52,13 +55,12 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     name=name,
                     stars=stars,
                     address=model.Address(
-                        street=str(street),
-                        city=city,
-                        zip_code=zip_code,
-                        address_id=int(address_id),
+                        street=str(hotel_street),
+                        city=hotel_city,
+                        zip_code=hotel_zip_code,
+                        address_id=int(hotel_address_id),
                     )   
                 )
             )
             for review_id, rating, comment, review_date, guest_id, first_name, last_name, email, guest_street, guest_city, guest_zip_code, guest_address_id, hotel_id, name, stars, hotel_street, hotel_city, hotel_zip_code, hotel_address_id in rows #jede Zeile in diese Variablen packen
         ]
-re

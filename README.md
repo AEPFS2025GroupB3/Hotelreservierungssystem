@@ -108,17 +108,18 @@ Projekt klonen:
 
 git clone https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem.git
 
-Deepnote-Projekt öffnen (alternativ lokal mit PyCharm starten)
-Arbeitsverzeichnis in Deepnote setzen:
-Rechtsklick auf das Notebook → Set Working Directory → /Hotelreservierungssystem
-Notebook öffnen:
-Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
+1. Deepnote-Projekt öffnen (alternativ lokal mit PyCharm starten)
+2. Arbeitsverzeichnis in Deepnote setzen:
+3. Rechtsklick auf das Notebook → Set Working Directory → /Hotelreservierungssystem
+4. Notebook öffnen:
+→  Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
+
 Hinweis: Die verwendete SQLite-Datenbank befindet sich im Ordner database/. Die Originaldatei heisst hotel_reservation_sample.db.
 Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird.
 
 ## Umgesetzte User Stories
 
-**Technologe hiner den User Stories**
+**Technologe hinter den User Stories**
 
 Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
 
@@ -242,7 +243,7 @@ Admin gibt Hotelinformationen ein (Name, Adresse, Rating)
 
 Neues Hotel erscheint in der Übersicht
 
-**User Story 3.2 - Hotel entfernen*
+**User Story 3.2 - Hotel entfernen**
 
 - Ziel:
 Der Admin möchte ein Hotel aus dem System löschen.
@@ -390,7 +391,7 @@ sdflsjflskdjfnalsdf
 - Nutzung im Notebook:
 lsdkfjsdfsadflsadf
 
-** Klassendiagramm
+## Klassendiagramm
 
 Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice und Guest ab.
 
@@ -405,15 +406,15 @@ Die Zusammenarbeit erfolgte kollaborativ über Pull Requests und Reviews.
 
 15.03.2025: Erste Strukturierung & Setup
 
-05.04.2025: Implementierung Hotel- und Zimmerfilterung
+xx.xx.2025: Implementierung Hotel- und Zimmerfilterung
 
-20.04.2025: Buchung & Invoice mit Geschäftslogik
+xx.xx.2025: Buchung & Invoice mit Geschäftslogik
 
-05.05.2025: Erweiterte User Stories (Bewertung, Treuepunkte)
+08.06.2025: Erweiterte User Stories
 
-01.06.2025: Finalisierung, Tests und Videoaufzeichnung
+xx.xx.2025: Finalisierung, Tests und Videoaufzeichnung
 
-##Dokumentation & Projektmanagement
+## Dokumentation & Projektmanagement
 
 Unsere Dokumentation besteht aus:
 
@@ -431,7 +432,7 @@ Die Dokumentation wurde in Zusammenarbeit gepflegt, wobei Sheyla die finale Form
 Wir haben darauf geachtet, dass die Notebooks die Umsetzung der User Stories transparent und interaktiv zeigen. Jede Story wurde in einer eigenen Notebook-Sektion
 implementiert, kommentiert und mit Inputs/Outputs getestet.
 
-##Reflexion
+## Reflexion
 
 Wir haben einige Zeit gebraucht, bis uns klar war, was genau von uns erwartet wird und wie das Projekt strukturiert sein sollte. Keines der Gruppenmitglieder hatte
 einen IT-Hintergrund, weshalb wir uns zuerst ein solides Fundament in Python erarbeiten mussten. Dabei lag der Fokus auf den Grundlagen der objektorientierten
@@ -468,7 +469,7 @@ Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser V
 
 Präsentationsvideo
 
-Entweder als Video hochladen oder mit OneDrive link?
+Entweder als Video hochladen oder mit OneDrive link? wie machen?
 
 Vielen Dank für Ihre Aufmerksamkeit!
 
