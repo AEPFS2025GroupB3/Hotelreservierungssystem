@@ -16,17 +16,8 @@ class InvoiceManager:
         return self.__invoice_da.read_invoice_by_booking_id(booking_id)
     
     #Methode User Story 5 (Invoice Manager)
-    def create_invoice_for_booking(self, booking: Booking, guest: Guest, hotel: Hotel, issue_date: date, i_is_cancelled: bool) -> Invoice:
+    def create_invoice(self, booking: Booking, guest: Guest, hotel: Hotel) -> model.Invoice:
+        issue_date = date.today()
         nights = (booking.check_out_date - booking.check_in_date).days
-        room = self.__room_da.read_room_by_id(booking.room_id)
-        total = room.calculate_dynamic_price() * nights
- 
-        return self.__invoice_da.create_invoice(
-            issue_date=issue_date,
-            total_amount=total,
-            i_is_cancelled=i_is_cancelled,
-            booking=booking,
-            guest=guest,
-            hotel=hotel,
-            room_id=booking.room_id
-        )
+        total_amount = self.__invoice_da.calculate_total_price(booking)
+        return self.__invoice_da.create_invoice(issue_date, total_amount, False, booking, guest, hotel, booking.room.room_id) 

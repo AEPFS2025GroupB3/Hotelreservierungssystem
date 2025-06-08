@@ -7,16 +7,17 @@ Dieses Projekt wurde im Rahmen des Moduls „Anwendungsentwicklung mit Python“
 Umsetzung eines funktionalen Hotelreservierungssystems anhand vordefinierter und erweiterter User Stories.
 Der Fokus lag auf objektorientierter Programmierung (OOP), Datenbankzugriff, Modularisierung und agiler Entwicklung.
 
-Das System erlaubt es Gästen, Hotels und Zimmer zu suchen und zu buchen, Rechnungen zu generieren sowie Admin-Funktionalitäten für Hotelverwaltung bereitzustellen.
+Das System erlaubt es Gästen, Hotels und Zimmer zu suchen und zu buchen. Rechnungen können generiert werden, zudem stehen Admin-Funktionalitäten 
+für Hotelverwaltung zur verfügung.
 
 
 ## Projektteam & Rollenverteilung
 
 Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
-Fachliche Rollen: Welche technischen Teile des Projekts hat jedes Mitglied umgesetzt
+Fachliche Rollen: Welche technischen Teile des Projekts hat jedes Mitglied umgesetzt ?
 
-Projektrollen: Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich
+Projektrollen: Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich ?
 
 **Kerstin Culjak**
 
@@ -56,7 +57,7 @@ Projektrolle:
 - Achtet auf vollständige Einleitung, User Stories, Reflexion und saubere Formatierung.
 - User Story Coordinator: Verknüpft die User Stories mit der technischen Umsetzung und achtet darauf, dass alle Stories nachvollziehbar umgesetzt werden.
 
-**Andrea Petretta*
+**Andrea Petretta**
 
 Fachlich:
 
@@ -73,7 +74,7 @@ Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele stru
 ## Projektstruktur
 
 Unser Projekt folgt einer modularen Architektur, bei der jede Schicht eine klar definierte Verantwortung übernimmt.
-Die Kommunikation erfolgt über Python-Importezwischen den Modulen.
+Die Kommunikation erfolgt über Python-Importe zwischen den Modulen.
 
 Hotelreservierungssystem/
 │
@@ -86,17 +87,19 @@ Hotelreservierungssystem/
 
 ## Verwendete Technologien
 
-Python 3.10+
+Wir haben die folgenden Technologien verwendet:
 
-SQLite als relationale Datenbank
+- Python 3.10+
 
-Deepnote für interaktive Entwicklung und Visualisierung
+- SQLite als relationale Datenbank
 
-Git / GitHub für Versionierung, Branching und Dokumentation
+- Deepnote für interaktive Entwicklung und Visualisierung
 
-Objektorientierte Programmierung (OOP)
+- Git / GitHub für Versionierung, Branching und Dokumentation
 
-Visual Paradigm zur Modellierung des Klassendiagramms
+- Objektorientierte Programmierung (OOP)
+
+- Visual Paradigm zur Modellierung des Klassendiagramms
 
 ## Getting Started
 
@@ -114,11 +117,11 @@ Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.d
 
 ## Umgesetzte User Stories
 
-**Technolige hiner den User Stories**
+**Technologe hiner den User Stories**
 
 Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
 
-** User Story 1.1 - Hotels nach Stadt filtern **
+**User Story 1.1 - Hotels nach Stadt filtern**
 
 - Ziel:
 Der Gast möchte alle Hotels in einer bestimmten Stadt durchsuchen, um seinen bevorzugten Standort auszuwählen.
@@ -133,7 +136,7 @@ Stadtname (z.B. "Zürich") eingeben
 
 Ausgabe: Liste der Hotels in dieser Stadt
 
-** User Story 1.2 - Filterung nach Sternebewertung **
+**User Story 1.2 - Filterung nach Sternebewertung**
 
 - Ziel:
 Der Gast möchte nur Hotels mit mindestens X Sternen angezeigt bekommen.
@@ -319,6 +322,8 @@ Der Admin möchte eine Übersicht über alle bestehenden Buchungen erhalten.
 
 - Umsetzung im Code:
 Die Funktion get_all_bookings() in booking_data_access.py ruft alle Einträge aus der Datenbank ab. Diese werden im Notebook formatiert dargestellt.
+Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
+Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für das jeweilige Hotel relevanten Bookings angezeigt werden.
 
 - Nutzung im Notebook:
 Ausführung der Admin-Abfrage → Tabelle mit allen Buchungen

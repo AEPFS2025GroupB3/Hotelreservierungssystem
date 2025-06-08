@@ -69,15 +69,15 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (booking_id,))
         
         if row:
-            invoice_id, issue_date, total_amount = row
+            invoice_id, issue_date, total_amount, i_is_cancelled = row
             
             # Hole die verknüpften Objekte aus anderen DataAccess-Klassen
             from data_access.booking_data_access import BookingDataAccess
-            booking = BookingDataAccess().read_booking_by_booking_id(booking_id)          
+            booking = BookingDataAccess().read_booking_by_id(booking_id)          
 
             return model.Invoice(
-                invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled)
-                # booking-Attribut optional – du kannst es auch später im Manager setzen
+                invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled), booking=booking, guest=booking.guest, hotel=booking.room.hotel, room=booking.room
+                
             )
         
         return None
