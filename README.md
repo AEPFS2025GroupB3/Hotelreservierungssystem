@@ -287,7 +287,7 @@ Hotel-ID auswählen, Felder bearbeiten
 
 Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
 ___
-**User Story 4 - Buchung erstellen**
+### User Story 4 - Buchung erstellen
 
 - **Ziel:**
 Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen.
@@ -317,7 +317,7 @@ Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `sel
 
 ___
 
-**User Story 5 - Rechnung generieren**
+### User Story 5 - Rechnung generieren
 
 - **Ziel:**
 Als Gast möchte ich nach meinem Aufenthalt eine Rechnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der «Invoice» Tabelle hinzu.
@@ -355,7 +355,7 @@ Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 - = Gesamtbetrag
 
 ___
-**User Story 6 - Buchung stornieren**
+### User Story 6 - Buchung stornieren
 
 - **Ziel:**
 Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hinweis: Sorgt dafür, dass auch die zugehörige Rechnung entsprechend aktualisiert wird.
@@ -444,12 +444,12 @@ Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben.
 Die Methode wird aufgerufen und liefert eine Liste von Dictionaries. In der for loop wird für jedes Room-Dictionary Zimmernummer, Zimmertyp, maximale Gästeanzahl und preis pro Nacht ausgegeben. 
 Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
 
-**User Story 10 - Stammdaten verwalten**
+### User Story 10 - Stammdaten verwalten
 
-- Ziel:
+- **Ziel:**
 Als Admin möchte ich in der Lage sein, Stammdaten wie Zimmertypen, Einrichtungen und Preise in Echtzeit zu aktualisieren, damit das System jederzeit mit aktuellen Informationen arbeitet.
 
-- Umsetzung im Code:
+- **Umsetzung im Code:**
 Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von AdminManager, RoomTypeDataAccess, FacilityDataAccess und RoomDataAccess.
 
 **1. AdminManager**
