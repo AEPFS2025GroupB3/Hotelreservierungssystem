@@ -326,19 +326,19 @@ Als Gast möchte ich nach meinem Aufenthalt eine Rechnung erhalten, damit ich ei
 Umsetzung im Code: Die Implementierung dieser User Story erfolgt durch die Zusammenarbeit von BookingManager, GuestManager, HotelManager und InvoiceManager.
 
 **1.	BookingManager**
-Die Methode `get_all_bookings()` lädt alle vorhandenen Buchungen, damit der Benutzer eine davon auswählen kann. Zusätzlich stellt `get_booking(booking_id) ein einzelnes Booking-Objekt für die Rechnungsstellung bereit.
+Die Methode `get_all_bookings()` lädt alle vorhandenen Buchungen, damit der Benutzer eine davon auswählen kann. Zusätzlich stellt `get_booking(booking_id)` ein einzelnes Booking-Objekt für die Rechnungsstellung bereit.
 
 **2.	GuestManager**
 Über `get_guest(guest_id)` werden die persönlichen Informationen des Gastes geladen, die auch der Rechnung erscheinen sollen.
 
 **3.	HotelManager**
-Die Methode `get_hotel(hotel_id) ruft die Hotelinformationen für die Buchung ab.
+Die Methode `get_hotel(hotel_id)` ruft die Hotelinformationen für die Buchung ab.
 
 **4.	InvoiceManager**
 Ist die zentrale Methode `create_invoice(booking, guest, hotel)` zur Umsetzung der User Story 5. 
 -	Erstellt das Rechnungsdatum `(issue_date) mit date.today()`
 -	Berechnet den Gesamtbetrag `calculate_total_price(..)`
--	Erstellt neuen Eintrag in der Invoice mithilfe von `InvoiceDataAccess.create_invoice(…)
+-	Erstellt neuen Eintrag in der Invoice mithilfe von `InvoiceDataAccess.create_invoice(…)`
 
 **5.	InvoiceDataAccess**
 De Methode `create_invoice(….)` fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
@@ -370,7 +370,7 @@ Die Methode `cancel_booking(booking_id)` übernimmt die Hauptlogik für die Stor
 -	Falls eine Rechnung vorhanden ist, wird der Rechnungsstatus über `update_invoice_status(...)` auf „canceled“ gesetzt.
 
 **2.	BookingDataAccess**
-Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Update durch, das die Buchung als storniert kennzeichnet` `(is_cancelled = 1)`.
+Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Update durch, das die Buchung als storniert kennzeichnet `(is_cancelled = 1)`.
 Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
 
 
@@ -444,6 +444,7 @@ Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben.
 Die Methode wird aufgerufen und liefert eine Liste von Dictionaries. In der for loop wird für jedes Room-Dictionary Zimmernummer, Zimmertyp, maximale Gästeanzahl und preis pro Nacht ausgegeben. 
 Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
 
+___
 ### User Story 10 - Stammdaten verwalten
 
 - **Ziel:**
@@ -482,10 +483,10 @@ Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
 
 **Nutzung im Notebook:**
 1.	Das Admin-Menü bietet folgende Optionen:
-- Neue Ausstattung erstellen oder bestehende umbenennen/löschen
-- Neue Raum Typ anlegen oder bearbeiten
-- Raumpreise aktualisieren
-- Saisonale Faktoren einsehen (Lesefunktion)
+   - Neue Ausstattung erstellen oder bestehende umbenennen/löschen
+   - Neue Raum Typ anlegen oder bearbeiten
+   - Raumpreise aktualisieren
+   - Saisonale Faktoren einsehen (Lesefunktion)
 2.	Je nach Auswahl werden die entsprechenden Eingaben abgefragt (z. B. Name, ID, Beschreibung, Preis).
 3.	Der AdminManager ruft intern die passenden Methoden in den DataAccess-Klassen auf.
 4.	Erfolgreiche Änderungen werden direkt bestätigt.
