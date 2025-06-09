@@ -315,32 +315,76 @@ Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `sel
 5.	Nach Bestätigung wir die Buchung erstellt
 6.	Die erfolgreiche Buchung wird mit der booking_id bestätigt.
 
-
+___
 
 **User Story 5 - Rechnung generieren**
 
-- Ziel:
-Der Gast möchte nach dem Aufenthalt eine korrekte Rechnung erhalten.
+- **Ziel:**
+Als Gast möchte ich nach meinem Aufenthalt eine Rechnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der «Invoice» Tabelle hinzu.
 
-- Umsetzung im Code:
-Die Rechnung wird automatisch nach Buchung erstellt. invoice_manager.py berechnet den Gesamtbetrag inkl. saisonalem Aufschlag und speichert das Ergebnis
-via invoice_data_access.py in der Tabelle invoice.
+- **Umsetzung im Code:**
+Umsetzung im Code: Die Implementierung dieser User Story erfolgt durch die Zusammenarbeit von BookingManager, GuestManager, HotelManager und InvoiceManager.
 
-- Nutzung im Notebook:
+**1.	BookingManager**
+Die Methode `get_all_bookings()` lädt alle vorhandenen Buchungen, damit der Benutzer eine davon auswählen kann. Zusätzlich stellt `get_booking(booking_id) ein einzelnes Booking-Objekt für die Rechnungsstellung bereit.
+
+**2.	GuestManager**
+Über `get_guest(guest_id) werden die persönlichen Informationen des Gastes geladen, die auch der Rechnung erscheinen sollen.
+
+**3.	HotelManager**
+Die Methode `get_hotel(hotel_id) ruft die Hotelinformationen für die Buchung ab.
+
+**4.	InvoiceManager**
+Ist die zentrale Methode `create_invoice(booking, guest, hotel)` zur Umsetzung der User Story 5. 
+-	Erstellt das Rechnungsdatum `(issue_date) mit date.today()`
+-	Berechnet den Gesamtbetrag `calculate_total_price(..)`
+-	Erstellt neuen Eintrag in der Invoice mithilfe von `InvoiceDataAccess.create_invoice(…)
+
+**5.	InvoiceDataAccess**
+De Methode `create_invoice(….) fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
+
+- **Nutzung im Notebook:**
 Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
+1.	Der Benutzer gibt die Buchungs-ID ein, für die eine Rechnung generiert werden soll.
+2.	Das System lädt die zugehörigen Daten (Guest, Hotel, Buchung, Betrag).
+3.	Die Rechnung wird mit Datum und Betrag erstellt
+4.	Falls die Buchung storniert wurde, beträgt der Rechnungsbetrag 0 CHF.
+5.	Die Rechnung wird mit Mehrwertsteuer (3.8%) angezeigt:
+-	  Nettobetrag (ohne MwSt)
+-	+ MwSt-Betrag
+-	= Gesamtbetrag
 
+___
 **User Story 6 - Buchung stornieren**
 
-- Ziel:
-Der Gast möchte eine Buchung stornieren und keine Kosten tragen.
+- **Ziel:**
+Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hinweis: Sorgt dafür, dass auch die zugehörige Rechnung entsprechend aktualisiert wird.
 
-- Umsetzung im Code:
-Die Stornierung wird in booking_manager.py verarbeitet, indem der Buchungsstatus auf „cancelled“ gesetzt wird. Gleichzeitig wird die Rechnung in invoice_data_access.py
-angepasst oder gelöscht.
+- **Umsetzung im Code:**
+Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von BookingManager, BookingDataAccess und InvoiceDataAccess.
 
-- Nutzung im Notebook:
-Buchungsnummer eingeben → Status = „cancelled“, Rechnung wird storniert
+**1.	BookingManager**
+Die Methode `cancel_booking(booking_id)` übernimmt die Hauptlogik für die Stornierung:
+-	Sie ruft intern `update_booking_status(...)` auf, um den Stornierungsstatus der Buchung auf True zu setzen.
+-	Anschliessend wird geprüft, ob eine Rechnung zur Buchung existiert.
+-	Falls eine Rechnung vorhanden ist, wird der Rechnungsstatus über `update_invoice_status(...)` auf „canceled“ gesetzt.
 
+**2.	BookingDataAccess**
+Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Update durch, das die Buchung als storniert kennzeichnet` `(is_cancelled = 1)`.
+Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
+
+
+- **Nutzung im Notebook:**
+1.	Der Benutzer gibt eine Buchungs-ID ein.
+2.	Das System prüft mit `read_booking_by_id(...)`, ob die Buchung existiert.
+3.	Wenn keine Buchung gefunden wird, erscheint eine Fehlermeldung.
+4.	Wenn die Buchung bereits storniert ist, erhält der Nutzer einen Hinweis.
+5.	Andernfalls wird die Methode `cancel_booking(...)` aufgerufen.
+6.	Die Buchung wird in der Datenbank als storniert markiert.
+7.	Falls eine zugehörige Rechnung existiert, wird diese ebenfalls storniert.
+8.	Der Benutzer erhält eine Bestätigung über die erfolgreiche Stornierung.
+
+___
 **User Story 7 - Saisonale Preisgestaltung**
 
 - Ziel:
@@ -403,15 +447,50 @@ Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgege
 **User Story 10 - Stammdaten verwalten**
 
 - Ziel:
-Der Admin möchte Zimmertypen, Ausstattungen und Preise verwalten können.
+Als Admin möchte ich in der Lage sein, Stammdaten wie Zimmertypen, Einrichtungen und Preise in Echtzeit zu aktualisieren, damit das System jederzeit mit aktuellen Informationen arbeitet.
 
 - Umsetzung im Code:
-Die Stammdaten befinden sich in eigenen Tabellen (room_type, facility). Änderungen erfolgen über entsprechende Data Access Layer mit CRUD-Methoden.
+Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von AdminManager, RoomTypeDataAccess, FacilityDataAccess und RoomDataAccess.
 
-- Nutzung im Notebook:
-Neue Ausstattung hinzufügen oder bestehende Typen bearbeiten → Änderungen sofort in der Zimmeranzeige wirksam
+**1. AdminManager**
+Der AdminManager bildet die zentrale Schicht zur Verwaltung vonStammdaten. Er bietet Methoden an für:
 
+- Einrichtung (Facility):
+`create_facility(name)`: Fügt eine neue Ausstattung hinzu.
+`update_facility(facility_id, new_name)`: Benennt eine bestehende Ausstattung um.
+`delete_facility(facility_id)`: Löscht eine Ausstattung aus dem System.
+Hilfsmethoden wie `facility_name_exists(...) und `get_facility_name_by_id(...)` sorgen für Validierung.
 
+- Zimmertyp (RoomType):
+`create_room_type(description, max_guests)`: Erstellt einen neuen Zimmertyp.
+`update_room_type(...)`: Aktualisiert Beschreibung und maximale Gästezahl eines bestehenden Typs.
+`delete_room_type(...)`: Löscht einen Zimmertyp.
+
+- Zimmerpreis (Room):
+`update_room_price(room_id, new_price)`: Ändert den Preis eines Zimmers.
+
+**2.	FacilityDataAccess**
+Diese Klasse ist für den direkten Zugriff auf die Facilities-Tabelle zuständig:
+-	`create_facility(...)`: Führt ein SQL-Insert aus.
+-	`update_facility_name(...)``: Aktualisiert den Namen einer Ausstattung.
+-	`delete_facility(...)`: Entfernt eine Ausstattung aus der Datenbank.
+-	`get_all_facilities()`: Lädt alle existierenden Ausstattungen zur Anzeige oder Validierung.
+
+**3.	RoomDataAccess**
+Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
+`update_room_price(room_id, new_price)`: SQL-Update für den Zimmerpreis.
+
+- **Nutzung im Notebook:**
+1.	Das Admin-Menü bietet folgende Optionen:
+- Neue Ausstattung erstellen oder bestehende umbenennen/löschen
+- Neue Raum Typ anlegen oder bearbeiten
+- Raumpreise aktualisieren
+- Saisonale Faktoren einsehen (Lesefunktion)
+2.	Je nach Auswahl werden die entsprechenden Eingaben abgefragt (z. B. Name, ID, Beschreibung, Preis).
+3.	Der AdminManager ruft intern die passenden Methoden in den DataAccess-Klassen auf.
+4.	Erfolgreiche Änderungen werden direkt bestätigt.
+
+___
 ## User Stories mit DB-Schemaänderung
 
 Diese User Storys erfordern eine Erweiterung des bestehenden Datenbankschemas, die nach der Umsetzung der minimalen User Storys umgesetzt wurde. 
