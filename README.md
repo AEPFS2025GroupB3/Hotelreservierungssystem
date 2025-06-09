@@ -43,6 +43,7 @@ Fachlich:
 
 - Zuständig für die Klassen Guest und Review
 - Fokus: Gästemanagement und Bewertungen
+- Video Koordinatorin
 
 Projektrolle:
 
@@ -81,6 +82,7 @@ Fachlich:
 
 - Zuständig für die Klassen Booking und Invoice
 - Fokus: Buchungsabläufe und Rechnungsstellung
+- Visual Paradigm Master
 
 Projektrolle:
 
@@ -288,16 +290,31 @@ Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
 **User Story 4 - Buchung erstellen**
 
 - Ziel:
-Der Gast möchte ein Zimmer buchen und seine Daten erfassen, um die Reservierung abzuschliessen.
+Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen.
 
 - Umsetzung im Code:
-Die Buchungsdaten werden über die booking_manager.py verarbeitet, validiert und an booking_data_access.py zur Speicherung in die Datenbank übergeben.
-Zusätzlich wird geprüft, ob das gewählte Zimmer verfügbar ist.
+Diese Umsetzung erfolgt durch Zusammenarbeit mehrerer Komponenten:
+**1. HotelManager**
+Die Methode `read_available_hotels_by_city_and_date(city, check_in_date, check_out_date)` wird verwendet, um alle verfügbaren Hotels in einer gewünschten Stadt für einen bestimmten Zeitraum zu laden. Diese Methode fragt die Datenbank nach Hotels ab, die im angegebenen Zeitraum freie Zimmer haben.
+
+**2. GuestManager**
+Über get_guest_by_email(email) wrd geprüft, ob der Gast mit der eingegebenen E-Mail bereits in der Datenbank existiert. Wir haben uns hier bewusst für die E-Mail entschieden, da sie am eindeutigsten ist. Nur registrierte Gäste können eine Buchung hinzufügen.
+
+**3. BookingManager**
+Die Methode create_booking(…) erstellt schliesslich die Buchung mit den übergebenen Daten wie Guest-ID, Zimmer-ID, Check-in / out Datum, Gesamtpreis und Stornierungsstatus. Im Hintergrund wird ein neuer Eintrag in die Buchungstabelle der Datenbank eingefügt, und ein Buchungsobjekt wird übergeben.
+
+**4. BookingDataAccess**
+Die Methode create_booking(...) führt das Einfügen in die Datenbank mit self.execute(...) aus. Zusätzlich werden das zugehörige Gast- und Zimmerobjekt geladen, um ein vollständiges Booking-Objekt zurückzugeben.
 
 - Nutzung im Notebook:
-Eingabe: Gästeinformationen, Zimmer-ID, Check-in/out-Daten
+1.	Benutzer gibt gewünschte Stadt sowie Check-in und Check-out Datum ein.
+2.	Die verfügbaren Hotels werden aufgelistet.
+3.	Der Benutzer gibt seine E-Mail-Adresse ein.
+4.	Ist der Benutzer registriert, kann er buchen.
+5.	Nach Bestätigung wir die Buchung erstellt
+6.	Die erfolgreiche Buchung wird mit der booking_id bestätigt.
 
-Ausgabe: Bestätigung mit Buchungsnummer
+
 
 **User Story 5 - Rechnung generieren**
 
@@ -341,7 +358,19 @@ Datum in der Hochsaison eingeben → höherer Preis sichtbar im Zimmerangebot un
 Als Admin möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht über alle bestehenden Buchungen erhalten.
 
 - Umsetzung im Code:
-Die Funktion get_all_bookings() in booking_data_access.py ruft alle Einträge aus der Datenbank ab. Diese werden im Notebook formatiert dargestellt.
+Wir haben eine Methode mit dem Namen read_bookings_by_hotel im Booking_Manager definiert, die den Parameter hote_id verlangt. 
+In der Booking Data Access Layer wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Booking, Room, Room_Type, Hotel, Address und Guest.
+
+Die JOINS erfolgen über die gemeinsamen IDs:
+- room_id = um die Verbindung zwischen Booking und Room herzustellen
+- type_id = um die Verbidung zwischen Room und Room_Type herzustellen
+- hotel_id = um die Verbidung zwischen Room und Hotel herzustellen
+- address_id = um die jeweilige Adresse von Gast und Hotel zu ermitteln
+- guest_id = um die Verbindung zwischen Gast und Booking herzustellen
+
+Mit WHERE wird dann die hotel_id abgefragt, damit nur die Buchungen für das gewünschte Hotel angezeigt werden. 
+
+Mit fetchall werden alle passenden Ergebnisse aus der DB geladen. Für jede Zeile der Abfrage wird ein Booking-Objekt erzeugt, dass die Objekte Hotel(mit Adresse), Guest(mit Adresse) und Room(mit Room Type und Hotel) enthält. 
 
 - Nutzung im Notebook:
 Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
@@ -350,13 +379,25 @@ Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für 
 **User Story 9 - Zimmerliste mit Ausstattung anzeigen**
 
 - Ziel:
-Der Admin möchte Zimmer nach Ausstattung sortiert sehen, um gezielte Werbung oder Managemententscheidungen zu treffen.
+Der Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
 
 - Umsetzung im Code:
-room_data_access.py kombiniert die room- und facility-Tabellen. Die Daten werden nach Hotel und Ausstattung gruppiert ausgegeben.
+Im Room_Manager haben wir die Methode read_room_with_facilities erstellt. Die Methode ruft in der Room Data Access die gleichnamige Methode auf.
+Dort wird mit Hilfe eines SQL-Statements eine Abfrage auf folgenden Tabellen ausgeführt: Room, Room_Type, Room_Facilities, Facilities.
+
+Die JOINS erfolgen über die Ids:
+- room_id = um die Verbindung zwischen Room und Room_Facilities herzustellen
+- type_id = um die Verbidung zwischen Room und Room_Type herzustellen
+- facility_id = Verbindung zwischen Room_Facilities und Facilities
+
+Wir haben LEFT JOINS verwendet, um sicherzustellen, dass auch Zimmer ohne Ausstattung im Ergebnis enthalten sind. Dadurch gehen keine Rooms verloren.
+Zudem verwenden wir GROUP_CONCAT um alle Facilities pro Room (können mehrere sein) in einen kommagetrennten String zusammenzufassen. Dadurch gibt es pro Room nur eine Zeile im Resultat.
+Mit fetchall werden alle Ergebnisse abgerufen. Für jede Zeile wird anschliessend ein Dictionary pro Room erstellt. Bei Facilities wird durch Split aus dem GROUP-CONCAT-String eine Liste von Strings gemacht.
+Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben. 
 
 - Nutzung im Notebook:
-Hotel-ID eingeben → Liste der Zimmer + zugehörige Ausstattung
+Die Methode wird aufgerufen und liefert eine Liste von Dictionaries. In der for loop wird für jedes Room-Dictionary Zimmernummer, Zimmertyp, maximale Gästeanzahl und preis pro Nacht ausgegeben. 
+Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
 
 **User Story 10 - Stammdaten verwalten**
 

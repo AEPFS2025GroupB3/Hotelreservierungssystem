@@ -61,3 +61,16 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             )
         
         return None
+
+
+    def update_invoice_status(self, invoice_id: int, status: str) -> None:
+        if not invoice_id:
+            raise ValueError("invoice_id ist erforderlich")
+
+        sql = """
+        UPDATE Invoice
+        SET i_is_cancelled = ?
+        WHERE invoice_id = ?
+        """
+        is_cancelled = 1 if status.lower() == "canceled" else 0
+        self.execute(sql, (is_cancelled, invoice_id))

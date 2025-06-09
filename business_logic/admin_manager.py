@@ -17,7 +17,7 @@ class AdminManager:
         self.__roomtype_da = data_access.RoomTypeDataAccess()
         self.__hotel_da = data_access.HotelDataAccess()
     
-    # --- Facility ---
+    # --- Facility --- User Story 10
     def create_facility(self, facility_name: str):
         return self.__facility_da.create_facility(facility_name)
 
@@ -40,7 +40,7 @@ class AdminManager:
                 return fac.facility_name
 
 
-    # --- RoomType ---
+    # --- RoomType --- User Story 10
     def create_room_type(self, description: str, max_guests: int):
         return self.__roomtype_da.create_room_type(description, max_guests)
 
