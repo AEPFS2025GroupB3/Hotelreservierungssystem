@@ -15,10 +15,10 @@ x
 x
 x
 x
-DeepNote Link: https://deepnote.com/workspace/Kculjak-a051eb87-a3df-411f-b9a2-009e74128bf0/project/Hotelreservierungssystem-73ffaea6-43a7-44af-99fc-6c4a6452ebdc/notebook/3b645311dbb84339b0114fa20330d754
+
 
 # Hotelreservierungssystem - Projektdokumentation
-
+**DeepNote Link:** [Projekt in Deepnote öffnen] https://deepnote.com/workspace/Kculjak-a051eb87-a3df-411f-b9a2-009e74128bf0/project/Hotelreservierungssystem-73ffaea6-43a7-44af-99fc-6c4a6452ebdc/notebook/3b645311dbb84339b0114fa20330d754
 
 ## Projektübersicht
 
@@ -461,7 +461,7 @@ Der AdminManager bildet die zentrale Schicht zur Verwaltung vonStammdaten. Er bi
 `create_facility(name)`: Fügt eine neue Ausstattung hinzu.
 `update_facility(facility_id, new_name)`: Benennt eine bestehende Ausstattung um.
 `delete_facility(facility_id)`: Löscht eine Ausstattung aus dem System.
-Hilfsmethoden wie `facility_name_exists(...) und `get_facility_name_by_id(...)` sorgen für Validierung.
+Hilfsmethoden wie `facility_name_exists(...)` und `get_facility_name_by_id(...)` sorgen für Validierung.
 
 - Zimmertyp (RoomType):
 `create_room_type(description, max_guests)`: Erstellt einen neuen Zimmertyp.
