@@ -286,27 +286,28 @@ In hotel_data_access.py gibt es eine Update-Funktion, die gezielt einzelne Felde
 Hotel-ID auswählen, Felder bearbeiten
 
 Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
-
+___
 **User Story 4 - Buchung erstellen**
 
-- Ziel:
+- **Ziel:**
 Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen.
 
-- Umsetzung im Code:
+- **Umsetzung im Code:**
 Diese Umsetzung erfolgt durch Zusammenarbeit mehrerer Komponenten:
+
 **1. HotelManager**
 Die Methode `read_available_hotels_by_city_and_date(city, check_in_date, check_out_date)` wird verwendet, um alle verfügbaren Hotels in einer gewünschten Stadt für einen bestimmten Zeitraum zu laden. Diese Methode fragt die Datenbank nach Hotels ab, die im angegebenen Zeitraum freie Zimmer haben.
 
 **2. GuestManager**
-Über get_guest_by_email(email) wrd geprüft, ob der Gast mit der eingegebenen E-Mail bereits in der Datenbank existiert. Wir haben uns hier bewusst für die E-Mail entschieden, da sie am eindeutigsten ist. Nur registrierte Gäste können eine Buchung hinzufügen.
+Über `get_guest_by_email(email)` wrd geprüft, ob der Gast mit der eingegebenen E-Mail bereits in der Datenbank existiert. Wir haben uns hier bewusst für die E-Mail entschieden, da sie am eindeutigsten ist. Nur registrierte Gäste können eine Buchung hinzufügen.
 
 **3. BookingManager**
-Die Methode create_booking(…) erstellt schliesslich die Buchung mit den übergebenen Daten wie Guest-ID, Zimmer-ID, Check-in / out Datum, Gesamtpreis und Stornierungsstatus. Im Hintergrund wird ein neuer Eintrag in die Buchungstabelle der Datenbank eingefügt, und ein Buchungsobjekt wird übergeben.
+Die Methode `create_booking(…)` erstellt schliesslich die Buchung mit den übergebenen Daten wie Guest-ID, Zimmer-ID, Check-in / out Datum, Gesamtpreis und Stornierungsstatus. Im Hintergrund wird ein neuer Eintrag in die Buchungstabelle der Datenbank eingefügt, und ein Buchungsobjekt wird übergeben.
 
 **4. BookingDataAccess**
-Die Methode create_booking(...) führt das Einfügen in die Datenbank mit self.execute(...) aus. Zusätzlich werden das zugehörige Gast- und Zimmerobjekt geladen, um ein vollständiges Booking-Objekt zurückzugeben.
+Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `self.execute(...)` aus. Zusätzlich werden das zugehörige Gast- und Zimmerobjekt geladen, um ein vollständiges Booking-Objekt zurückzugeben.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**
 1.	Benutzer gibt gewünschte Stadt sowie Check-in und Check-out Datum ein.
 2.	Die verfügbaren Hotels werden aufgelistet.
 3.	Der Benutzer gibt seine E-Mail-Adresse ein.
