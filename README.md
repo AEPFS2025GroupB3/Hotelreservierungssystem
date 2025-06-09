@@ -329,7 +329,7 @@ Umsetzung im Code: Die Implementierung dieser User Story erfolgt durch die Zusam
 Die Methode `get_all_bookings()` lädt alle vorhandenen Buchungen, damit der Benutzer eine davon auswählen kann. Zusätzlich stellt `get_booking(booking_id) ein einzelnes Booking-Objekt für die Rechnungsstellung bereit.
 
 **2.	GuestManager**
-Über `get_guest(guest_id) werden die persönlichen Informationen des Gastes geladen, die auch der Rechnung erscheinen sollen.
+Über `get_guest(guest_id)` werden die persönlichen Informationen des Gastes geladen, die auch der Rechnung erscheinen sollen.
 
 **3.	HotelManager**
 Die Methode `get_hotel(hotel_id) ruft die Hotelinformationen für die Buchung ab.
@@ -350,9 +350,9 @@ Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 3.	Die Rechnung wird mit Datum und Betrag erstellt
 4.	Falls die Buchung storniert wurde, beträgt der Rechnungsbetrag 0 CHF.
 5.	Die Rechnung wird mit Mehrwertsteuer (3.8%) angezeigt:
--	  Nettobetrag (ohne MwSt)
--	+ MwSt-Betrag
--	= Gesamtbetrag
+- Nettobetrag (ohne MwSt)
+- + MwSt-Betrag
+- = Gesamtbetrag
 
 ___
 **User Story 6 - Buchung stornieren**
