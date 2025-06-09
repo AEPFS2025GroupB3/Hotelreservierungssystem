@@ -18,7 +18,8 @@ x
 
 
 # Hotelreservierungssystem - Projektdokumentation
-**DeepNote Link:** [Projekt in Deepnote öffnen] https://deepnote.com/workspace/Kculjak-a051eb87-a3df-411f-b9a2-009e74128bf0/project/Hotelreservierungssystem-73ffaea6-43a7-44af-99fc-6c4a6452ebdc/notebook/3b645311dbb84339b0114fa20330d754
+**DeepNote Link:** [Projekt in Deepnote öffnen](https://deepnote.com/workspace/Kculjak-a051eb87-a3df-411f-b9a2-009e7412)
+
 
 ## Projektübersicht
 
