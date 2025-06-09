@@ -351,7 +351,7 @@ Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 4.	Falls die Buchung storniert wurde, beträgt der Rechnungsbetrag 0 CHF.
 5.	Die Rechnung wird mit Mehrwertsteuer (3.8%) angezeigt:
 - Nettobetrag (ohne MwSt)
-- + MwSt-Betrag
+- MwSt-Betrag
 - = Gesamtbetrag
 
 ___
