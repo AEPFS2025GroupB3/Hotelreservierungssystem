@@ -343,7 +343,7 @@ Ist die zentrale Methode `create_invoice(booking, guest, hotel)` zur Umsetzung d
 **5.	InvoiceDataAccess**
 De Methode `create_invoice(….) fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
 
-- **Nutzung im Notebook:**
+**Nutzung im Notebook:**
 Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 1.	Der Benutzer gibt die Buchungs-ID ein, für die eine Rechnung generiert werden soll.
 2.	Das System lädt die zugehörigen Daten (Guest, Hotel, Buchung, Betrag).
@@ -374,7 +374,7 @@ Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Upd
 Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
 
 
-- **Nutzung im Notebook:**
+**Nutzung im Notebook:**
 1.	Der Benutzer gibt eine Buchungs-ID ein.
 2.	Das System prüft mit `read_booking_by_id(...)`, ob die Buchung existiert.
 3.	Wenn keine Buchung gefunden wird, erscheint eine Fehlermeldung.
@@ -480,7 +480,7 @@ Diese Klasse ist für den direkten Zugriff auf die Facilities-Tabelle zuständig
 Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
 `update_room_price(room_id, new_price)`: SQL-Update für den Zimmerpreis.
 
-- **Nutzung im Notebook:**
+**Nutzung im Notebook:**
 1.	Das Admin-Menü bietet folgende Optionen:
 - Neue Ausstattung erstellen oder bestehende umbenennen/löschen
 - Neue Raum Typ anlegen oder bearbeiten
