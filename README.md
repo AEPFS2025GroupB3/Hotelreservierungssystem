@@ -341,7 +341,7 @@ Ist die zentrale Methode `create_invoice(booking, guest, hotel)` zur Umsetzung d
 -	Erstellt neuen Eintrag in der Invoice mithilfe von `InvoiceDataAccess.create_invoice(…)
 
 **5.	InvoiceDataAccess**
-De Methode `create_invoice(….) fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
+De Methode `create_invoice(….)` fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
 
 **Nutzung im Notebook:**
 Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
