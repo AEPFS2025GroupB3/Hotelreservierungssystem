@@ -475,7 +475,7 @@ Hilfsmethoden wie `facility_name_exists(...)` und `get_facility_name_by_id(...)`
 **2.	FacilityDataAccess**
 Diese Klasse ist für den direkten Zugriff auf die Facilities-Tabelle zuständig:
 -	`create_facility(...)`: Führt ein SQL-Insert aus.
--	`update_facility_name(...)``: Aktualisiert den Namen einer Ausstattung.
+-	`update_facility_name(...)`: Aktualisiert den Namen einer Ausstattung.
 -	`delete_facility(...)`: Entfernt eine Ausstattung aus der Datenbank.
 -	`get_all_facilities()`: Lädt alle existierenden Ausstattungen zur Anzeige oder Validierung.
 
