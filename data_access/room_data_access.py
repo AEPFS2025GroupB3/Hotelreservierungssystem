@@ -32,6 +32,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         ]
 
 
+
     def read_rooms_with_facilities_by_hotel(self, hotel_id: int) -> list[model.Room]: #Methode User Story 2.1
         sql = """
         SELECT r.room_id, r.room_number, r.price_per_night, 

@@ -33,34 +33,51 @@ class StringLengthError(ValueError):
 
 
 def input_valid_string(prompt: str, min_length: int = 0, max_length: int = sys.maxsize) -> str:
-    """Function to get a valid string input, enforcing length constraints."""
-    user_input = input(prompt).strip()  # Entfernt führende und nachfolgende Leerzeichen
+    """Gültige Texteingabe verlangen, mit Längenprüfung und Zahlen-Ausschluss."""
+    while True:
+        user_input = input(prompt).strip()
 
-    if not (min_length <= len(user_input) <= max_length):
-        raise StringLengthError(user_input, min_length, max_length)
+        if user_input == "":
+            print("Eingabe darf nicht leer sein.")
+            continue
 
-    return user_input  # Gültige Zeichenkette zurückgeben
+        if user_input.isdigit():
+            print("Bitte gib Text ein keine Zahl.")
+            continue
+
+        if not (min_length <= len(user_input) <= max_length):
+            print(f"Eingabe muss zwischen {min_length} und {max_length} Zeichen lang sein.")
+            continue
+
+        return user_input
+
 
 
 def input_valid_int(prompt: str, min_value: int = -sys.maxsize, max_value: int = sys.maxsize,
                     default: int = None) -> int:
+    """Eingabe einer gültigen Ganzzahl mit Wiederholversuch bei Fehlern."""
+    while True:
+        user_input = input(prompt).strip()
 
-    user_input = input(prompt).strip()
-    if user_input == "":
-        if default is None:
-            raise EmptyInputError("Input cannot be empty.")
-        else:
-            return default
+        if user_input == "":
+            if default is not None:
+                return default
+            else:
+                print("Eingabe darf nicht leer sein.")
+                continue
 
-    try:
-        value = int(user_input)  # Versuch, die Eingabe in eine Zahl umzuwandeln
-    except ValueError as err:
-        raise ValueError("Invalid input. Please enter a valid number.") from err  # Exception-Chaining
+        try:
+            value = int(user_input)
+        except ValueError:
+            print("Ungültige Eingabe! Bitte gib eine Zahl ein.")
+            continue
 
-    if value < min_value or value > max_value:
-        raise OutOfRangeError(value, min_value, max_value)  # Eigene Exception für Werte außerhalb des Bereichs
+        if value < min_value or value > max_value:
+            print(f"Zahl muss zwischen {min_value} und {max_value} liegen.")
+            continue
 
-    return value  # Gültige Zahl zurückgeben
+        return value
+
 
 
 def input_valid_float(
@@ -90,20 +107,22 @@ def input_valid_float(
 
 
 def input_y_n(prompt: str, default: YesOrNo = None) -> bool:
+    """Ja/Nein-Eingabe mit Wiederholung bei ungültiger Eingabe"""
     y = ['y', 'yes']
     n = ['n', 'no']
 
-    user_input = input(prompt).strip().lower()
-    match user_input:
-        case _ if user_input in y:
+    while True:
+        user_input = input(prompt).strip().lower()
+
+        if user_input in y:
             return True
-        case _ if user_input in n:
+        elif user_input in n:
             return False
-        case _:
-            if user_input == "" and default:
-                return bool(default.value)
-            else:
-                raise ValueError(f"Invalid input. Please enter 'y' or 'n'.")
+        elif user_input == "" and default is not None:
+            return bool(default.value)
+        else:
+            print("Ungültige Eingabe! Bitte geben Sie 'y' oder 'n' ein.")
+
 
 # Für User Story 7
 

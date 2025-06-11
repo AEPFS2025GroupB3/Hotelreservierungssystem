@@ -11,6 +11,7 @@ class GuestManager:
     def __init__(self) -> None:
         self.__guest_da = data_access.GuestDataAccess()
 
+
     def create_guest(self, first_name, last_name, email, steet, city, zip_code) -> list[model.Guest]: #Methode User Story 4
         return self.__guest_da.create_guest(first_name, last_name, email, steet, city, zip_code)
 
@@ -19,5 +20,3 @@ class GuestManager:
     
     def get_guest(self, guest_id: int) -> Guest: #Methode User Story 5
         return self.__guest_da.read_guest_by_id(guest_id)
-
-    
