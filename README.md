@@ -148,83 +148,108 @@ Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funkti
 **User Story 1.1 - Hotels nach Stadt filtern**
 
 - Ziel:
-Der Gast möchte alle Hotels in einer bestimmten Stadt durchsuchen, um seinen bevorzugten Standort auszuwählen.
+Als Nutzer:in möchte ich alle Hotels in einer Stadt durchsuchen, damit ich ein Hotel am bevorzugten Ort auswählen kann.
 
 - Umsetzung im Code:
-Die Logik befindet sich in hotel_data_access.py und hotel_manager.py. Mithilfe eines SQL-Statements wird die Hotel-Tabelle nach dem Stadt-Feld gefiltert.
+  In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
+    - **HotelManager:"" Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
+    - Der Code nutzt die `input_valid_string(...)`-Funktion aus dem `input_helper`, um einen sauberen Städte-Input vom Benutzer entgegenzunehmen.
+    - Das Resultat wird durch eine SQL-Abfrage in der Datenbank erzeugt (JOIN Hotel & Address).  
+    - Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
 
 - Nutzung im Notebook:
-Notebook öffnen: 01_Suche_und_Filterung.ipynb XXXXXXXXX ANSCHAUEN XXXXXXXXXXX
+1. Der User gibt eine Stadt ein.
+2. Die Methode `read_hotels_by_city` gibt alle passenden Hotels zurück.
+3. Die Namen und Sterne der Hotels werden übersichtlich ausgegeben.
 
-Stadtname (z.B. "Zürich") eingeben 
-
-Ausgabe: Liste der Hotels in dieser Stadt
+---
 
 **User Story 1.2 - Filterung nach Sternebewertung**
 
 - Ziel:
-Der Gast möchte nur Hotels mit mindestens X Sternen angezeigt bekommen.
+Als Nutzer:in möchte ich alle Hotels in einer Stadt nach der Anzahl der Sterne filtern (z.B. mindestens 4 Sterne).
 
 - Umsetzung im Code:
-In hotel_data_access.py wird die SQL-Abfrage erweitert um WHERE rating >= x. Der Filter kann mit der Stadtabfrage kombiniert werden.
+    - Zusätzlich zum Städtenamen wird eine Sterneanzahl (1–5) als Ganzzahl eingegeben.
+    - Die Methode `read_hotels_by_city_and_stars(city, stars)` filtert Hotels mit mindestens dieser Anzahl Sterne.
+    - Die Datenbankabfrage kombiniert Stadt und Sternefilter im WHERE-Teil der SQL-Abfrage.
+
 
 - Nutzung im Notebook:
-Stadt und Mindestanzahl Sterne eingeben (z.B. "Zürich", min. 4 Sterne)
+1. Stadt und Sterneanzahl werden eingegeben.
+2. Es erfolgt eine gefilterte Ausgabe der Hotelnamen mit mindestens X Sternen.
 
-Rückgabe: Liste gefilterter Hotels mit entsprechender Bewertung
+---
 
 **User Story 1.3 Filterung nach Gästeanzahl**
 
 - Ziel:
-Der Gast möchte Hotels finden, deren Zimmer zur Gästeanzahl passen (z.B. 3 Personen).
+Als Nutzer:in möchte ich Hotels mit Zimmern sehen, die für meine Anzahl Gäste geeignet sind.
 
 - Umsetzung im Code:
-Die Filterung erfolgt über die room-Tabelle, wo max_guests mit der Eingabe verglichen wird. Es wird geprüft, ob mindestens ein Zimmer im Hotel
-die gewünschte Gästeanzahl aufnehmen kann.
+    - Neben dem Stadtnamen wird die Gästeanzahl abgefragt.
+    - Die Methode `read_hotels_by_city_number_of_guests(city, guests)` prüft, ob die maximal erlaubte Gästeanzahl (`room_type.max_guests`) ≥ Eingabe ist.
+    - Die JOINs verknüpfen Hotel → Room → RoomType.
+
 
 - Nutzung im Notebook:
-Stadt, Sterne und Gästeanzahl eingeben
+1. Der User gibt Stadt und Gästeanzahl ein.
+2. Es erscheinen Hotels mit passenden Zimmergrössen.
 
-Ausgabe: Hotels mit passenden Zimmern
+---
 
 **User Story 1.4 - Verfügbarkeit nach Datum filtern**
 
 - Ziel:
-Der Gast möchte nur Hotels sehen, die im gewählten Zeitraum freie Zimmer anbieten.
+Als Nutzer:in möchte ich nur Hotels sehen, die im gewünschten Zeitraum tatsächlich verfügbar sind.
 
 - Umsetzung im Code:
-Die Logik prüft in booking_data_access.py, ob Zimmer bereits im gewünschten Zeitraum gebucht wurden. SQL-Abfragen nutzen Datumsvergleiche (check-in/out).
-Frei ist ein Zimmer nur, wenn es in diesem Zeitraum nicht in einer Buchung vorkommt.
+    - Abfrage nach Stadt, Check-in- und Check-out-Datum.
+    - Die Methode `read_available_hotels_by_city_and_date(city, check_in, check_out)` prüft:
+        - Gibt es Zimmer, die nicht gebucht sind im gewählten Zeitraum?
+        - SQL mit Zeitvergleich (Overlap prüfen).
+    - JOINS auf Booking, Room, Hotel
 
 - Nutzung im Notebook:
-Stadt, Daten (Check-in und Check-out) eingeben
+1. Benutzer gibt Stadt, Check-in und Check-out ein.
+2. Nur Hotels mit Verfügbarkeit im gewünschten Zeitram werden gezeigt.
 
-Ausgabe: Nur Hotels mit freien Zimmern in dieser Zeit
+---
 
-**User Story 1.5 - Kombination aller Filterkriterien**
+**User Story 1.5 - Kombinierte Filter anwenden**
 
 - Ziel:
-Der Gast möchte alle Kriterien kombinieren können (z.B. Stadt + Sterne + Gästeanzahl + Zeitraum), um gezielt zu suchen.
+Als Nutzer:in möchte ich Hotels nach mehreren Kriterien gleichzeitig durchsuchen: Ort, Verfügbarkeit, Gästeanzahl und Mindeststerne.
 
 - Umsetzung im Code:
-Die Business-Logik in hotel_manager.py kombiniert Filtermethoden und übergibt Parameter an die Abfragefunktionen der Data Access-Schicht. 
-Die Filter werden im SQL zusammengesetzt.
+    - Die Methode `read_hotels_by_criteria(city, check_in_date, check_out_date, max_guests, stars)` nimmt alle Parameter entgegen.
+    - Die SQL-Abfrage kombiniert die Bedingungen:
+        - Stadt = city
+        - Sterne ≥ mind_stars
+        - Zimmerkapazität ≥ max_guests
+        - Zimmer nicht gebucht im Zeitraum (Check-In bis Check-Out)
+    - JOINs auf Hotel, Address, Room, RoomType, Booking
 
 - Nutzung im Notebook:
-Alle Parameter angeben: Stadt, Sterne, Gäste, Datum
+1. Benutzer gibt Stadt, Zeitraum, Gästeanzahl und Sternezahl ein.
+2. Nur Hotels, die alle Kriterien erfüllen, werden angezeigt.
 
-Ausgabe: Nur Hotels, die allen Bedingungen entsprechen
+---
 
 **User Story 1.6 - Anzeige von Hotelinfos**
 
 - Ziel:
-Der Gast möchte zu jedem gefundenen Hotel folgende Infos sehen: Name, Adresse, Sternebewertung.
+Als Nutzer:in möchte ich zu jedem Hotel wichtige Informationen wie Name, Adresse und Sterne sehen.
 
 - Umsetzung im Code:
-hotel_data_access.py stellt diese Infos in der Hauptabfrage bereit. Die Ausgabe ist reduziert auf relevante Felder (name, address, rating).
+    - Die Methode `get_hotel_details()` im HotelManager gibt alle Hotels zurück, inklusive verknüpfter Adresse.
+    - Ausgabeformat:
+    Name    : ...
+    Adresse : ...
+    Sterne  : ...
 
 - Nutzung im Notebook:
-Ausgabe nach Filterung zeigt die gewünschten Felder in einer tabellarischen Übersicht
+    - Einfacher `for`-Loop über alle Hotels mit `print(...)`, um die Infos zu zeigen.
 
 **User Story 2.1 - Zimmerdetails anzeigen**
 
