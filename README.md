@@ -39,6 +39,8 @@ Fachliche Rollen: Welche technischen Teile des Projekts hat jedes Mitglied umges
 
 Projektrollen: Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich ?
 
+---
+
 **Kerstin Culjak**
 
 Fachlich:
@@ -53,6 +55,8 @@ Projektrolle:
 - Achtet auf konsistente Datenstrukturen und logische Beziehungen.
 - Review Checker: Verantwortlich für Code-Reviews und finale Durchsicht vor der Abgabe.
 
+---
+
 **Lisa Wüest**
 
 Fachlich:
@@ -64,6 +68,8 @@ Projektrolle:
 
 - Code Stylist: Achtet auf eine konsistente Code-Formatierung, klare Struktur, sprechende Methodenbezeichner und einheitlichen Stil im gesamten Team.
 - Notebook Coordinator: Verantwortlich für die logische Anordnung und den Aufbau der Deepnote-Blöcke (z.B. Kapitelstruktur, Inputs/Outputs, Visualisierung).
+
+---
 
 **Sheyla Sampietro**
 
@@ -78,6 +84,8 @@ Projektrolle:
 - Achtet auf vollständige Einleitung, User Stories, Reflexion und saubere Formatierung.
 - User Story Coordinator: Verknüpft die User Stories mit der technischen Umsetzung und achtet darauf, dass alle Stories nachvollziehbar umgesetzt werden.
 
+---
+
 **Andrea Petretta**
 
 Fachlich:
@@ -90,6 +98,8 @@ Projektrolle:
 
 - Milestone Planner: Achtet auf die Einhaltung von Abgabeterminen, hilft bei der Aufteilung von Teilzielen und erinnert das Team an nächste Schritte.
 - Feature Integrator: Sorgt dafür, dass Buchung, Rechnung, Gäste und Zimmer sauber zusammenspielen (inkl. Übergabe an Business Logic und Notebook).
+
+---
 
 Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele strukturiert zu erreichen.
 
@@ -145,19 +155,19 @@ Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.d
 
 Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
 
-**User Story 1.1 - Hotels nach Stadt filtern**
+### User Story 1.1 - Hotels nach Stadt filtern
 
-- Ziel:
+**Ziel:**
 Als Nutzer:in möchte ich alle Hotels in einer Stadt durchsuchen, damit ich ein Hotel am bevorzugten Ort auswählen kann.
 
-- Umsetzung im Code:
-  In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
-    - **HotelManager:"" Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
-    - Der Code nutzt die `input_valid_string(...)`-Funktion aus dem `input_helper`, um einen sauberen Städte-Input vom Benutzer entgegenzunehmen.
-    - Das Resultat wird durch eine SQL-Abfrage in der Datenbank erzeugt (JOIN Hotel & Address).  
-    - Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
+**Umsetzung im Code:**
+In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
+- **HotelManager:"" Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
+- Der Code nutzt die `input_valid_string(...)`-Funktion aus dem `input_helper`, um einen sauberen Städte-Input vom Benutzer entgegenzunehmen.
+- Das Resultat wird durch eine SQL-Abfrage in der Datenbank erzeugt (JOIN Hotel & Address).  
+- Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**
 1. Der User gibt eine Stadt ein.
 2. Die Methode `read_hotels_by_city` gibt alle passenden Hotels zurück.
 3. Die Namen und Sterne der Hotels werden übersichtlich ausgegeben.
