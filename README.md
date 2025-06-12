@@ -566,7 +566,7 @@ Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews 
 Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
 
 - Umsetzung im Code:
-Im ReviewManager haben wir die Methode add_review definiert. Diese Methode erwartet die Parameter guest_id, hotel_id, rating, comment und review_date. 
+Im ReviewManager haben wir die Methode `add_review(...)` definiert. Diese Methode erwartet die Parameter guest_id, hotel_id, rating, comment und review_date. 
 Mit Hilfe eines SQL-Insert-Statements ergänzen wir die Werte in die Datenbank. Das Einfügen der Daten wird anschliessend mit self.execute ausgeführt.
 
 - Nutzung im Notebook:
@@ -579,7 +579,7 @@ Diese Informationen sind aber notwendig und werden auf der Rechnung ausgewiesen.
 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
 - Umsetzung im Code:
-Im Review Manager haben wir eine Methode get_reviews_by_hotel erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
+Im Review Manager haben wir eine Methode `get_reviews_by_hotel(...)` erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
 Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Review, Guest, Address und Hotel
 
 Die JOINS erfolgen über die gemeinsamen IDs:
