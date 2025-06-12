@@ -271,7 +271,7 @@ Als Gast möchte ich Details zu verschiedenen Zimmertypen (Single, Double, Suite
 - Die Methode führt JOINs mit den Tabellen `Room`, `RoomType` und `Facility` aus, um alle Informationen über ein Zimmer samt Typ und Ausstattung zu laden.
 - Pro Raum wird ein `Room`-Objekt erstellt, das ein `RoomType`-Objekt (mit Beschreibung und max. Anzahl Gäste) sowie eine Liste von `Facility`-Objekten enthält.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**  
 Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt.
 
 ---
@@ -304,9 +304,7 @@ Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von
 - Die Aufenthaltsdauer wird berechnet aus dem Check-in und Check-out Datum und zur Berechnung des Gesamtpreises verwendet (duration * price_per_night).
 
 **Nutzung im Notebook:**  
-Eingabe von Hotel_ID, Check-in und Check-out Datum. Nur Zimmer, die nicht gebucht sind in diesem Zeitraum, werden angezeigt. Die Auswahl wird dadurch übersichtlich und relevant für die Buchung.
-
-Ausgabe: Liste der freien Zimmer im gewählten Hotel
+Eingabe von `Hotel_ID`, `Check-in` und `Check-out` Datum. Nur Zimmer, die nicht gebucht sind in diesem Zeitraum, werden angezeigt. Die Auswahl wird dadurch übersichtlich und relevant für die Buchung.
 
 ---
 
