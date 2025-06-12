@@ -160,7 +160,7 @@ Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funkti
 ### User Story 1.1 - Hotels nach Stadt filtern
 
 **Ziel:**  
-Als Nutzer:in möchte ich alle Hotels in einer Stadt durchsuchen, damit ich ein Hotel am bevorzugten Ort auswählen kann.
+Ich möchte alle Hotels in einer Stadt durchsuchen, damit ich das Hotel nach meinem bevorzugten Standort auswählen kann.
 
 **Umsetzung im Code:**  
 In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
@@ -177,7 +177,7 @@ Die Stadt wird als Input eingegeben, alle Hotels mit passender Stadt werden ausg
 ### User Story 1.2 - Filterung nach Sternebewertung
 
 **Ziel:**  
-Als Nutzer:in möchte ich alle Hotels in einer Stadt nach der Anzahl der Sterne filtern (z.B. mindestens 4 Sterne).
+Ich möchte alle Hotels in einer Stadt nach der Anzahl der Sterne (z.B. mindestens 4 Sterne) durchsuchen.
 
 **Umsetzung im Code:**  
 - Die Methode `read_hotels_by_city_and_min_stars(city, min_stars)` in `HotelManager` filtert zusätzlich nach dem Feld `Hotel.stars`.
@@ -192,77 +192,77 @@ Stadt und Mindestanzahl Sterne werden eingegeben, danach werden nur Hotels mit �
 
 ### User Story 1.3 Filterung nach Gästeanzahl
 
-- Ziel:
+**Ziel:**  
 Ich möchte nur Hotels sehen, die Zimmer für meine gewünschte Gästezahl anbieten.
 
-- Umsetzung im Code:
-    - Neben dem Stadtnamen wird die Gästeanzahl abgefragt.
-    - Die Methode `read_hotels_by_city_number_of_guests(city, guests)` prüft, ob die maximal erlaubte Gästeanzahl (`room_type.max_guests`) ≥ Eingabe ist.
-    - Die JOINs verknüpfen Hotel → Room → RoomType.
+**Umsetzung im Code:**  
+- Neben dem Stadtnamen wird die Gästeanzahl abgefragt.
+- Die Methode `read_hotels_by_city_number_of_guests(city, guests)` prüft, ob die maximal erlaubte Gästeanzahl (`room_type.max_guests`) ≥ Eingabe ist.
+- Die JOINs verknüpfen Hotel → Room → RoomType.
 
 
-- Nutzung im Notebook:
-1. Der User gibt Stadt und Gästeanzahl ein.
-2. Es erscheinen Hotels mit passenden Zimmergrössen.
-
----
-
-**User Story 1.4 - Verfügbarkeit nach Datum filtern**
-
-- Ziel:
-Als Nutzer:in möchte ich nur Hotels sehen, die im gewünschten Zeitraum tatsächlich verfügbar sind.
-
-- Umsetzung im Code:
-    - Abfrage nach Stadt, Check-in- und Check-out-Datum.
-    - Die Methode `read_available_hotels_by_city_and_date(city, check_in, check_out)` prüft:
-        - Gibt es Zimmer, die nicht gebucht sind im gewählten Zeitraum?
-        - SQL mit Zeitvergleich (Overlap prüfen).
-    - JOINS auf Booking, Room, Hotel
-
-- Nutzung im Notebook:
-1. Benutzer gibt Stadt, Check-in und Check-out ein.
-2. Nur Hotels mit Verfügbarkeit im gewünschten Zeitram werden gezeigt.
+**Nutzung im Notebook:**  
+User gibt Stadt und Anzahl Gäste ein, angezeigt werden nur Hotels mit mindestens einem geeigneten Zimmer.
 
 ---
 
-**User Story 1.5 - Kombinierte Filter anwenden**
+### User Story 1.4 - Verfügbarkeit nach Datum filtern
 
-- Ziel:
-Als Nutzer:in möchte ich Hotels nach mehreren Kriterien gleichzeitig durchsuchen: Ort, Verfügbarkeit, Gästeanzahl und Mindeststerne.
+**Ziel:**  
+Ich möchte nur Hotels angezeigt bekommen, die in meinem gewünschten Zeitraum (Check-in / Check-out) tatsächlich noch freie Zimmer haben.
 
-- Umsetzung im Code:
-    - Die Methode `read_hotels_by_criteria(city, check_in_date, check_out_date, max_guests, stars)` nimmt alle Parameter entgegen.
-    - Die SQL-Abfrage kombiniert die Bedingungen:
-        - Stadt = city
-        - Sterne ≥ mind_stars
-        - Zimmerkapazität ≥ max_guests
-        - Zimmer nicht gebucht im Zeitraum (Check-In bis Check-Out)
-    - JOINs auf Hotel, Address, Room, RoomType, Booking
+**Umsetzung im Code:**  
+- Abfrage nach Stadt, Check-in- und Check-out-Datum.
+- Die Methode `read_available_hotels_by_city_and_date(city, check_in, check_out)` prüft:
+    - Gibt es Zimmer, die nicht gebucht sind im gewählten Zeitraum?
+    - SQL mit Zeitvergleich (Overlap prüfen).
+- Es erfolgt ein `LEFT JOIN` mit der Booking-Tabelle. In der `WHERE`-Klausel wird geprüft, dass entweder kein Konflikt besteht oder keine Buchung vorliegt.
+- `NOT (booking.check_out_date > check_in AND booking.check_in_date < check_out)` verhindert sich überschneidende Buchungen.
 
-- Nutzung im Notebook:
-1. Benutzer gibt Stadt, Zeitraum, Gästeanzahl und Sternezahl ein.
-2. Nur Hotels, die alle Kriterien erfüllen, werden angezeigt.
+**Nutzung im Notebook:**  
+Nach Eingabe von Stadt, Check-in- und Check-out-Datum werden nur Hotels mit verfügbaren Zimmern angezeigt.
 
 ---
 
-**User Story 1.6 - Anzeige von Hotelinfos**
+### User Story 1.5 - Kombinierte Filter anwenden
 
-- Ziel:
-Als Nutzer:in möchte ich zu jedem Hotel wichtige Informationen wie Name, Adresse und Sterne sehen.
+**Ziel:**  
+Ich möchte mehrere Kriterien kombinieren können (z.B. Gästeanzahl, Hotelsterne, Verfügbarkeit), um gezielt zu suchen.
 
-- Umsetzung im Code:
-    - Die Methode `get_hotel_details()` im HotelManager gibt alle Hotels zurück, inklusive verknüpfter Adresse.
-    - Ausgabeformat:
+**Umsetzung im Code:**  
+- Die Methode `read_hotels_by_criteria(city, check_in_date, check_out_date, max_guests, stars)` kombiniert alle Filterbedingungen aus 1.2 - 1.4.
+- Die SQL-Abfrage kombiniert die Bedingungen:
+    - Stadt = city
+    - Sterne ≥ mind_stars
+    - Zimmerkapazität ≥ max_guests
+    - Zimmer nicht gebucht im Zeitraum (Check-In bis Check-Out)
+- JOINs auf Hotel, Address, Room, RoomType, Booking
+
+**Nutzung im Notebook:**  
+Alle Filter (Stadt, Zeitraum, Mindeststerne, Gästeanzahl) können gleichzeitig eingegeben werden. Das Ergebnis ist eine gezielte Auswahl passender Hotels.
+
+---
+
+### User Story 1.6 - Anzeige von Hotelinfos
+
+**Ziel:**  
+Ich möchte mir zu jedem Hotel die wichtigsten Informationen anzeigen lassen: Name, Adresse, Sterne.
+
+**Umsetzung im Code:**  
+- Die Methode `get_hotel_details()` im HotelManager gibt alle Hotels zurück, inklusive verknüpfter Adresse.
+- Ausgabeformat:
     Name    : ...
     Adresse : ...
     Sterne  : ...
 
-- Nutzung im Notebook:
-    - Einfacher `for`-Loop über alle Hotels mit `print(...)`, um die Infos zu zeigen.
+**Nutzung im Notebook:**  
+Einfacher `for`-Loop über alle Hotels mit `print(...)`, um die Infos zu zeigen.
 
-**User Story 2.1 - Zimmerdetails anzeigen**
+---
 
-- Ziel:
+###User Story 2 - Zimmerdetails anzeigen
+
+**Ziel:**  
 Der Gast möchte Details zu den verfügbaren Zimmern sehen: Typ, Beschreibung, max. Gäste, Preis, Ausstattung.
 
 - Umsetzung im Code:
@@ -272,57 +272,85 @@ Zimmerinformationen werden über room_data_access.py geladen. Die Business-Logik
 Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt.
 
 Felder: room_type, description, max_guests, price, facilities
+---
 
-**User Story 2.2 - Nur verfügbare Zimmer anzeigen**
+### User Story 2.1 - Zimmerdetails anzeigen
 
-- Ziel:
-Der Gast möchte nur Zimmer angezeigt bekommen, die im gewählten Zeitraum verfügbar sind.
+**Ziel:**  
+Ich möchte die folgenden Informationen pro Zimmer sehen: Zimmertyp, max. Anzahl der Gäste, Beschreibung, Ausstattung, Preis pro Nacht und Gesamtpreis (berechnet anhand der Aufenthaltsdauer).
 
-- Umsetzung im Code:
-Buchungszeiträume werden in booking_data_access.py überprüft. Die Methode filtert Zimmer aus, die bereits belegt sind.
+**Umsetzung im Code:**  
+Die Details pro Zimmer werden über die Daten aus der Datenbank geladen:
+- `Room`-Objekte enthalten `price_per_night`, `room_number` und die Beziehung zu `RoomType` und `Facility`.
+- Der `RoomType` enthält die Beschreibung und die max. Gästezahl.
+- Die Ausstattung wird über eine Many-to-Many-Verknüpfung zwischen Room und Facility geladen.
+- Pro Raum wird ein `Room`-Objekt erstellt, das ein `RoomType`-Objekt (mit Beschreibung und max. Anzahl Gäste) sowie eine Liste von `Facility`-Objekten enthält.
 
-- Nutzung im Notebook:
-Eingabe von Check-in und Check-out Datum
+**Nutzung im Notebook:**  
+Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt.
+
+---
+
+### User Story 2.2 - Nur verfügbare Zimmer anzeigen
+
+**Ziel:**  
+Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von – bis) spezifiziert habe.
+
+**Umsetzung im Code:**  
+- Die Methode `read_rooms_with_facilities_by_hotel_and_date` filtert über einen SQL-Query alle Zimmer, bei denen keine überschneidende Buchung mit dem gewünschten Zeitraum existiert.
+- Die Logik prüft via `NOT EXISTS`, ob für ein Zimmer in der `Booking`-Tabelle ein überschneidender Zeitraum existiert.
+- Die Aufenthaltsdauer wird berechnet aus dem Check-in und Check-out Datum und zur Berechnung des Gesamtpreises verwendet (duration * price_per_night).
+
+**Nutzung im Notebook:**  
+Eingabe von Hotel_ID, Check-in und Check-out Datum. Nur Zimmer, die nicht gebucht sind in diesem Zeitraum, werden angezeigt. Die Auswahl wird dadurch übersichtlich und relevant für die Buchung.
 
 Ausgabe: Liste der freien Zimmer im gewählten Hotel
 
-**User Story 3.1 - Hotel hinzufügen**
+---
 
-- Ziel:
+### User Story 3.1 - Hotel hinzufügen
+
+**Ziel:**  
 Der Admin möchte neue Hotels zum System hinzufügen.
 
-- Umsetzung im Code:
+**Umsetzung im Code:**  
 Neue Hotelobjekte werden über hotel_manager.py erstellt. Die Eingabe wird validiert, dann in hotel_data_access.py in die Datenbank geschrieben.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**  
 Admin gibt Hotelinformationen ein (Name, Adresse, Rating)
 
 Neues Hotel erscheint in der Übersicht
 
-**User Story 3.2 - Hotel entfernen**
+---
 
-- Ziel:
+### User Story 3.2 - Hotel entfernen
+
+**Ziel:**  
 Der Admin möchte ein Hotel aus dem System löschen.
 
-- Umsetzung im Code:
+**Umsetzung im Code:**  
 Die Methode delete_hotel() in hotel_data_access.py nutzt die Hotel-ID, um den Datensatz zu löschen. Validierung erfolgt vor Ausführung.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**  
 Hotel-ID eingeben → Hotel wird aus der Datenbank entfernt
 
-**User Story 3.3 - Hotelinformationen aktualisieren**
+---
 
-- Ziel:
+### User Story 3.3 - Hotelinformationen aktualisieren
+
+**Ziel:**  
 Der Admin möchte bestehende Hoteldaten bearbeiten (z.B. Name, Rating, Adresse).
 
-- Umsetzung im Code:
+**Umsetzung im Code:**  
 In hotel_data_access.py gibt es eine Update-Funktion, die gezielt einzelne Felder aktualisiert. Änderungen werden im Manager geprüft.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**  
 Hotel-ID auswählen, Felder bearbeiten
 
 Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
+
 ___
+
 ### User Story 4 - Buchung erstellen
 
 - **Ziel:**
