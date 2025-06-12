@@ -86,6 +86,11 @@ class HotelManager:
         self._validate_date_range(check_in_date, check_out_date) 
         return self.__room_da.read_rooms_with_facilities_by_hotel_and_date(hotel_id, check_in_date, check_out_date)
 
+
+    #Methode User Story 3.3
+    def update_hotel(self, hotel: model.Hotel) -> None:
+        self.__hotel_da.update_hotel(hotel)
+
     #Methode User Story 5
     def get_hotel(self, hotel_id: int) -> list[model.Hotel]:
         self._validate_id(hotel_id, "Hotel-ID") 
