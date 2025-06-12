@@ -1,22 +1,3 @@
-XXXXXXXXXXXXX LÖSCHEN VOR ABGABE XXXXXXXXXXXXX
-
-Das README.md-File sollte Folgendes enthalten:
-
-1. Name und Vorname der Teammitglieder, die am Projekt mitgearbeitet haben
-2. Eine kurze Übersicht, wer zu welchen Projekt-Themen beigetragen hat (also z. B. zu welchen User-Stories, Files, Projektphasen, Rollen innerhalb des Teams etc.).
-   Themen, die durch mehrere Teammitglieder bearbeitet wurden, dürft ihr bei allen jeweiligen Teammitgliedern aufführen.
-3. Instruktion für uns, wie eure Applikation benutzt werden muss (Schritt-für-Schritt-Anleitung, insb. welche Notebooks oder Files ausgeführt werden müssen).
-4. Annahmen und Interpretationen, falls welche vorhanden sind.
-x
-x
-x
-x
-x
-x
-x
-x
-
-
 # Hotelreservierungssystem - Projektdokumentation
 **DeepNote Link:** [Projekt in Deepnote öffnen](https://deepnote.com/workspace/Kculjak-a051eb87-a3df-411f-b9a2-009e74128bf0/project/Hotelreservierungssystem-73ffaea6-43a7-44af-99fc-6c4a6452ebdc/notebook/3b645311dbb84339b0114fa20330d754)
 
@@ -29,7 +10,6 @@ Der Fokus lag auf objektorientierter Programmierung (OOP), Datenbankzugriff, Mod
 
 Das System erlaubt es Gästen, Hotels und Zimmer zu suchen und zu buchen. Rechnungen können generiert werden, zudem stehen Admin-Funktionalitäten 
 für Hotelverwaltung zur verfügung.
-
 
 ## Projektteam & Rollenverteilung
 
@@ -390,6 +370,11 @@ Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `sel
 4.	Ist der Benutzer registriert, kann er buchen.
 5.	Nach Bestätigung wir die Buchung erstellt
 6.	Die erfolgreiche Buchung wird mit der booking_id bestätigt.
+
+**Ziel**  
+Der Admin möchte Zimmerinformationen gezielt nach der maximalen Gästeanzahl filtern können. Dadurch kann er auf einen Blick sehen, welche Zimmer z. B. für Familien oder grössere Gruppen geeignet sind.
+
+Diese Funktion verbessert die Übersichtlichkeit und hilft bei der gezielten Beratung von Kunden mit spezifischem Platzbedarf.
 
 ___
 
