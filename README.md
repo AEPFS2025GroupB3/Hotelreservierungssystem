@@ -260,18 +260,20 @@ Einfacher `for`-Loop über alle Hotels mit `print(...)`, um die Infos zu zeigen.
 
 ---
 
-###User Story 2 - Zimmerdetails anzeigen
+### User Story 2 - Zimmerdetails anzeigen
 
 **Ziel:**  
-Der Gast möchte Details zu den verfügbaren Zimmern sehen: Typ, Beschreibung, max. Gäste, Preis, Ausstattung.
+Als Gast möchte ich Details zu verschiedenen Zimmertypen (Single, Double, Suite usw.), die in einem Hotel verfügbar sind, sehen. Dazu gehören die maximale Anzahl von Gästen, die Beschreibung, der Preis und die Ausstattung, um eine fundierte Entscheidung zu treffen.
 
-- Umsetzung im Code:
-Zimmerinformationen werden über room_data_access.py geladen. Die Business-Logik in room_manager.py kümmert sich um Formatierung und Präsentation.
+**Umsetzung im Code:**  
+- Die Methode `read_rooms_with_facilities_by_hotel_and_date(hotel_id, check_in_date, check_out_date)` aus dem `HotelManager` überprüft, welche Zimmer in einem bestimmten Zeitraum in einem Hotel noch frei sind.
+- In dieser Methode wird `RoomDataAccess.read_available_rooms_with_facilities(...)` aufgerufen, um die verfügbaren Räume zu lesen.
+- Die Methode führt JOINs mit den Tabellen `Room`, `RoomType` und `Facility` aus, um alle Informationen über ein Zimmer samt Typ und Ausstattung zu laden.
+- Pro Raum wird ein `Room`-Objekt erstellt, das ein `RoomType`-Objekt (mit Beschreibung und max. Anzahl Gäste) sowie eine Liste von `Facility`-Objekten enthält.
 
 - Nutzung im Notebook:
 Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt.
 
-Felder: room_type, description, max_guests, price, facilities
 ---
 
 ### User Story 2.1 - Zimmerdetails anzeigen
@@ -350,7 +352,6 @@ Hotel-ID auswählen, Felder bearbeiten
 Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
 
 ___
-
 ### User Story 4 - Buchung erstellen
 
 - **Ziel:**
