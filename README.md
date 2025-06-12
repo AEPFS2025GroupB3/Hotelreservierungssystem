@@ -155,19 +155,21 @@ Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.d
 
 Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
 
+---
+
 ### User Story 1.1 - Hotels nach Stadt filtern
 
-**Ziel:**
+**Ziel:**  
 Als Nutzer:in möchte ich alle Hotels in einer Stadt durchsuchen, damit ich ein Hotel am bevorzugten Ort auswählen kann.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
 - **HotelManager:"" Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
 - Der Code nutzt die `input_valid_string(...)`-Funktion aus dem `input_helper`, um einen sauberen Städte-Input vom Benutzer entgegenzunehmen.
 - Das Resultat wird durch eine SQL-Abfrage in der Datenbank erzeugt (JOIN Hotel & Address).  
 - Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 1. Der User gibt eine Stadt ein.
 2. Die Methode `read_hotels_by_city` gibt alle passenden Hotels zurück.
 3. Die Namen und Sterne der Hotels werden übersichtlich ausgegeben.
