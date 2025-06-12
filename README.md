@@ -338,18 +338,31 @@ Hotel-ID eingeben → Hotel wird aus der Datenbank entfernt
 
 ### User Story 3.3 - Hotelinformationen aktualisieren
 
-**Ziel:**  
-Der Admin möchte bestehende Hoteldaten bearbeiten (z.B. Name, Rating, Adresse).
+Ziel:
+Der Admin möchte bestehende Hoteldaten wie Name, Sterne oder Adresse aktualisieren, um das System auf dem aktuellen Stand zu halten.
+Umsetzung im Code:
 
-**Umsetzung im Code:**  
-In hotel_data_access.py gibt es eine Update-Funktion, die gezielt einzelne Felder aktualisiert. Änderungen werden im Manager geprüft.
+Die Methode update_hotel(hotel: Hotel) wurde in der Klasse HotelManager ergänzt und ruft intern hotel_data_access.update_hotel(...) auf.
+Damit bleibt die Trennung der Schichten (UI → Business Logic → Data Access) erhalten. Die Eingaben erfolgen über die Funktion input_valid_int bzw. input_valid_string in input_helper.py.
 
-**Nutzung im Notebook:**  
-Hotel-ID auswählen, Felder bearbeiten
+Im Notebook wird nach Auswahl der Hotel-ID ein Menü angezeigt, in dem ausgewählt werden kann, ob der Name, die Sternebewertung oder die Adresse geändert werden soll.
+Je nach Auswahl werden gezielt neue Werte abgefragt und das Objekt aktualisiert. Nach der Änderung wird die Methode update_hotel(...) aufgerufen.
 
-Nach dem Update wird das Hotel mit aktualisierten Daten neu angezeigt
+Nutzung im Notebook:
+Hotelliste mit ID, Name, Sterne, Adresse wird angezeigt.
+Admin gibt die Hotel-ID ein, die bearbeitet werden soll.
 
+Auswahlmenü mit 3 Optionen:
+
+- Hotelname ändern
+- Sternebewertung ändern
+- Adresse ändern
+
+Neue Werte werden eingegeben.
+Hotel wird aktualisiert und Erfolgsmeldung ausgegeben.
+Falls die ID ungültig ist, erscheint eine entsprechende Fehlermeldung.
 ___
+
 ### User Story 4 - Buchung erstellen
 
 - **Ziel:**
@@ -466,7 +479,7 @@ Datum in der Hochsaison eingeben → höherer Preis sichtbar im Zimmerangebot un
 Als Admin möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht über alle bestehenden Buchungen erhalten.
 
 - Umsetzung im Code:
-Wir haben eine Methode mit dem Namen read_bookings_by_hotel im Booking_Manager definiert, die den Parameter hote_id verlangt. 
+Wir haben eine Methode mit dem Namen `read_bookings_by_hotel(...)` im Booking_Manager definiert, die den Parameter hote_id verlangt. 
 In der Booking Data Access Layer wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Booking, Room, Room_Type, Hotel, Address und Guest.
 
 Die JOINS erfolgen über die gemeinsamen IDs:
@@ -490,7 +503,7 @@ Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für 
 Der Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
 
 - Umsetzung im Code:
-Im Room_Manager haben wir die Methode read_room_with_facilities erstellt. Die Methode ruft in der Room Data Access die gleichnamige Methode auf.
+Im Room_Manager haben wir die Methode `read_room_with_facilities(...)` erstellt. Die Methode ruft in der Room Data Access die gleichnamige Methode auf.
 Dort wird mit Hilfe eines SQL-Statements eine Abfrage auf folgenden Tabellen ausgeführt: Room, Room_Type, Room_Facilities, Facilities.
 
 Die JOINS erfolgen über die Ids:
