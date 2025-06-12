@@ -26,7 +26,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Room(room_id=room_id, room_number=room_number, price_per_night=price_per_night,
             room_type=model.RoomType(type_id, max_guests, description),
-            hotel=model.Hotel(hotel_id, name, stars, model.Address(street, city, zip_code, address_id))
+            hotel=model.Hotel(hotel_id, name, stars, model.Address(street, city, int(zip_code), address_id))
             )
             for room_id, room_number, price_per_night, type_id, max_guests, description, hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
@@ -59,7 +59,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             ) = row
 
             if room_id not in rooms: ## Wenn das Zimmer noch nicht im Dictionary ist, erstelle es mit allen zugehörigen Objekten
-                hotel_address = model.Address(street, city, zip_code, address_id)
+                hotel_address = model.Address(street, city, int(zip_code), address_id)
                 hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                 room_type = model.RoomType(type_id, max_guests, description)
                 
@@ -106,7 +106,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 (room_id, room_number, price_per_night, type_id, max_guests, description, hotel_id, name, stars, address_id, street, city, zip_code, facility_id, facility_name) = row
 
                 if room_id not in rooms: ## Wenn das Zimmer noch nicht im Dictionary ist, erstelle es mit allen zugehörigen Objekten
-                    hotel_address = model.Address(street, city, zip_code, address_id)
+                    hotel_address = model.Address(street, city, int(zip_code), address_id)
                     hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                     room_type = model.RoomType(type_id, max_guests, description)
                     
@@ -148,10 +148,9 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 address_id, street, city, zip_code
             ) = row
 
-            address = model.Address(street, city, zip_code, address_id)
+            address = model.Address(street, city, int(zip_code), address_id)
             hotel = model.Hotel(hotel_id, hotel_name, stars, address)
             room_type = model.RoomType(type_id, max_guests, description)
-            #test andrea vorher war es so: return model.Room(room_id, room_number, price_per_night, hotel, room_type)
             return model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
         else:
             return None
@@ -222,12 +221,14 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         JOIN Room_Type rt ON r.type_id = rt.type_id
         """
 
+        results = self.fetchall(sql)
+
         room_list = []
-        for room_id, hotel_id, room_number, type_id, price_per_night, max_guests in rows:
+        for room_id, hotel_id, room_number, type_id, price_per_night, max_guests in results:
             room_type = model.RoomType(type_id, max_guests)
 
             # für User Story 7: Standardwert für seasonal_factor gesetzt, da kein Check-in-Datum verfügbar ist
-            dummy_address = model.Address(street="N/A", city="N/A", zip_code="0000", address_id=0)
+            dummy_address = model.Address(street="N/A", city="N/A", zip_code=9999, address_id=0)
             dummy_hotel = model.Hotel(hotel_id=hotel_id, name="Unbekannt", stars=1, address=dummy_address)
             room = model.Room(room_id, room_number, price_per_night, dummy_hotel, room_type, seasonal_factor=1.0)
 

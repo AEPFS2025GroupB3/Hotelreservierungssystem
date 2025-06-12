@@ -24,7 +24,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars, 
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=int(zip_code))
                 )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
@@ -45,7 +45,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
        return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars, 
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=int(zip_code))
                 )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
@@ -67,7 +67,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=int(zip_code))
             )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
@@ -94,7 +94,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code)
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=int(zip_code))
             )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
             ]
@@ -126,7 +126,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
-                address=model.Address(address_id=int(address_id), street=street, city=city, zip_code=zip_code),
+                address=model.Address(address_id=int(address_id), street=street, city=city, zip_code=int(zip_code)),
                 room_type=model.RoomType(type_id=int(type_id), description="", max_guests=max_guests)
             )
             for hotel_id, name, stars, address_id, street, city, zip_code, type_id, max_guests in results
@@ -146,10 +146,10 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return [
             model.Hotel(
                 hotel_id=hotel_id, name=name, stars=stars,
-                address=model.Address(address_id=address_id, street=street, city=city, zip_code=zip_code),
+                address=model.Address(address_id=address_id, street=street, city=city, zip_code=int(zip_code)),
             )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
-        ]
+            ]
 
     def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel: #Methode User Story 3.1
         address_sql = """
@@ -208,7 +208,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (hotel_id,))
         if row:
             hotel_id, name, stars, address_id, street, city, zip_code = row
-            address = model.Address(street, city, zip_code, address_id)
+            address = model.Address(street, city, int(zip_code), address_id)
             return model.Hotel(hotel_id, name, stars, address)
         return None
 

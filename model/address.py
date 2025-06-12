@@ -1,8 +1,8 @@
 from datetime import date
 
-class Address:
+class Address: #ZIP code auf int angepasst str geeeht nicht :/
     #Konstruktor zur Initialisierung einer Adresse mit Validierung
-    def __init__(self, street: str, city: str, zip_code: str, address_id: int = None):
+    def __init__(self, street: str, city: str, zip_code: int, address_id: int = None):
              
         #Strasse muss angegeben sein und ein String sein
         if not street:
@@ -19,8 +19,8 @@ class Address:
         #PLZ muss angegeben sein
         if not zip_code:
             raise ValueError("zip code is required")
-        if not isinstance(zip_code, str):
-            raise ValueError("zip code must be a string")
+        if not isinstance(zip_code, int):
+            raise ValueError("zip code must be an integer")
 
         #address_id darf nur eine ganze Zahl sein
         if address_id is not None and not isinstance(address_id, int):
@@ -70,8 +70,8 @@ class Address:
     def zip_code(self, value):
         if not value:
             raise ValueError("zip code is required")
-        if not isinstance(value, str):
-            raise ValueError("zip code must be a string")
+        if not isinstance(value, int):
+            raise ValueError("zip code must be an integer")
         self.__zip_code = value
 
     # Gibt die vollständige Adresse als formatierten String zurück,

@@ -65,7 +65,7 @@ class GuestDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             address = model.Address(
                 street=street,
                 city=city,
-                zip_code=zip_code,
+                zip_code=int(zip_code),
                 address_id=address_id
             )
             return model.Guest(guest_id, first_name, last_name, email, address)

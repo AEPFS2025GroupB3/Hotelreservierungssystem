@@ -167,7 +167,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                         address_id=address_id,
                         street=street,
                         city=city,
-                        zip_code=zip_code
+                        zip_code=int(zip_code)
                     )
                 ),
                 guest=model.Guest(
@@ -179,7 +179,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                         address_id=address_id,
                         street=street,
                         city=city,
-                        zip_code=zip_code
+                        zip_code=int(zip_code)
                     )
                 ),
                 room = model.Room(
@@ -199,7 +199,7 @@ class BookingDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                             address_id=address_id,
                             street=street,
                             city=city,
-                            zip_code=zip_code
+                            zip_code=int(zip_code)
                         )
                     )
                 )
