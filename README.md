@@ -170,33 +170,30 @@ In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
 - Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
 
 **Nutzung im Notebook:**  
-1. Der User gibt eine Stadt ein.
-2. Die Methode `read_hotels_by_city` gibt alle passenden Hotels zurück.
-3. Die Namen und Sterne der Hotels werden übersichtlich ausgegeben.
+Die Stadt wird als Input eingegeben, alle Hotels mit passender Stadt werden ausgegeben.
 
 ---
 
-**User Story 1.2 - Filterung nach Sternebewertung**
+### User Story 1.2 - Filterung nach Sternebewertung
 
-- Ziel:
+**Ziel:**  
 Als Nutzer:in möchte ich alle Hotels in einer Stadt nach der Anzahl der Sterne filtern (z.B. mindestens 4 Sterne).
 
-- Umsetzung im Code:
-    - Zusätzlich zum Städtenamen wird eine Sterneanzahl (1–5) als Ganzzahl eingegeben.
-    - Die Methode `read_hotels_by_city_and_stars(city, stars)` filtert Hotels mit mindestens dieser Anzahl Sterne.
-    - Die Datenbankabfrage kombiniert Stadt und Sternefilter im WHERE-Teil der SQL-Abfrage.
+**Umsetzung im Code:**  
+- Die Methode `read_hotels_by_city_and_min_stars(city, min_stars)` in `HotelManager` filtert zusätzlich nach dem Feld `Hotel.stars`.
+- Im `HotelDataAccess`` wird SQL mit `WHERE stars >= ?` ergänzt, um Hotels mit mindestens der gewünschten Sternewertung zu laden.
+- Die Logik basiert wieder auf einem `JOIN` zwischen Hotel- und Adresstabelle.
 
 
-- Nutzung im Notebook:
-1. Stadt und Sterneanzahl werden eingegeben.
-2. Es erfolgt eine gefilterte Ausgabe der Hotelnamen mit mindestens X Sternen.
+**Nutzung im Notebook:**  
+Stadt und Mindestanzahl Sterne werden eingegeben, danach werden nur Hotels mit ≥ x Sternen in der Stadt angezeigt.
 
 ---
 
-**User Story 1.3 Filterung nach Gästeanzahl**
+### User Story 1.3 Filterung nach Gästeanzahl
 
 - Ziel:
-Als Nutzer:in möchte ich Hotels mit Zimmern sehen, die für meine Anzahl Gäste geeignet sind.
+Ich möchte nur Hotels sehen, die Zimmer für meine gewünschte Gästezahl anbieten.
 
 - Umsetzung im Code:
     - Neben dem Stadtnamen wird die Gästeanzahl abgefragt.
