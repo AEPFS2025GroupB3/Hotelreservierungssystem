@@ -671,10 +671,10 @@ Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufg
 
 Die Komemntarfunktion wurde ebenfalls genutzt, um die Gedankengänge im Codeaufbau für die Gruppenmitglieder verstädnlicher zu gestalten.
 
-Präsentationsvideo
+## Präsentationsvideo
 
 Entweder als Video hochladen oder mit OneDrive link? wie machen?
 
-Vielen Dank für Ihre Aufmerksamkeit!
+**Super, Sie sind am Ende des README angelangt! Viel Spass bei der Ausführung. **
 
-Gruppe B3 - Hotelreservierungssystem FHNW
+- Gruppe B3 - Hotelreservierungssystem FHNW
