@@ -21,8 +21,10 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         params = (issue_date, total_amount, i_is_cancelled, booking.booking_id)
         invoice_id, _ = self.execute(sql, params)
 
+        room = self.__room_da.read_room_by_id(room_id)
+
         return model.Invoice(
-            invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room=booking.room
+            invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=i_is_cancelled, booking=booking, guest=guest, hotel=hotel, room=room
         )
         
     def calculate_total_price(self, booking: Booking) -> float:
@@ -33,7 +35,7 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 #Methode User Story 6
     def read_invoice_by_booking_id(self, booking_id:int) -> model.Invoice | None:
         sql = """
-        SELECT invoice_id, issue_date, total_amount, i_is_cancelled, total_amount
+        SELECT invoice_id, issue_date, total_amount, i_is_cancelled
         FROM Invoice
         WHERE booking_id = ?
         """
@@ -42,24 +44,22 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         if row is None:
             return None #keine RG gefunden
 
-            invoice_id, issue_date, total_amount, i_is_cancelled, total_amount = row
+        invoice_id, issue_date, total_amount, i_is_cancelled = row
             
-            if i_is_cancelled is None:
-                raise ValueError (f"i_is_cancelled ist NULL für booking_id = {booking_id}")
+        if i_is_cancelled is None:
+            raise ValueError (f"i_is_cancelled ist NULL für booking_id = {booking_id}")
 
-            # Holt die verknüpften Objekte aus anderen DataAccess-Klassen
-            from data_access.booking_data_access import BookingDataAccess
-            booking_da = BookingDataAccess()
-            booking = booking_da.read_booking_by_id(booking_id)       
+        # Holt die verknüpften Objekte aus anderen DataAccess-Klassen
+        from data_access.booking_data_access import BookingDataAccess
+        booking_da = BookingDataAccess()
+        booking = booking_da.read_booking_by_id(booking_id)  
 
-            if booking is None:
-                raise ValueError(f"Booking mit ID {booking_id} nicht gefunden.")   
+        if booking is None:
+            raise ValueError(f"Booking mit ID {booking_id} nicht gefunden.")     
 
             return model.Invoice(
-                invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled), booking=booking, guest=booking.guest, hotel=booking.room.hotel, room=booking.room
-                
+                invoice_id=invoice_id, issue_date=issue_date, total_amount=total_amount, i_is_cancelled=bool(i_is_cancelled), booking=booking, guest=booking.guest, hotel=booking.room.hotel, room=booking.room     
             )
-        
         return None
 
 

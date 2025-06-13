@@ -30,7 +30,7 @@ class Address: #ZIP code auf int angepasst str geeeht nicht :/
         self.__address_id: int = address_id
         self.__street: str = street          
         self.__city: str = city              
-        self.__zip_code: str = zip_code      
+        self.__zip_code: int = zip_code     
 
     # ID → bleibt fix, daher nur Getter 
     @property
@@ -79,4 +79,3 @@ class Address: #ZIP code auf int angepasst str geeeht nicht :/
     def get_full_address(self):
         return f"{self.__street}, {self.__zip_code} {self.__city}"
         
- 

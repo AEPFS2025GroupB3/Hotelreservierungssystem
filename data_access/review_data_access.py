@@ -46,7 +46,7 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     address=model.Address(
                         street=str(guest_street),
                         city=guest_city,
-                        zip_code=guest_zip_code,
+                        zip_code=int(guest_zip_code),
                         address_id=int(guest_address_id),
                     )
                 ),
@@ -57,7 +57,7 @@ class ReviewDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     address=model.Address(
                         street=str(hotel_street),
                         city=hotel_city,
-                        zip_code=hotel_zip_code,
+                        zip_code=int(hotel_zip_code),
                         address_id=int(hotel_address_id),
                     )   
                 )

@@ -535,21 +535,21 @@ Hilfsmethoden wie `facility_name_exists(...)` und `get_facility_name_by_id(...)`
 
 **2. FacilityDataAccess**  
 Diese Klasse ist für den direkten Zugriff auf die Facilities-Tabelle zuständig:
--	`create_facility(...)`: Führt ein SQL-Insert aus.
--	`update_facility_name(...)`: Aktualisiert den Namen einer Ausstattung.
--	`delete_facility(...)`: Entfernt eine Ausstattung aus der Datenbank.
--	`get_all_facilities()`: Lädt alle existierenden Ausstattungen zur Anzeige oder Validierung.
+- `create_facility(...)`: Führt ein SQL-Insert aus.
+- `update_facility_name(...)`: Aktualisiert den Namen einer Ausstattung.
+- `delete_facility(...)`: Entfernt eine Ausstattung aus der Datenbank.
+- `get_all_facilities()`: Lädt alle existierenden Ausstattungen zur Anzeige oder Validierung.
 
 **3. RoomDataAccess**
 Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
 `update_room_price(room_id, new_price)`: SQL-Update für den Zimmerpreis.
 
 **Nutzung im Notebook:**  
-1.	Das Admin-Menü bietet folgende Optionen:
-   - Neue Ausstattung erstellen oder bestehende umbenennen/löschen
-   - Neue Raum Typ anlegen oder bearbeiten
-   - Raumpreise aktualisieren
-   - Saisonale Faktoren einsehen (Lesefunktion)
+1. Das Admin-Menü bietet folgende Optionen:
+    - Neue Ausstattung erstellen oder bestehende umbenennen/löschen
+    - Neue Raum Typ anlegen oder bearbeiten
+    - Raumpreise aktualisieren
+    - Saisonale Faktoren einsehen (Lesefunktion)
 2.	Je nach Auswahl werden die entsprechenden Eingaben abgefragt (z. B. Name, ID, Beschreibung, Preis).
 3.	Der AdminManager ruft intern die passenden Methoden in den DataAccess-Klassen auf.
 4.	Erfolgreiche Änderungen werden direkt bestätigt.

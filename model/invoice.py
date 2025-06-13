@@ -34,10 +34,10 @@ class Invoice:
             raise ValueError("booking is required")
         #Typprüfung entfällt hier, weil booking als 'Booking' deklariert ist (Vermeidung zirkulärer Import)
 
-        if not guest:
-            raise ValueError("guest is required")
-        if not isinstance(guest, Guest):
-            raise ValueError("guest must be a Guest object")
+        #if not guest:
+        #    raise ValueError("guest is required")
+        #if not isinstance(guest, Guest):
+        #    raise ValueError("guest must be a Guest object")
 
         if not hotel:
             raise ValueError("hotel is required")
