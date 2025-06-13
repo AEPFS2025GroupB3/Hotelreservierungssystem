@@ -170,7 +170,7 @@ Stadt und Mindestanzahl Sterne werden eingegeben, danach werden nur Hotels mit �
 
 ---
 
-### User Story 1.3 Filterung nach Gästeanzahl
+### User Story 1.3 - Filterung nach Gästeanzahl
 
 **Ziel:**  
 Ich möchte nur Hotels sehen, die Zimmer für meine gewünschte Gästezahl anbieten.
@@ -276,7 +276,7 @@ Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschafte
 ### User Story 2.2 - Nur verfügbare Zimmer anzeigen
 
 **Ziel:**  
-Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von – bis) spezifiziert habe.
+Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von - bis) spezifiziert habe.
 
 **Umsetzung im Code:**  
 - Die Methode `read_rooms_with_facilities_by_hotel_and_date` filtert über einen SQL-Query alle Zimmer, bei denen keine überschneidende Buchung mit dem gewünschten Zeitraum existiert.
@@ -318,7 +318,7 @@ Hotel-ID eingeben → Hotel wird aus der Datenbank entfernt
 
 ### User Story 3.3 - Hotelinformationen aktualisieren
 
-**Ziel:**
+**Ziel:**  
 Der Admin möchte bestehende Hoteldaten wie Name, Sterne oder Adresse aktualisieren, um das System auf dem aktuellen Stand zu halten.
 Umsetzung im Code:
 
@@ -328,12 +328,11 @@ Damit bleibt die Trennung der Schichten (UI → Business Logic → Data Access) 
 Im Notebook wird nach Auswahl der Hotel-ID ein Menü angezeigt, in dem ausgewählt werden kann, ob der Name, die Sternebewertung oder die Adresse geändert werden soll.
 Je nach Auswahl werden gezielt neue Werte abgefragt und das Objekt aktualisiert. Nach der Änderung wird die Methode update_hotel(...) aufgerufen.
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 Hotelliste mit ID, Name, Sterne, Adresse wird angezeigt.
 Admin gibt die Hotel-ID ein, die bearbeitet werden soll.
 
 Auswahlmenü mit 3 Optionen:
-
 - Hotelname ändern
 - Sternebewertung ändern
 - Adresse ändern
@@ -345,25 +344,25 @@ ___
 
 ### User Story 4 - Buchung erstellen
 
-**Ziel:**
+**Ziel:**  
 Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Diese Umsetzung erfolgt durch Zusammenarbeit mehrerer Komponenten:
 
-**1. HotelManager**
+**1. HotelManager**  
 Die Methode `read_available_hotels_by_city_and_date(city, check_in_date, check_out_date)` wird verwendet, um alle verfügbaren Hotels in einer gewünschten Stadt für einen bestimmten Zeitraum zu laden. Diese Methode fragt die Datenbank nach Hotels ab, die im angegebenen Zeitraum freie Zimmer haben.
 
-**2. GuestManager**
+**2. GuestManager**  
 Über `get_guest_by_email(email)` wrd geprüft, ob der Gast mit der eingegebenen E-Mail bereits in der Datenbank existiert. Wir haben uns hier bewusst für die E-Mail entschieden, da sie am eindeutigsten ist. Nur registrierte Gäste können eine Buchung hinzufügen.
 
-**3. BookingManager**
+**3. BookingManager**  
 Die Methode `create_booking(…)` erstellt schliesslich die Buchung mit den übergebenen Daten wie Guest-ID, Zimmer-ID, Check-in / out Datum, Gesamtpreis und Stornierungsstatus. Im Hintergrund wird ein neuer Eintrag in die Buchungstabelle der Datenbank eingefügt, und ein Buchungsobjekt wird übergeben.
 
-**4. BookingDataAccess**
+**4. BookingDataAccess**  
 Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `self.execute(...)` aus. Zusätzlich werden das zugehörige Gast- und Zimmerobjekt geladen, um ein vollständiges Booking-Objekt zurückzugeben.
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 1.	Benutzer gibt gewünschte Stadt sowie Check-in und Check-out Datum ein.
 2.	Die verfügbaren Hotels werden aufgelistet.
 3.	Der Benutzer gibt seine E-Mail-Adresse ein.
@@ -380,31 +379,31 @@ ___
 
 ### User Story 5 - Rechnung generieren
 
-**Ziel:**
+**Ziel:**  
 Als Gast möchte ich nach meinem Aufenthalt eine Rechnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der «Invoice» Tabelle hinzu.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Umsetzung im Code: Die Implementierung dieser User Story erfolgt durch die Zusammenarbeit von BookingManager, GuestManager, HotelManager und InvoiceManager.
 
-**1.	BookingManager**
+**1.	BookingManager**  
 Die Methode `get_all_bookings()` lädt alle vorhandenen Buchungen, damit der Benutzer eine davon auswählen kann. Zusätzlich stellt `get_booking(booking_id)` ein einzelnes Booking-Objekt für die Rechnungsstellung bereit.
 
-**2.	GuestManager**
+**2.	GuestManager**  
 Über `get_guest(guest_id)` werden die persönlichen Informationen des Gastes geladen, die auch der Rechnung erscheinen sollen.
 
-**3.	HotelManager**
+**3.	HotelManager**  
 Die Methode `get_hotel(hotel_id)` ruft die Hotelinformationen für die Buchung ab.
 
-**4.	InvoiceManager**
+**4.	InvoiceManager**  
 Ist die zentrale Methode `create_invoice(booking, guest, hotel)` zur Umsetzung der User Story 5. 
 -	Erstellt das Rechnungsdatum `(issue_date) mit date.today()`
 -	Berechnet den Gesamtbetrag `calculate_total_price(..)`
 -	Erstellt neuen Eintrag in der Invoice mithilfe von `InvoiceDataAccess.create_invoice(…)`
 
-**5.	InvoiceDataAccess**
+**5.	InvoiceDataAccess**  
 De Methode `create_invoice(….)` fürht ein SQL-Insert in die Invoice-Tabelle aus und gibt ein Invoice-Objekt zurück, das alle relevanten Informationen enthält (Buchung, Gast, Hotel, Zimmer, Betrag, Stornierungsstatus).
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 1.	Der Benutzer gibt die Buchungs-ID ein, für die eine Rechnung generiert werden soll.
 2.	Das System lädt die zugehörigen Daten (Guest, Hotel, Buchung, Betrag).
@@ -418,24 +417,24 @@ Nach erfolgreicher Buchung: Rechnung wird direkt angezeigt oder exportiert
 ___
 ### User Story 6 - Buchung stornieren
 
-**Ziel:**
+**Ziel:**  
 Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hinweis: Sorgt dafür, dass auch die zugehörige Rechnung entsprechend aktualisiert wird.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von BookingManager, BookingDataAccess und InvoiceDataAccess.
 
-**1.	BookingManager**
+**1.	BookingManager**  
 Die Methode `cancel_booking(booking_id)` übernimmt die Hauptlogik für die Stornierung:
 -	Sie ruft intern `update_booking_status(...)` auf, um den Stornierungsstatus der Buchung auf True zu setzen.
 -	Anschliessend wird geprüft, ob eine Rechnung zur Buchung existiert.
 -	Falls eine Rechnung vorhanden ist, wird der Rechnungsstatus über `update_invoice_status(...)` auf „canceled“ gesetzt.
 
-**2.	BookingDataAccess**
+**2.	BookingDataAccess**  
 Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Update durch, das die Buchung als storniert kennzeichnet `(is_cancelled = 1)`.
 Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
 
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 1.	Der Benutzer gibt eine Buchungs-ID ein.
 2.	Das System prüft mit `read_booking_by_id(...)`, ob die Buchung existiert.
 3.	Wenn keine Buchung gefunden wird, erscheint eine Fehlermeldung.
@@ -445,29 +444,32 @@ Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
 7.	Falls eine zugehörige Rechnung existiert, wird diese ebenfalls storniert.
 8.	Der Benutzer erhält eine Bestätigung über die erfolgreiche Stornierung.
 
-___
-### User Story 7 - Saisonale Preisgestaltung**
+---
 
-**Ziel:**
+### User Story 7 - Saisonale Preisgestaltung
+
+**Ziel:**  
 Der Gast soll je nach Saison (Hoch-/Nebensaison) unterschiedliche Preise sehen.
 
-- Umsetzung im Code:
+**Umsetzung im Code:**  
 Ein saisonaler Multiplikator (seasonal_factor) wird in booking_manager.py automatisch berechnet basierend auf dem Check-in-Datum. Der Preis wird dynamisch
 angepasst und in der Rechnung berücksichtigt.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**  
 Datum in der Hochsaison eingeben → höherer Preis sichtbar im Zimmerangebot und auf der Rechnung
-___
-### User Story 8 - Alle Buchungen anzeigen**
 
-**Ziel:**
+___
+
+### User Story 8 - Alle Buchungen anzeigen
+
+**Ziel:**  
 Als Admin möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht über alle bestehenden Buchungen erhalten.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Wir haben eine Methode mit dem Namen `read_bookings_by_hotel(...)` im Booking_Manager definiert, die den Parameter hote_id verlangt. 
 In der Booking Data Access Layer wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Booking, Room, Room_Type, Hotel, Address und Guest.
 
-Die JOINS erfolgen über die gemeinsamen IDs:
+Die JOINS erfolgen über die gemeinsamen IDs: 
 - room_id = um die Verbindung zwischen Booking und Room herzustellen
 - type_id = um die Verbidung zwischen Room und Room_Type herzustellen
 - hotel_id = um die Verbidung zwischen Room und Hotel herzustellen
@@ -478,20 +480,20 @@ Mit WHERE wird dann die hotel_id abgefragt, damit nur die Buchungen für das gew
 
 Mit fetchall werden alle passenden Ergebnisse aus der DB geladen. Für jede Zeile der Abfrage wird ein Booking-Objekt erzeugt, dass die Objekte Hotel(mit Adresse), Guest(mit Adresse) und Room(mit Room Type und Hotel) enthält. 
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
 Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für das jeweilige Hotel relevanten Bookings angezeigt werden.
 ___
-### User Story 9 - Zimmerliste mit Ausstattung anzeigen**
+### User Story 9 - Zimmerliste mit Ausstattung anzeigen
 
-**Ziel:**
+**Ziel:**  
 Der Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Im Room_Manager haben wir die Methode `read_room_with_facilities(...)` erstellt. Die Methode ruft in der Room Data Access die gleichnamige Methode auf.
 Dort wird mit Hilfe eines SQL-Statements eine Abfrage auf folgenden Tabellen ausgeführt: Room, Room_Type, Room_Facilities, Facilities.
 
-Die JOINS erfolgen über die Ids:
+Die JOINS erfolgen über die Ids:  
 - room_id = um die Verbindung zwischen Room und Room_Facilities herzustellen
 - type_id = um die Verbidung zwischen Room und Room_Type herzustellen
 - facility_id = Verbindung zwischen Room_Facilities und Facilities
@@ -501,48 +503,48 @@ Zudem verwenden wir GROUP_CONCAT um alle Facilities pro Room (können mehrere se
 Mit fetchall werden alle Ergebnisse abgerufen. Für jede Zeile wird anschliessend ein Dictionary pro Room erstellt. Bei Facilities wird durch Split aus dem GROUP-CONCAT-String eine Liste von Strings gemacht.
 Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben. 
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 Die Methode wird aufgerufen und liefert eine Liste von Dictionaries. In der for loop wird für jedes Room-Dictionary Zimmernummer, Zimmertyp, maximale Gästeanzahl und preis pro Nacht ausgegeben. 
 Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
 
 ___
 ### User Story 10 - Stammdaten verwalten
 
-**Ziel:**
+**Ziel:**  
 Als Admin möchte ich in der Lage sein, Stammdaten wie Zimmertypen, Einrichtungen und Preise in Echtzeit zu aktualisieren, damit das System jederzeit mit aktuellen Informationen arbeitet.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von AdminManager, RoomTypeDataAccess, FacilityDataAccess und RoomDataAccess.
 
-**1. AdminManager**
+**1. AdminManager**  
 Der AdminManager bildet die zentrale Schicht zur Verwaltung vonStammdaten. Er bietet Methoden an für:
 
-- Einrichtung (Facility):
+**Einrichtung (Facility):**  
 `create_facility(name)`: Fügt eine neue Ausstattung hinzu.
 `update_facility(facility_id, new_name)`: Benennt eine bestehende Ausstattung um.
 `delete_facility(facility_id)`: Löscht eine Ausstattung aus dem System.
 Hilfsmethoden wie `facility_name_exists(...)` und `get_facility_name_by_id(...)` sorgen für Validierung.
 
-- Zimmertyp (RoomType):
+**Zimmertyp (RoomType):**  
 `create_room_type(description, max_guests)`: Erstellt einen neuen Zimmertyp.
 `update_room_type(...)`: Aktualisiert Beschreibung und maximale Gästezahl eines bestehenden Typs.
 `delete_room_type(...)`: Löscht einen Zimmertyp.
 
-- Zimmerpreis (Room):
+**Zimmerpreis (Room):**  
 `update_room_price(room_id, new_price)`: Ändert den Preis eines Zimmers.
 
-**2.	FacilityDataAccess**
+**2. FacilityDataAccess**  
 Diese Klasse ist für den direkten Zugriff auf die Facilities-Tabelle zuständig:
 -	`create_facility(...)`: Führt ein SQL-Insert aus.
 -	`update_facility_name(...)`: Aktualisiert den Namen einer Ausstattung.
 -	`delete_facility(...)`: Entfernt eine Ausstattung aus der Datenbank.
 -	`get_all_facilities()`: Lädt alle existierenden Ausstattungen zur Anzeige oder Validierung.
 
-**3.	RoomDataAccess**
+**3. RoomDataAccess**
 Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
 `update_room_price(room_id, new_price)`: SQL-Update für den Zimmerpreis.
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 1.	Das Admin-Menü bietet folgende Optionen:
    - Neue Ausstattung erstellen oder bestehende umbenennen/löschen
    - Neue Raum Typ anlegen oder bearbeiten
@@ -552,36 +554,40 @@ Wird verwendet, um den Preis einzelner Zimmer zu aktualisieren:
 3.	Der AdminManager ruft intern die passenden Methoden in den DataAccess-Klassen auf.
 4.	Erfolgreiche Änderungen werden direkt bestätigt.
 
-___
+---
+
 ## User Stories mit DB-Schemaänderung
 
 Diese User Storys erfordern eine Erweiterung des bestehenden Datenbankschemas, die nach der Umsetzung der minimalen User Storys umgesetzt wurde. 
 Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews erfordern. Dazu haben wir eine Tabelle Review mit Hilfe von SQLite Online ergänzt und um die Codes zu testen, zusätzlich auch noch ein Beispieldatensatz hinzugefügt.
 
-### User Story 3**
+---
 
-**Ziel:**
+### User Story 3
+
+**Ziel:**  
 Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Im ReviewManager haben wir die Methode `add_review(...)` definiert. Diese Methode erwartet die Parameter guest_id, hotel_id, rating, comment und review_date. 
 Mit Hilfe eines SQL-Insert-Statements ergänzen wir die Werte in die Datenbank. Das Einfügen der Daten wird anschliessend mit self.execute ausgeführt.
 
-**Nutzung im Notebook:**
+**Nutzung im Notebook:**  
 Diese User Story verlangt die Eingabe der guest_id und hotel_id, einer Bewertung zwischen 1 bis 5, eines Kommentars sowie des Datums. Die Eingabe der guest_id und hotel_id scheint auf den ersten Blick für den Gast unmöglich und komisch.
 Diese Informationen sind aber notwendig und werden auf der Rechnung ausgewiesen. Sie verhindern, dass das Hotel Bewertungen von Kunden erhält die nicht im Hotel waren. 
 
 ___
- ### User Story 4
 
-**Ziel:**
+### User Story 4
+
+**Ziel:**  
 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
-**Umsetzung im Code:**
+**Umsetzung im Code:**  
 Im Review Manager haben wir eine Methode `get_reviews_by_hotel(...)` erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
 Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Review, Guest, Address und Hotel
 
-Die JOINS erfolgen über die gemeinsamen IDs:
+Die JOINS erfolgen über die gemeinsamen IDs:  
 - guest_id = um die Verbindung zwischen Review und Guest herzustellen
 - address_id = um die jeweilige Addresse von Gast und Hotel zu ermitteln 
 - hotel_id = um die Verbindung zwischen Review und Hotel herzustellen
@@ -590,9 +596,10 @@ Mit WHERE wird der Hotelname abgefragt(case-insensitive).
 Mit fetchall werden alle passenden Ergebnisse der SQL-Abfrage aus der Datenbank geladen. Daraus wird für jede Zeiel ein Review-Objekt erzeugt, das zusätzlich Informationen zum Gast und Hotel enthält. 
 Die Objekte werden in einer Liste gesammelt und über return zurückgegeben.
 
-- Nutzung im Notebook:
+**Nutzung im Notebook:**
 Die User Story verlangt eine Eingabe des Namens des Hotels, wessen Bewertung der Gast lesen möchte. 
 
+---
 
 ## Klassendiagramm
 
