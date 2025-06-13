@@ -662,13 +662,14 @@ eingesetzt - nicht als generative Codemaschine.
 Die meiste Entwicklungsarbeit fand vor Ort im Team statt. Ein Gruppenmitglied hat sich jeweils mit dem Beamer verbunden und wir haben gemeinsam an den Codezeilen
 gearbeitet.
 
-Die Umsetzung der User Stories haben wir aufgeteilt, die Tests und Validierungen jedoch wieder im Team zusammen vorgenommen. Dadurch konnten wir voneinander
-lernen und direkt Feedback geben. Diese Arbeitsweise hat sich als besonders produktiv erwiesen und zu einem starken Lernerfolg beigetragen.
+Die Umsetzung der User Stories haben wir aufgeteilt, die Tests und Validierungen jedoch wieder im Team zusammen vorgenommen. Dadurch konnten wir voneinander lernen und direkt Feedback geben. Diese Arbeitsweise hat sich als besonders produktiv erwiesen und zu einem starken Lernerfolg beigetragen.
 
 Ein kleiner, aber wirkungsvoller Bestandteil unserer Methodik war die Nutzung der Kommentarfunktion (#) innerhalb des Codes:
+
 Immer wenn jemand beim Implementieren unsicher war, wurde die entsprechende Codezeile mit einem kurzen Kommentar versehen, der die Frage oder Unsicherheit markierte.
-Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufgegriffen und gemeinsam geklärt. Diese einfache Praxis hatte einen grossen Effekt:
-Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser Verständnis nachhaltig zu stärken.
+Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufgegriffen und gemeinsam geklärt. Diese einfache Praxis hatte einen grossen Effekt - Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser Verständnis über das ganze Semester zu stärken.
+
+Die Komemntarfunktion wurde ebenfalls genutzt, um die Gedankengänge im Codeaufbau für die Gruppenmitglieder verstädnlicher zu gestalten.
 
 Präsentationsvideo
 
