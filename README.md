@@ -17,7 +17,7 @@ Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmaessig über 
 
 Zusätzlich wurden Kommentare im Code genutzt, um technische Entscheidungen zu diskutieren oder offene Fragen im Team zu klären. Dies hat uns geholfen, den Entwicklungsprozess effizient zu gestalten und unser Verständnis zu vertiefen.
 
-**Link zu einer Projekt Board** [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
+**Link zu einer Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
 
 ## Projektteam & Rollenverteilung
 
@@ -122,7 +122,7 @@ Wir haben die folgenden Technologien verwendet:
 
 - Visual Paradigm zur Modellierung des Klassendiagramms
 
-## Getting Started
+<span style="color:red"> ## Getting Started
 
 Projekt klonen:
 
@@ -135,7 +135,7 @@ git clone https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem.git
 →  Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
 
 Hinweis: Die verwendete SQLite-Datenbank befindet sich im Ordner database/. Die Originaldatei heisst hotel_reservation_sample.db.
-Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird.
+Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird. </span>
 
 ## Umgesetzte User Stories
 
