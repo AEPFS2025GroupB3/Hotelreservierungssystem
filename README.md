@@ -11,6 +11,14 @@ Der Fokus lag auf objektorientierter Programmierung (OOP), Datenbankzugriff, Mod
 Das System erlaubt es Gästen, Hotels und Zimmer zu suchen und zu buchen. Rechnungen können generiert werden, zudem stehen Admin-Funktionalitäten 
 für Hotelverwaltung zur verfügung.
 
+Für die Planung und Organisation unseres Projekts haben wir das GitHub-Issues-System und ein Scrum Board verwendet. Dabei wurden alle Aufgaben als Issues erstellt, priorisiert und im Projektboard den Spalten "Todo", "In Progress" und "Done" zugeordnet, um den Fortschritt im Team transparent zu halten.
+
+Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmaessig über WhatsApp, um schnelle Kommunikation zu ermöglichen und den Entwicklungsprozess effizient zu gestalten.
+
+Zusätzlich wurden Kommentare im Code genutzt, um technische Entscheidungen zu diskutieren oder offene Fragen im Team zu klären. Dies hat uns geholfen, den Entwicklungsprozess effizient zu gestalten und unser Verständnis zu vertiefen.
+
+**Link zu einer Projekt Board** [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
+
 ## Projektteam & Rollenverteilung
 
 Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
