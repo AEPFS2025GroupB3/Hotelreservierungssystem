@@ -1,7 +1,6 @@
 from datetime import date
 
-class Address: #ZIP code auf int angepasst str geeeht nicht :/
-    #Konstruktor zur Initialisierung einer Adresse mit Validierung
+class Address:
     def __init__(self, street: str, city: str, zip_code: int, address_id: int = None):
              
         #Strasse muss angegeben sein und ein String sein
@@ -32,7 +31,7 @@ class Address: #ZIP code auf int angepasst str geeeht nicht :/
         self.__city: str = city              
         self.__zip_code: int = zip_code     
 
-    # ID → bleibt fix, daher nur Getter 
+    # ID -> bleibt fix, daher nur Getter 
     @property
     def address_id(self):
         return self.__address_id
@@ -75,7 +74,6 @@ class Address: #ZIP code auf int angepasst str geeeht nicht :/
         self.__zip_code = value
 
     # Gibt die vollständige Adresse als formatierten String zurück,
-    # z. B. für Ausgaben in Hotel- oder Gästedetails.
     def get_full_address(self):
         return f"{self.__street}, {self.__zip_code} {self.__city}"
         

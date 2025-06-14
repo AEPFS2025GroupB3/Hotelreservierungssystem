@@ -43,8 +43,6 @@ class Review:
         self.__hotel: Hotel = hotel
         self.__guest: Guest = guest
 
-    #Properties
-    #ich habe zu jedem Attribut eine Property erstellt damit der Code konsistent ist
 
     @property #lesbar (getter) aber nicht änderbar, kein Setter weil ID bleibt fix
     def review_id(self):
@@ -112,6 +110,3 @@ class Review:
         )
 
     
-#warum bei __init__ & property.setter ValueError
-#__init__ : einmalige Prüfung beim erstellen
-#@property.setter: wiederholge Prüfung bei änderungen

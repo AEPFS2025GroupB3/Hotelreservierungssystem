@@ -5,7 +5,7 @@ from model.guest import Guest
 from model.hotel import Hotel
 from model.room import Room
 from model.invoice import Invoice
-import data_access #Importiert data_access
+import data_access
  
 class InvoiceManager:
     def __init__(self) -> None:
@@ -23,9 +23,6 @@ class InvoiceManager:
             raise ValueError("Die Buchung enthält keine gültige Zimmer-ID.")
         self._validate_id(booking.room.room_id, "Zimmer-ID")
 
-    #def _validate_guest(self, guest: Guest):
-     #   if not isinstance(guest, Guest):
-    #        raise TypeError("Ungültiges Gast-Objekt.")
 
     def _validate_hotel(self, hotel: Hotel):
         if not isinstance(hotel, Hotel):
@@ -37,9 +34,8 @@ class InvoiceManager:
     
     #Methode User Story 5 (Invoice Manager)
     def create_invoice(self, booking: Booking, guest: Guest, hotel: Hotel) -> model.Invoice:
-        self._validate_booking(booking) #
-        #self._validate_guest(guest) #
-        self._validate_hotel(hotel) #
+        self._validate_booking(booking) 
+        self._validate_hotel(hotel) 
 
         issue_date = date.today()
         total_amount = self.__invoice_da.calculate_total_price(booking)

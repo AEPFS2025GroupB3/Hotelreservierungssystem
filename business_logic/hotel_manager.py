@@ -5,7 +5,7 @@ from model.address import Address
 from model.room import Room
  
 
-import data_access #Importiert data_access
+import data_access
 
 class HotelManager:
     def __init__(self) -> None:

@@ -5,7 +5,7 @@ from model.guest import Guest
 from model.hotel import Hotel
 from model.invoice import Invoice
 
-import data_access #Importiert data_access
+import data_access
 
 
 class BookingManager:
@@ -13,7 +13,6 @@ class BookingManager:
         self.__booking_da = data_access.BookingDataAccess()
         self.__room_da = data_access.RoomDataAccess()
         self.__invoice_da = data_access.InvoiceDataAccess()
-        #self.__price & invoice manager??
 
     def _validate_date_range(self, check_in: date, check_out: date):
         if check_in >= check_out:
@@ -44,7 +43,7 @@ class BookingManager:
             is_cancelled
         )
 
-    #Methode User Story 4 letzte Zeile musste ich anpassen voher : self.__booking_da = data_access.BookingDataAccess ?????
+    #Methode User Story 4 
     def is_room_available(self, room_id, check_in_date, check_out_date): 
         self._validate_id(room_id, "Room-ID")
         self._validate_date_range(check_in_date, check_out_date)
@@ -55,7 +54,7 @@ class BookingManager:
         self._validate_id(booking_id, "Booking-ID")
         return self.__booking_da.read_booking_by_id(booking_id)
     
-    #Methode User Story 6 (Booking Manager
+    #Methode User Story 6
     def read_booking_by_id(self, booking_id: int):
         self._validate_id(booking_id, "Booking-ID")
         return self.__booking_da.read_booking_by_id(booking_id)

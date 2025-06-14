@@ -5,7 +5,7 @@ from model.guest import Guest
 from model.hotel import Hotel
 from model.invoice import Invoice
 
-import data_access #Importiert data_access
+import data_access
 
 class GuestManager:
     def __init__(self) -> None:
@@ -40,7 +40,8 @@ class GuestManager:
         if id_value < 1:
             raise ValueError(f"{name} muss eine positive Ganzzahl sein.")
 
-    def create_guest(self, first_name, last_name, email, steet, city, zip_code) -> list[model.Guest]: #Methode User Story 4
+    #Methode User Story 4
+    def create_guest(self, first_name, last_name, email, steet, city, zip_code) -> list[model.Guest]: 
         self._validate_name(first_name, "Vorname")
         self._validate_name(last_name, "Nachname")
         self._validate_email(email)
@@ -49,11 +50,13 @@ class GuestManager:
         self._validate_zip(zip_code)
         return self.__guest_da.create_guest(first_name, last_name, email, street, city, zip_code)
 
-    def get_guest_by_email(self, email): #Methode User Story 4
+    #Methode User Story 4
+    def get_guest_by_email(self, email):
         self._validate_email(email)
         return self.__guest_da.get_guest_by_email(email)
-    
-    def get_guest(self, guest_id: int) -> Guest: #Methode User Story 5
+
+    #Methode User Story 5
+    def get_guest(self, guest_id: int) -> Guest: 
         self._validate_id(guest_id, "Gast-ID")
 
         

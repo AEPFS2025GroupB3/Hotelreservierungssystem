@@ -1,13 +1,14 @@
 from datetime import date
 import model
 from model import RoomType
-from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess
 
-class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
-    def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
-        super().__init__(db_path) #Übergibt db_path an die Basisklasse
+class HotelDataAccess(BaseDataAccess):
+    def __init__(self, db_path: str = None):
+        super().__init__(db_path) 
 
-    def read_hotels_by_city(self, city: str) -> list[model.Hotel]: #Methode User Story 1.1
+    #Methode User Story 1.1
+    def read_hotels_by_city(self, city: str) -> list[model.Hotel]: 
         #Holt die Hotel- und zugehörigen Adressdaten via JOIN
         sql = """
         SELECT 
@@ -72,7 +73,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             for hotel_id, name, stars, address_id, street, city, zip_code in results
         ]
 
-    def read_available_hotels_by_city_and_date(self, city:str, check_in_date: date, check_out_date: date) -> list[model.Hotel]: #Methode 1.4
+    #Methode User Story 1.4
+    def read_available_hotels_by_city_and_date(self, city:str, check_in_date: date, check_out_date: date) -> list[model.Hotel]: 
         sql = """
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
@@ -98,8 +100,9 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             )
             for hotel_id, name, stars, address_id, street, city, zip_code in results
             ]
-        
-    def read_hotels_by_criteria(self, city: str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.Hotel]: #Methode 1.5
+    
+    #Methode User Story 1.5
+    def read_hotels_by_criteria(self, city: str, check_in_date: date, check_out_date: date, max_guests: int, stars: int) -> list[model.Hotel]: 
         sql = """
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
@@ -132,8 +135,9 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             for hotel_id, name, stars, address_id, street, city, zip_code, type_id, max_guests in results
             ]
 
-    
-    def get_hotel_details(self) -> list[model.Hotel]: #Methode User Story 1.6
+
+    #Methode User Story 1.6
+    def get_hotel_details(self) -> list[model.Hotel]: 
         sql = """
         SELECT DISTINCT
             h.hotel_id, h.name, h.stars,
@@ -151,7 +155,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             for hotel_id, name, stars, address_id, street, city, zip_code in results
             ]
 
-    def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel: #Methode User Story 3.1
+    #Methode User Story 3.1
+    def create_new_hotel(self, name: str, stars: int, address: model.Address) -> model.Hotel: 
         address_sql = """
         INSERT INTO Address (street, zip_code, city)
         VALUES (?, ?, ?)
@@ -168,7 +173,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         
         return model.Hotel(hotel_id=hotel_id, name=name, stars=stars, address=model.Address(street=address.street, city=address.city, zip_code=address.zip_code, address_id=address_id))
 
-    def delete_hotel(self, hotel: model.Hotel) -> None: #Methode User Story 3.2
+    #Methode User Story 3.2
+    def delete_hotel(self, hotel: model.Hotel) -> None: 
         if hotel is None:
             raise ValueError("Hotel cannot be None")
  
@@ -178,7 +184,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         params = (hotel.hotel_id,)
         last_row_id, row_count = self.execute(sql, params)
     
-    def update_hotel(self, hotel: model.Hotel) -> None: #Methode User Story 3.3
+    #Methode User Story 3.3
+    def update_hotel(self, hotel: model.Hotel) -> None: 
         if hotel is None:
             raise ValueError("Hotel cannot be None")
  
@@ -197,7 +204,8 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         address_params = (address.street, address.zip_code, address.city, address.address_id)
         self.execute(address_sql, address_params)
 
-    def read_hotel_by_id(self, hotel_id: int) -> model.Hotel: #Methode User Story 5
+    #Methode User Story 5
+    def read_hotel_by_id(self, hotel_id: int) -> model.Hotel: 
         sql = """
         SELECT h.hotel_id, h.name, h.stars,
             a.address_id, a.street, a.city, a.zip_code
@@ -212,7 +220,7 @@ class HotelDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             return model.Hotel(hotel_id, name, stars, address)
         return None
 
-# Userstory 3.2 Methode
+    # Methode User Story 3.2 Methode
     def delete_hotel_by_id(self, hotel_id: int) -> bool:
         sql = "DELETE FROM Hotel WHERE hotel_id = ?"
         params = (hotel_id,)

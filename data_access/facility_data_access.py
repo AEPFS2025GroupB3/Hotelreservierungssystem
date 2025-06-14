@@ -1,6 +1,6 @@
 import model
 from model.facility import Facility
-from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess
 
 class FacilityDataAccess(BaseDataAccess): #User Story 10 Teil 1 (Rest bei RoomType & Room)
     def __init__(self, db_path: str = None):

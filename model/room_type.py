@@ -26,7 +26,6 @@ class RoomType: #Klasse RoomType erstellen
     def type_id(self):
         return self.__type_id
 
-    #Gibt die reine Beschreibung des Zimmertyps zurück (z. B. 'Suite'). Damit wir nacher nach bestimmten Romm Typen filtern können, mit Satz(f") nicht möglich
     @property 
     def description(self):
         return self.__description

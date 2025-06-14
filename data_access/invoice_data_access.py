@@ -1,19 +1,20 @@
 from datetime import date
 import model 
 from model import Booking, Guest, Hotel
-from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess
 from data_access.guest_data_access import GuestDataAccess
 from data_access.hotel_data_access import HotelDataAccess
 from data_access.room_data_access import RoomDataAccess
 
-class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
-    def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
-        super().__init__(db_path) #Übergibt db_path an die Basisklasse
+class InvoiceDataAccess(BaseDataAccess):
+    def __init__(self, db_path: str = None):
+        super().__init__(db_path)
         self.__guest_da = GuestDataAccess()
         self.__hotel_da = HotelDataAccess()
         self.__room_da = RoomDataAccess()
 
-    def create_invoice(self, issue_date: date, total_amount: float, i_is_cancelled: bool, booking: Booking, guest: Guest, hotel: Hotel, room_id: int) -> model.Invoice: #Methode User Story 5
+    #Methode User Story 5
+    def create_invoice(self, issue_date: date, total_amount: float, i_is_cancelled: bool, booking: Booking, guest: Guest, hotel: Hotel, room_id: int) -> model.Invoice: 
         sql = """
         INSERT INTO Invoice (issue_date, total_amount, i_is_cancelled, booking_id)
         VALUES (?, ?, ?, ?)
@@ -32,7 +33,7 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         return booking.room.price_per_night * duration
 
 
-#Methode User Story 6
+    #Methode User Story 6
     def read_invoice_by_booking_id(self, booking_id:int) -> model.Invoice | None:
         sql = """
         SELECT invoice_id, issue_date, total_amount, i_is_cancelled
@@ -42,7 +43,7 @@ class InvoiceDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         row = self.fetchone(sql, (booking_id,))
         
         if row is None:
-            return None #keine RG gefunden
+            return None
 
         invoice_id, issue_date, total_amount, i_is_cancelled = row
             

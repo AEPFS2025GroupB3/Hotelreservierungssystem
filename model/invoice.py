@@ -5,9 +5,9 @@ from model.hotel import Hotel
 from model.room import Room
 
 class Invoice:
-    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, i_is_cancelled:bool,  booking: 'Booking', guest: Guest, hotel: Hotel, room: Room): #invoice_status: str,
+    def __init__(self, invoice_id: int, issue_date: date, total_amount: float, i_is_cancelled:bool,  booking: 'Booking', guest: Guest, hotel: Hotel, room: Room):
 
-        # === Validierungen ===
+        #Validierungen
         if not invoice_id:
             raise ValueError("invoice_id is required")
         if not isinstance(invoice_id, int):
@@ -34,11 +34,6 @@ class Invoice:
             raise ValueError("booking is required")
         #Typprüfung entfällt hier, weil booking als 'Booking' deklariert ist (Vermeidung zirkulärer Import)
 
-        #if not guest:
-        #    raise ValueError("guest is required")
-        #if not isinstance(guest, Guest):
-        #    raise ValueError("guest must be a Guest object")
-
         if not hotel:
             raise ValueError("hotel is required")
         if not isinstance(hotel, Hotel):
@@ -49,7 +44,7 @@ class Invoice:
         if not isinstance(room, Room):
             raise ValueError("room must be a Room object")
 
-        # === Attributzuweisung ===
+        #Attributzuweisung
         self.__invoice_id: int = invoice_id
         self.__issue_date: date = issue_date
         self.__total_amount: float = float(total_amount)
@@ -59,8 +54,7 @@ class Invoice:
         self.__hotel: Hotel = hotel
         self.__room: Room = room
 
-    # === Getter & Setter ===
-
+    #Getter & Setter
     @property
     def invoice_id(self):
         return self.__invoice_id
@@ -118,17 +112,6 @@ class Invoice:
     @property
     def room(self):
         return self.__room
-
-    # Methoden
-    
-    #def get_invoice_summary(self) -> str:
-     #   from model.booking import Booking
-      #  return (
-       #     f"Rechnung {self.invoice_id} für {self.guest.first_name} {self.guest.last_name}\n"
-        #    f"Hotel: {self.hotel.name}, Zimmer: {self.room.room_number}\n"
-         #   f"Betrag: CHF {self.total_amount:.2f}\n"
-          #  f"Datum: {self.issue_date}"
-        #)
 
     def __str__(self):
         return self.get_invoice_summary()

@@ -1,13 +1,14 @@
 from datetime import date
 import model
 from model import Guest
-from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess
 
-class GuestDataAccess(BaseDataAccess): #Vererbung der Basisklasse
-    def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
-        super().__init__(db_path) #Übergibt db_path an die Basisklasse
+class GuestDataAccess(BaseDataAccess):
+    def __init__(self, db_path: str = None):
+        super().__init__(db_path)
 
-    def create_guest(self, first_name: str, last_name: str, email: str, street: str, city: str, zip_code: str) -> model.Guest: #Methode User Story 4
+    #Methode User Story 4
+    def create_guest(self, first_name: str, last_name: str, email: str, street: str, city: str, zip_code: str) -> model.Guest: 
         sql_address = """
         INSERT INTO Address (street, city, zip_code)
         VALUES(?,?,?)
@@ -37,16 +38,18 @@ class GuestDataAccess(BaseDataAccess): #Vererbung der Basisklasse
             address=address
         )
 
-    def get_guest_by_email(self, email: str) -> Guest | None: #Methode User Story 4
+    #Methode User Story 4
+    def get_guest_by_email(self, email: str) -> Guest | None: 
         sql = """
         SELECT * FROM Guest
         WHERE email = ? 
         """
         row = self.fetchone(sql, (email,))
         return Guest(*row) if row else None #Wenn es kein Gast gibt, dann None
+     
         
- 
-    def read_guest_by_id(self, guest_id: int) -> model.Guest: #Methode User Story 5
+    #Methode User Story 5
+    def read_guest_by_id(self, guest_id: int) -> model.Guest: 
         sql = """
             SELECT g.guest_id, g.first_name, g.last_name, g.email, 
                     a.address_id, a.street, a.city, a.zip_code

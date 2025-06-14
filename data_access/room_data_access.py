@@ -2,13 +2,14 @@ from datetime import date
 
 import model
 
-from data_access.base_data_access import BaseDataAccess #Basisklasse für Datenbankzugriff
+from data_access.base_data_access import BaseDataAccess
 
-class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
-    def __init__(self, db_path: str = None): #db_path ist Pfad zur DB Datei (wird kein Wert übergeben, ist None der Stadardwert)
-        super().__init__(db_path) #Übergibt db_path an die Basisklasse
+class RoomDataAccess(BaseDataAccess):
+    def __init__(self, db_path: str = None):
+        super().__init__(db_path)
 
-    def read_rooms_by_hotel(self, hotel_id: int) -> list[model.Room]: #Methode User Story 2
+    #Methode User Story 2
+    def read_rooms_by_hotel(self, hotel_id: int) -> list[model.Room]: 
         sql = """
         SELECT r.room_id, r.room_number, r.price_per_night,
             rt.type_id, rt.max_guests, rt.description,
@@ -32,8 +33,8 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         ]
 
 
-
-    def read_rooms_with_facilities_by_hotel(self, hotel_id: int) -> list[model.Room]: #Methode User Story 2.1
+    #Methode User Story 2.1
+    def read_rooms_with_facilities_by_hotel(self, hotel_id: int) -> list[model.Room]: 
         sql = """
         SELECT r.room_id, r.room_number, r.price_per_night, 
             rt.type_id, rt.max_guests, rt.description,
@@ -63,17 +64,17 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                 hotel = model.Hotel(hotel_id, name, stars, hotel_address)
                 room_type = model.RoomType(type_id, max_guests, description)
                 
-                # test Andrea vorher war es so:room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
                 room = model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
 
                 rooms[room_id] = room #Im Dict speichern, damit es später nicht doppelt erstellt wird
 
-            if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN → kann NULL sein), dann hinzufügen
+            if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN -> kann NULL sein), dann hinzufügen
                 rooms[room_id].add_facility(model.Facility(facility_id, facility_name))
 
         return list(rooms.values())
-
-    def read_rooms_with_facilities_by_hotel_and_date(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]: #Methode User Story 2.2
+    
+    #Methode User Story 2.2
+    def read_rooms_with_facilities_by_hotel_and_date(self, hotel_id: int, check_in_date: date, check_out_date: date) -> list[model.Room]: 
             sql = """
             SELECT r.room_id, r.room_number, r.price_per_night, 
                 rt.type_id, rt.max_guests, rt.description,
@@ -112,7 +113,6 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
                     
                     room = model.Room(room_id, room_number, price_per_night, hotel, room_type, seasonal_factor=1.0)
  
-                    #test andrea vorher war es so: room = model.Room(room_id, room_number, price_per_night, hotel, room_type)
                     
                     #total_price berechnen & setzen
                     stay_duration = (check_out_date - check_in_date).days
@@ -120,7 +120,7 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
 
                     rooms[room_id] = room #Im Dict speichern, damit es später nicht doppelt erstellt wird
 
-                if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN → kann NULL sein), dann hinzufügen
+                if facility_id: # Wenn eine Facility vorhanden ist (LEFT JOIN -> kann NULL sein), dann hinzufügen
                     rooms[room_id].add_facility(model.Facility(facility_id, facility_name))
 
             return list(rooms.values())
@@ -191,7 +191,6 @@ class RoomDataAccess(BaseDataAccess): #Vererbung der Basisklasse
         self.execute(sql, (new_factor, room_id))
 
     # Seasonal factor für User Story 7 mit liste
-
     def get_all_rooms(self) -> list[model.Room]:
         sql = """
         SELECT r.room_id, r.hotel_id, r.room_number, rt.type_id, r.price_per_night, rt.max_guests
