@@ -17,8 +17,8 @@ Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmaessig über 
 
 Zusätzlich wurden Kommentare im Code genutzt, um technische Entscheidungen zu diskutieren oder offene Fragen im Team zu klären. Dies hat uns geholfen, den Entwicklungsprozess effizient zu gestalten und unser Verständnis zu vertiefen.
 
-**Link zu unserem Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
-**Link zu unserem Scrum Board**: [Scrum Board öffnen](https://github.com/orgs/AEPFS2025GroupB3/projects/1)
+- **Link zu unserem Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
+- **Link zu unserem Scrum Board**: [Scrum Board öffnen](https://github.com/orgs/AEPFS2025GroupB3/projects/1)
 
 ## Projektteam & Rollenverteilung
 
