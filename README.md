@@ -122,7 +122,7 @@ Wir haben die folgenden Technologien verwendet:
 
 - Visual Paradigm zur Modellierung des Klassendiagramms
 
-<span style="color:red"> ## Getting Started
+## Getting Started (Brauchen wir das noch)?
 
 Projekt klonen:
 
@@ -135,7 +135,7 @@ git clone https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem.git
 →  Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
 
 Hinweis: Die verwendete SQLite-Datenbank befindet sich im Ordner database/. Die Originaldatei heisst hotel_reservation_sample.db.
-Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird. </span>
+Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird.
 
 ## Umgesetzte User Stories
 
@@ -152,7 +152,7 @@ Ich möchte alle Hotels in einer Stadt durchsuchen, damit ich das Hotel nach mei
 
 **Umsetzung im Code:**  
 In dieser User Story wird eine einfache Textsuche nach Städten umgesetzt:
-- **HotelManager:"" Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
+- **HotelManager:** Die Methode `read_hotels_by_city(city)` wird aufgerufen, um alle Hotels zu finden, deren zugehörige Adresse in der gesuchten Stadt liegt.
 - Der Code nutzt die `input_valid_string(...)`-Funktion aus dem `input_helper`, um einen sauberen Städte-Input vom Benutzer entgegenzunehmen.
 - Das Resultat wird durch eine SQL-Abfrage in der Datenbank erzeugt (JOIN Hotel & Address).  
 - Rückgabewert ist eine Liste von `Hotel`-Objekten mit Name, Sternen und Stadt.
@@ -642,7 +642,7 @@ Unsere Dokumentation besteht aus:
 
 - Visual Paradigm-Diagramm zur Modellierung der Klassenbeziehungen
 
-- Projektorganisation über GitHub mit Branches, Commits, Pull Requests
+- Projektorganisation über GitHub
 
 Die Koordination erfolgte intern über eine geteilte To-do-Liste und regelmässige Live-Sessions, in denen wir gemeinsam am Code gearbeitet und getestet haben.
 Die Dokumentation wurde in Zusammenarbeit gepflegt, wobei Sheyla die finale Formatierung sicherstellte.
