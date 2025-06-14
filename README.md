@@ -328,8 +328,8 @@ Hotel-ID eingeben → Hotel wird aus der Datenbank entfernt
 
 **Ziel:**  
 Der Admin möchte bestehende Hoteldaten wie Name, Sterne oder Adresse aktualisieren, um das System auf dem aktuellen Stand zu halten.
-Umsetzung im Code:
 
+**Umsetzung im Code:**
 Die Methode update_hotel(hotel: Hotel) wurde in der Klasse HotelManager ergänzt und ruft intern hotel_data_access.update_hotel(...) auf.
 Damit bleibt die Trennung der Schichten (UI → Business Logic → Data Access) erhalten. Die Eingaben erfolgen über die Funktion input_valid_int bzw. input_valid_string in input_helper.py.
 
