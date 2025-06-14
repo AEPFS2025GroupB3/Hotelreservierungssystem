@@ -271,7 +271,7 @@ Die Details pro Zimmer werden über die Daten aus der Datenbank geladen:
 - Pro Raum wird ein `Room`-Objekt erstellt, das ein `RoomType`-Objekt (mit Beschreibung und max. Anzahl Gäste) sowie eine Liste von `Facility`-Objekten enthält.
 
 **Nutzung im Notebook:**  
-Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt.
+Nach Auswahl eines Hotels werden alle zugehörigen Zimmer mit ihren Eigenschaften angezeigt. Hier werden noch zusätzlich die Facilities angezeigt.
 
 ---
 
@@ -286,7 +286,7 @@ Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von
 - Die Aufenthaltsdauer wird berechnet aus dem Check-in und Check-out Datum und zur Berechnung des Gesamtpreises verwendet (duration * price_per_night).
 
 **Nutzung im Notebook:**  
-Eingabe von `Hotel_ID`, `Check-in` und `Check-out` Datum. Nur Zimmer, die nicht gebucht sind in diesem Zeitraum, werden angezeigt. Die Auswahl wird dadurch übersichtlich und relevant für die Buchung.
+Eingabe von `Hotel_ID`, `Check-in` und `Check-out` Datum. Nur Zimmer, die nicht gebucht sind in diesem Zeitraum, werden angezeigt. Ausserdem wird hier zusätzlich der Gesamtpreis für die Dauer (Check-Out - Check-In) berechnet. Die Auswahl wird dadurch übersichtlich und relevant für die Buchung.
 
 ---
 
@@ -423,7 +423,7 @@ Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von BookingMana
 Die Methode `cancel_booking(booking_id)` übernimmt die Hauptlogik für die Stornierung:
 -	Sie ruft intern `update_booking_status(...)` auf, um den Stornierungsstatus der Buchung auf True zu setzen.
 -	Anschliessend wird geprüft, ob eine Rechnung zur Buchung existiert.
--	Falls eine Rechnung vorhanden ist, wird der Rechnungsstatus über `update_invoice_status(...)` auf „canceled“ gesetzt.
+-	Falls eine Rechnung vorhanden ist, wird der Rechnungsstatus über `update_invoice_status(...)` auf „cancelled“ gesetzt.
 
 **2.	BookingDataAccess**  
 Die Methode `update_booking_status(booking_id, is_cancelled)` führt ein SQL-Update durch, das die Buchung als storniert kennzeichnet `(is_cancelled = 1)`.
@@ -462,19 +462,19 @@ ___
 Als Admin möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht über alle bestehenden Buchungen erhalten.
 
 **Umsetzung im Code:**  
-Wir haben eine Methode mit dem Namen `read_bookings_by_hotel(...)` im Booking_Manager definiert, die den Parameter hote_id verlangt. 
-In der Booking Data Access Layer wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Booking, Room, Room_Type, Hotel, Address und Guest.
+Wir haben eine Methode mit dem Namen `read_bookings_by_hotel(...)` im Booking_Manager definiert, die den Parameter `hotel_id` verlangt. 
+In der Booking Data Access Layer wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: `Booking`, `Room`, `Room_Type`, `Hotel`, `Address` und `Guest`.
 
 Die JOINS erfolgen über die gemeinsamen IDs: 
-- room_id = um die Verbindung zwischen Booking und Room herzustellen
-- type_id = um die Verbidung zwischen Room und Room_Type herzustellen
-- hotel_id = um die Verbidung zwischen Room und Hotel herzustellen
-- address_id = um die jeweilige Adresse von Gast und Hotel zu ermitteln
-- guest_id = um die Verbindung zwischen Gast und Booking herzustellen
+- `room_id` = um die Verbindung zwischen `Booking` und `Room` herzustellen
+- `type_id` = um die Verbidung zwischen `Room` und `Room_Type` herzustellen
+- `hotel_id` = um die Verbidung zwischen `Room` und `Hotel` herzustellen
+- `address_id` = um die jeweilige Adresse von `Gast` und `Hotel` zu ermitteln
+- `guest_id` = um die Verbindung zwischen `Gast` und `Booking` herzustellen
 
-Mit WHERE wird dann die hotel_id abgefragt, damit nur die Buchungen für das gewünschte Hotel angezeigt werden. 
+Mit WHERE wird dann die `hotel_id` abgefragt, damit nur die Buchungen für das gewünschte Hotel angezeigt werden. 
 
-Mit fetchall werden alle passenden Ergebnisse aus der DB geladen. Für jede Zeile der Abfrage wird ein Booking-Objekt erzeugt, dass die Objekte Hotel(mit Adresse), Guest(mit Adresse) und Room(mit Room Type und Hotel) enthält. 
+Mit `fetchall` werden alle passenden Ergebnisse aus der DB geladen. Für jede Zeile der Abfrage wird ein `Booking`-Objekt erzeugt, dass die Objekte `Hotel`(mit `Address`), `Guest`(mit `Address`) und `Room`(mit `Room_Type` und `Hotel`) enthält. 
 
 **Nutzung im Notebook:**  
 Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
@@ -486,17 +486,17 @@ ___
 Der Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
 
 **Umsetzung im Code:**  
-Im Room_Manager haben wir die Methode `read_room_with_facilities(...)` erstellt. Die Methode ruft in der Room Data Access die gleichnamige Methode auf.
-Dort wird mit Hilfe eines SQL-Statements eine Abfrage auf folgenden Tabellen ausgeführt: Room, Room_Type, Room_Facilities, Facilities.
+Im `Room_Manager` haben wir die Methode `read_room_with_facilities(...)` erstellt. Die Methode ruft in der `RoomDataAccess` die gleichnamige Methode auf.
+Dort wird mit Hilfe eines SQL-Statements eine Abfrage auf folgenden Tabellen ausgeführt: `Room`, `Room_Type`, `Room_Facilities`, `Facilities`.
 
 Die JOINS erfolgen über die Ids:  
-- room_id = um die Verbindung zwischen Room und Room_Facilities herzustellen
-- type_id = um die Verbidung zwischen Room und Room_Type herzustellen
-- facility_id = Verbindung zwischen Room_Facilities und Facilities
+- `room_id` = um die Verbindung zwischen `Room` und `Room_Facilities` herzustellen
+- `type_id` = um die Verbidung zwischen `Room` und `Room_Type` herzustellen
+- `facility_id` = Verbindung zwischen `Room_Facilities` und `Facilities`
 
 Wir haben LEFT JOINS verwendet, um sicherzustellen, dass auch Zimmer ohne Ausstattung im Ergebnis enthalten sind. Dadurch gehen keine Rooms verloren.
 Zudem verwenden wir GROUP_CONCAT um alle Facilities pro Room (können mehrere sein) in einen kommagetrennten String zusammenzufassen. Dadurch gibt es pro Room nur eine Zeile im Resultat.
-Mit fetchall werden alle Ergebnisse abgerufen. Für jede Zeile wird anschliessend ein Dictionary pro Room erstellt. Bei Facilities wird durch Split aus dem GROUP-CONCAT-String eine Liste von Strings gemacht.
+Mit `fetchall` werden alle Ergebnisse abgerufen. Für jede Zeile wird anschliessend ein Dictionary pro Room erstellt. Bei Facilities wird durch Split aus dem GROUP-CONCAT-String eine Liste von Strings gemacht.
 Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben. 
 
 **Nutzung im Notebook:**  
@@ -510,7 +510,8 @@ ___
 Als Admin möchte ich in der Lage sein, Stammdaten wie Zimmertypen, Einrichtungen und Preise in Echtzeit zu aktualisieren, damit das System jederzeit mit aktuellen Informationen arbeitet.
 
 **Umsetzung im Code:**  
-Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von AdminManager, RoomTypeDataAccess, FacilityDataAccess und RoomDataAccess.
+Die Umsetzung dieser User Story erfolgt durch die Zusammenarbeit von `AdminManager`, `RoomTypeDataAccess`, `FacilityDataAccess` und `RoomDataAccess`.
+
 
 **1. AdminManager**  
 Der AdminManager bildet die zentrale Schicht zur Verwaltung vonStammdaten. Er bietet Methoden an für:
@@ -565,11 +566,11 @@ Wir haben uns für die User Storys entschieden, die eine weitere Klasse Reviews 
 Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
 
 **Umsetzung im Code:**  
-Im ReviewManager haben wir die Methode `add_review(...)` definiert. Diese Methode erwartet die Parameter guest_id, hotel_id, rating, comment und review_date. 
+Im `ReviewManager` haben wir die Methode `add_review(...)` definiert. Diese Methode erwartet die Parameter `guest_id`, `hotel_id`, `rating`, `comment` und `review_date`. 
 Mit Hilfe eines SQL-Insert-Statements ergänzen wir die Werte in die Datenbank. Das Einfügen der Daten wird anschliessend mit self.execute ausgeführt.
 
 **Nutzung im Notebook:**  
-Diese User Story verlangt die Eingabe der guest_id und hotel_id, einer Bewertung zwischen 1 bis 5, eines Kommentars sowie des Datums. Die Eingabe der guest_id und hotel_id scheint auf den ersten Blick für den Gast unmöglich und komisch.
+Diese User Story verlangt die Eingabe der `guest_id` und `hotel_id`, einer Bewertung zwischen 1 bis 5, eines Kommentars sowie des Datums. Die Eingabe der `guest_id` und `hotel_id` scheint auf den ersten Blick für den Gast unmöglich und komisch.
 Diese Informationen sind aber notwendig und werden auf der Rechnung ausgewiesen. Sie verhindern, dass das Hotel Bewertungen von Kunden erhält die nicht im Hotel waren. 
 
 ___
@@ -580,16 +581,16 @@ ___
 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
 **Umsetzung im Code:**  
-Im Review Manager haben wir eine Methode `get_reviews_by_hotel(...)` erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der ReviewDataAccess Klasse auf.
-Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: Review, Guest, Address und Hotel
+Im `ReviewManager` haben wir eine Methode `get_reviews_by_hotel(...)` erstellt, die den Hotelnamen als Parameter verlangt. Diese Methode ruft in der Data Access Layer die gleichnamige Methode in der `ReviewDataAccess` Klasse auf.
+Dort wird mit Hilfe eines SQL-Queries eine Abfrage auf folgenden Tabellen durchgeführt: `Review`, `Guest`, `Address` und `Hotel`
 
 Die JOINS erfolgen über die gemeinsamen IDs:  
-- guest_id = um die Verbindung zwischen Review und Guest herzustellen
-- address_id = um die jeweilige Addresse von Gast und Hotel zu ermitteln 
-- hotel_id = um die Verbindung zwischen Review und Hotel herzustellen
+- `guest_id` = um die Verbindung zwischen `Review` und `Guest` herzustellen
+- `address_id` = um die jeweilige Addresse von `Guest` und `Hotel` zu ermitteln 
+- `hotel_id` = um die Verbindung zwischen `Review` und `Hotel` herzustellen
 
 Mit WHERE wird der Hotelname abgefragt(case-insensitive). 
-Mit fetchall werden alle passenden Ergebnisse der SQL-Abfrage aus der Datenbank geladen. Daraus wird für jede Zeiel ein Review-Objekt erzeugt, das zusätzlich Informationen zum Gast und Hotel enthält. 
+Mit `fetchall` werden alle passenden Ergebnisse der SQL-Abfrage aus der Datenbank geladen. Daraus wird für jede Zeile ein `Review`-Objekt erzeugt, das zusätzlich Informationen zum Gast und Hotel enthält. 
 Die Objekte werden in einer Liste gesammelt und über return zurückgegeben.
 
 **Nutzung im Notebook:**
@@ -605,7 +606,7 @@ Siehe model/ und beigefügtes Visual Paradigm-Diagramm im Projekt-Ordner.
 
 ## GitHub-Arbeitsweise
 
-Wir haben regelmässige Commits durchgeführt und in klar getrennten Branches gearbeitet.Der main-Branch enthält stets eine lauffähige, getestete Version.
+Wir haben regelmässige Commits durchgeführt und in klar getrennten Branches gearbeitet. Der main-Branch enthält stets eine lauffähige, getestete Version.
 Die Zusammenarbeit erfolgte kollaborativ über Pull Requests und Reviews.
 
 ## Projektmeilensteine
@@ -640,7 +641,7 @@ implementiert, kommentiert und mit Inputs/Outputs getestet.
 
 ## Reflexion
 
-Wir haben einige Zeit gebraucht, bis uns klar war, was genau von uns erwartet wird und wie das Projekt strukturiert sein sollte. Keines der Gruppenmitglieder hatte
+Wir haben einige Zeit gebraucht, bis uns klar war, was genau von uns erwartet wird und wie das Projekt strukturiert sein sollte. Keines der Gruppenmitglieder hat
 einen IT-Hintergrund, weshalb wir uns zuerst ein solides Fundament in Python erarbeiten mussten. Dabei lag der Fokus auf den Grundlagen der objektorientierten
 Programmierung, der Strukturierung von Modulen sowie der Datenbankintegration mit SQLite.
 
@@ -660,7 +661,7 @@ tieferes Verständnis für Codefluss, Datenfluss und Objekthandhabung in Python 
 Gleichzeitig hatten wir über das gesamte Projekt hinweg das Gefühl, dass die Nutzung von ChatGPT zur Codegenerierung unserer Umsetzung dem Stil und der
 Struktur unseres selbst aufgebauten Codes eher geschadet hätte. Wir hatten ein klares Konzept, wie die Komponenten zusammenspielen sollten, und befürchteten,
 dass generierter Code ohne Rücksicht auf unsere Architektur das Projekt unbrauchbar machen könnte. Daher haben wir ChatGPT gezielt als Fehleranalysehilfe
-eingesetzt - nicht als generative Codemaschine.
+eingesetzt und nicht als generative Codemaschine.
 
 Die meiste Entwicklungsarbeit fand vor Ort im Team statt. Ein Gruppenmitglied hat sich jeweils mit dem Beamer verbunden und wir haben gemeinsam an den Codezeilen
 gearbeitet.
@@ -670,7 +671,7 @@ Die Umsetzung der User Stories haben wir aufgeteilt, die Tests und Validierungen
 Ein kleiner, aber wirkungsvoller Bestandteil unserer Methodik war die Nutzung der Kommentarfunktion (#) innerhalb des Codes:
 
 Immer wenn jemand beim Implementieren unsicher war, wurde die entsprechende Codezeile mit einem kurzen Kommentar versehen, der die Frage oder Unsicherheit markierte.
-Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufgegriffen und gemeinsam geklärt. Diese einfache Praxis hatte einen grossen Effekt - Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser Verständnis über das ganze Semester zu stärken.
+Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufgegriffen und gemeinsam geklärt. Diese einfache Praxis hatte einen grossen Effekt. Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser Verständnis über das ganze Semester zu stärken.
 
 Die Komemntarfunktion wurde ebenfalls genutzt, um die Gedankengänge im Codeaufbau für die Gruppenmitglieder verstädnlicher zu gestalten.
 
@@ -678,6 +679,6 @@ Die Komemntarfunktion wurde ebenfalls genutzt, um die Gedankengänge im Codeaufb
 
 Entweder als Video hochladen oder mit OneDrive link? wie machen?
 
-**Super, Sie sind am Ende des README angelangt! Viel Spass bei der Ausführung. **
+**Super, Sie sind am Ende des README angelangt! Viel Spass bei der Ausführung.**
 
-- Gruppe B3 - Hotelreservierungssystem FHNW
+Gruppe B3 - Hotelreservierungssystem FHNW
