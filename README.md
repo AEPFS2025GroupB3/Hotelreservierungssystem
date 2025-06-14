@@ -17,79 +17,74 @@ Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmaessig über 
 
 Zusätzlich wurden Kommentare im Code genutzt, um technische Entscheidungen zu diskutieren oder offene Fragen im Team zu klären. Dies hat uns geholfen, den Entwicklungsprozess effizient zu gestalten und unser Verständnis zu vertiefen.
 
-**Link zu einer Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
+**Link zu unserem Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
 
 ## Projektteam & Rollenverteilung
 
 Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 
-Fachliche Rollen: Welche technischen Teile des Projekts hat jedes Mitglied umgesetzt ?
-
-Projektrollen: Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich ?
+- **Fachliche Rollen:** Welche technischen Teile des Projekts hat jedes Mitglied umgesetzt ?
+- **Projektrollen:** Wer ist für Qualität, Dokumentation, Codepflege und GitHub verantwortlich ?
 
 ---
 
-**Kerstin Culjak**
+#### Kerstin Culjak
 
-Fachlich:
-
+**Fachlich:**
 - Zuständig für die Klassen Guest und Review
 - Fokus: Gästemanagement und Bewertungen
 - Video Koordinatorin
 
-Projektrolle:
-
+**Projektrolle:**
 - Quality Manager: Prüft alle Komponenten auf Korrektheit, Qualität und Einhaltung der Anforderungen.
 - Achtet auf konsistente Datenstrukturen und logische Beziehungen.
 - Review Checker: Verantwortlich für Code-Reviews und finale Durchsicht vor der Abgabe.
+- Verantwortlich für die Umsetzung der User Stories 4, 5, 6 und 10
 
 ---
 
-**Lisa Wüest**
+#### Lisa Wüest
 
-Fachlich:
-
+**Fachlich:**
 - Zuständig für die Klassen Room, Facility und RoomType
 - Fokus: Zimmerverwaltung, Zimmertypen und Ausstattung
 
-Projektrolle:
-
+**Projektrolle:**
 - Code Stylist: Achtet auf eine konsistente Code-Formatierung, klare Struktur, sprechende Methodenbezeichner und einheitlichen Stil im gesamten Team.
 - Notebook Coordinator: Verantwortlich für die logische Anordnung und den Aufbau der Deepnote-Blöcke (z.B. Kapitelstruktur, Inputs/Outputs, Visualisierung).
+- Verantwortlich für die Umsetzung der User Stories 8, 9 und zusätzliche Userstories Review
 
 ---
 
-**Sheyla Sampietro**
+#### Sheyla Sampietro
 
-Fachlich:
-
+**Fachlich:**
 - Zuständig für die Klassen Address und Hotel
 - Fokus: Adressverwaltung und Hoteldaten inkl. Bewertungen & Zimmer
 
-Projektrolle:
-
+**Projektrolle:**
 - Documentation Lead: Sorgt dafür, dass alle relevanten Informationen im Deepnote-Notebook dokumentiert und sauber erklärt sind.
 - Achtet auf vollständige Einleitung, User Stories, Reflexion und saubere Formatierung.
 - User Story Coordinator: Verknüpft die User Stories mit der technischen Umsetzung und achtet darauf, dass alle Stories nachvollziehbar umgesetzt werden.
+- Verantwortlich für die Umsetzung der User Stories 1.1 bis 1.6 und 2 bis 2.2
 
 ---
 
-**Andrea Petretta**
+#### Andrea Petretta
 
-Fachlich:
-
+**Fachlich:**
 - Zuständig für die Klassen Booking und Invoice
 - Fokus: Buchungsabläufe und Rechnungsstellung
 - Visual Paradigm Master
 
-Projektrolle:
-
+**Projektrolle:**
 - Milestone Planner: Achtet auf die Einhaltung von Abgabeterminen, hilft bei der Aufteilung von Teilzielen und erinnert das Team an nächste Schritte.
 - Feature Integrator: Sorgt dafür, dass Buchung, Rechnung, Gäste und Zimmer sauber zusammenspielen (inkl. Übergabe an Business Logic und Notebook).
+- Verantwortlich für die Umsetzung der User Stories 3.1 bis 3.3 und 7
 
 ---
 
-Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele strukturiert zu erreichen.
+Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele strukturiert zu erreichen. Obwohl die Rollenverteilung klar definiert war, haben wir im Team stets flexibel zusammengearbeitet. Alle Teammitglieder haben sich gegenseitig unterstützt und bei Bedarf in anderen Bereichen mitgeholfen. Der regelmässige Austausch, sowohl fachlich als auch organisatorisch, war ein zentraler Bestandteil unserer Zusammenarbeit und hat wesentlich zum Projekterfolg beigetragen.
 
 ## Projektstruktur
 
@@ -172,7 +167,6 @@ Ich möchte alle Hotels in einer Stadt nach der Anzahl der Sterne (z.B. mindeste
 - Im `HotelDataAccess`` wird SQL mit `WHERE stars >= ?` ergänzt, um Hotels mit mindestens der gewünschten Sternewertung zu laden.
 - Die Logik basiert wieder auf einem `JOIN` zwischen Hotel- und Adresstabelle.
 
-
 **Nutzung im Notebook:**  
 Stadt und Mindestanzahl Sterne werden eingegeben, danach werden nur Hotels mit ≥ x Sternen in der Stadt angezeigt.
 
@@ -187,7 +181,6 @@ Ich möchte nur Hotels sehen, die Zimmer für meine gewünschte Gästezahl anbie
 - Neben dem Stadtnamen wird die Gästeanzahl abgefragt.
 - Die Methode `read_hotels_by_city_number_of_guests(city, guests)` prüft, ob die maximal erlaubte Gästeanzahl (`room_type.max_guests`) ≥ Eingabe ist.
 - Die JOINs verknüpfen Hotel → Room → RoomType.
-
 
 **Nutzung im Notebook:**  
 User gibt Stadt und Anzahl Gäste ein, angezeigt werden nur Hotels mit mindestens einem geeigneten Zimmer.
@@ -306,7 +299,6 @@ Neue Hotelobjekte werden über hotel_manager.py erstellt. Die Eingabe wird valid
 
 **Nutzung im Notebook:**  
 Admin gibt Hotelinformationen ein (Name, Adresse, Rating)
-
 Neues Hotel erscheint in der Übersicht
 
 ---
@@ -377,11 +369,6 @@ Die Methode `create_booking(...)` führt das Einfügen in die Datenbank mit `sel
 4.	Ist der Benutzer registriert, kann er buchen.
 5.	Nach Bestätigung wir die Buchung erstellt
 6.	Die erfolgreiche Buchung wird mit der booking_id bestätigt.
-
-**Ziel**  
-Der Admin möchte Zimmerinformationen gezielt nach der maximalen Gästeanzahl filtern können. Dadurch kann er auf einen Blick sehen, welche Zimmer z. B. für Familien oder grössere Gruppen geeignet sind.
-
-Diese Funktion verbessert die Übersichtlichkeit und hilft bei der gezielten Beratung von Kunden mit spezifischem Platzbedarf.
 
 ___
 
