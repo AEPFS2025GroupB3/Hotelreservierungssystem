@@ -30,7 +30,7 @@ Zum Video gelangt Ihr über das Linkverzeichnis (PDF), welches wir im Moodle abg
 
 Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice und Guest ab.
 
-![Klassendiagramm](Pictures/Klassendiagramm.png)
+![](/Pictures/Klassendiagramm.png)
 
 ## Projektteam & Rollenverteilung
 
