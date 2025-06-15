@@ -13,12 +13,18 @@ für Hotelverwaltung zur verfügung.
 
 Für die Planung und Organisation unseres Projekts haben wir das GitHub-Issues-System und ein Scrum Board verwendet. Dabei wurden alle Aufgaben als Issues erstellt, priorisiert und im Projektboard den Spalten "Todo", "In Progress" und "Done" zugeordnet, um den Fortschritt im Team transparent zu halten.
 
-Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmaessig über WhatsApp, um schnelle Kommunikation zu ermöglichen und den Entwicklungsprozess effizient zu gestalten.
+Die Aufgabenverteilung und kurzfristige Absprachen erfolgten regelmässig über WhatsApp, um schnelle Kommunikation zu ermöglichen und den Entwicklungsprozess effizient zu gestalten.
 
 Zusätzlich wurden Kommentare im Code genutzt, um technische Entscheidungen zu diskutieren oder offene Fragen im Team zu klären. Dies hat uns geholfen, den Entwicklungsprozess effizient zu gestalten und unser Verständnis zu vertiefen.
 
+Des weiteren haben wir eine physische ToDo-Liste geführt, welche wir am Schluss in GitHub für die Visualisierung übertragen haben.
+
 - **Link zu unserem Projekt Board**: [Projekt Board öffnen](https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem/issues?q=is%3Aissue%20state%3Aclosed)
 - **Link zu unserem Scrum Board**: [Scrum Board öffnen](https://github.com/orgs/AEPFS2025GroupB3/projects/1)
+
+## Präsentationsvideo
+
+Zum Video gelangt Ihr über das Linkverzeichnis (PDF), welches wir im Moodle abgegeben haben.
 
 ## Projektteam & Rollenverteilung
 
@@ -293,27 +299,32 @@ Eingabe von `Hotel_ID`, `Check-in` und `Check-out` Datum. Nur Zimmer, die nicht 
 ### User Story 3.1 - Hotel hinzufügen
 
 **Ziel:**  
-Der Admin möchte neue Hotels zum System hinzufügen.
+Als Admin möchte ich neue Hotels zum System hinzufügen.
 
 **Umsetzung im Code:**  
-Neue Hotelobjekte werden über hotel_manager.py erstellt. Die Eingabe wird validiert, dann in hotel_data_access.py in die Datenbank geschrieben.
+Im `AdminManager` wurde die Methode `create_new_hotel(...)` hinzugefügt, die drei Parameter `name`, `stars` und ein `Address`-Objekt verlangt. 
+In der `HotelDataAccess` erfolg die Speicherung in der Datenbank. Es wird ein SQL-Insert Statement auf die Adresse ausgeführt, um die Adresse des Hotels in der Datenbank zu speichern.
+Die Datenbank liefert die `address_id` der neu generierten Adresse zurück. Danach wird ein weiteres SQL-Insert Statement auf das Hotel ausgeführt, wobei der Hotelname, die Sterne und die address_id gespeichert werden.
+Auch hier gibt die Datenbank die `hotel_id` des neu generierten Hotels zurück.
 
 **Nutzung im Notebook:**  
-Admin gibt Hotelinformationen ein (Name, Adresse, Rating)
-Neues Hotel erscheint in der Übersicht
+Die User Stroy verlangt die Eingabe der Strasse, der Postleitzahl, der Stadt, sowie des Namens vom Hotel und die Anzahl Sterne.
 
 ---
 
 ### User Story 3.2 - Hotel entfernen
 
 **Ziel:**  
-Der Admin möchte ein Hotel aus dem System löschen.
+Als Admin möchte ich ein Hotel aus dem System löschen.
 
 **Umsetzung im Code:**  
-Die Methode delete_hotel() in hotel_data_access.py nutzt die Hotel-ID, um den Datensatz zu löschen. Validierung erfolgt vor Ausführung.
+Im `AdminManager` wurden zwei Methoden implementiert. Einmal `get_all_hotels(...)` um in der UI dem User eine Liste aller verfügbaren Hotels anzuzeigen und die Methode `delete_hotel(...)`. 
+Die Methode `delete_hotel(...)` verlangt den Parameter `hotel_id`. Im `HotelDataAccess` wird dann die gleichnamige Methode aufgerufen und es wird ein SQL-Delete auf das Hotel ausgeführt. Die Mehthode erwartet ein `Hotel`-Objekt, daraus wir die `hotel_id` genommen, des Hotels das entfernt werden soll.
+Mit `self.execute(...)` wird das Statement ausgeführt und das Hotel dauerhaft aus der Datenbank entfernt. 
 
 **Nutzung im Notebook:**  
-Hotel-ID eingeben → Hotel wird aus der Datenbank entfernt
+Es wird eine Liste alles Hotels ausgeben mit ihren Details, die momentan in der Datenbank hinterlegt sind. Danach wird der User aufgefordert, die Id des Hotels einzugeben, das gelöscht werden soll.
+Nach der Eingabe der Id wird noch einmal nachgefragt, ob das Hotel XY wirklich gelöscht werden soll. Wenn der User "Y" eingibt, wird das Hotel endgültig gelöscht. 
 
 ---
 
@@ -445,14 +456,23 @@ Die Methode `read_booking_by_id(...)` wird verwendet, um die Buchung zu laden.
 ### User Story 7 - Saisonale Preisgestaltung
 
 **Ziel:**  
-Der Gast soll je nach Saison (Hoch-/Nebensaison) unterschiedliche Preise sehen.
+Als Gast möchte ich eine dynamische Preisgestaltung auf der Grundlage der Nachfrage sehen, damit ich ein Zimmer zum besten Preis buchen kann.
 
 **Umsetzung im Code:**  
-Ein saisonaler Multiplikator (seasonal_factor) wird in booking_manager.py automatisch berechnet basierend auf dem Check-in-Datum. Der Preis wird dynamisch
-angepasst und in der Rechnung berücksichtigt.
+Für diese User Story haben wir einen `PriceManager` erstellt, mit dem Ziel, saisonale Preisanpassungen bei Hotelzimmern zu berücksichtigen.
+Wir haben zunächst eine Methode `get_seasonal_factor(...)` definiert, die den Parameter `check_in_date` verlangt. Für die Hochsaison, Buchungen im Juli und August, haben wir ein Faktor von 1.2 verwendet.
+Für die Nebensaison, Januar, Februar und November, haben wir den Faktor 0.8 definiert. In alles anderen Monaten bleibt der Preis unverändert, Faktor 1.0.
+Die Methode `calculate_dynamic_price(...)` multipliziert den Basispreis pro Nacht mit dem `seasonal_factor`.
+
+Zusätzlich wurde in der `RoomDataAccess` die Methode `get_all_rooms(...)` verwendet. Diese lädt Zimmerdaten inklusive der Zimmerart aus der Datenbank mit einem einfachen JOIN über `type_id`.
+Für jedes Ergebnis wird ein `Room`-Objekt erstellt. Da zu diesem Zeitpunkt kein Check-in-Datum bekannt ist, wir der seasonal_factor von 1.0 gesetzt.
 
 **Nutzung im Notebook:**  
-Datum in der Hochsaison eingeben → höherer Preis sichtbar im Zimmerangebot und auf der Rechnung
+Im Notebook wird der dynamische Zimmerpreis auf Grundlage des Check-in-Datums berechnet.
+Zuerst werden alle Zimmer mit ID und Preis pro Nacht angezeigt.
+Danach wählt der Nutzer ein Zimmer aus und gibt ein Check-in-Datum ein.
+Je nach Monat wird ein Saisonfaktor bestimmt (z.B. 1.2 im Juli oder August).
+Der Preis wird damit multipliziert und angezeigt.
 
 ___
 
@@ -609,18 +629,6 @@ Siehe model/ und beigefügtes Visual Paradigm-Diagramm im Projekt-Ordner.
 Wir haben regelmässige Commits durchgeführt und in klar getrennten Branches gearbeitet. Der main-Branch enthält stets eine lauffähige, getestete Version.
 Die Zusammenarbeit erfolgte kollaborativ über Pull Requests und Reviews.
 
-## Projektmeilensteine
-
-15.03.2025: Erste Strukturierung & Setup
-
-xx.xx.2025: Implementierung Hotel- und Zimmerfilterung
-
-xx.xx.2025: Buchung & Invoice mit Geschäftslogik
-
-08.06.2025: Erweiterte User Stories
-
-xx.xx.2025: Finalisierung, Tests und Videoaufzeichnung
-
 ## Dokumentation & Projektmanagement
 
 Unsere Dokumentation besteht aus:
@@ -674,10 +682,6 @@ Immer wenn jemand beim Implementieren unsicher war, wurde die entsprechende Code
 Diese Stellen haben wir dann im nächsten Teamtreffen oder Coaching gezielt aufgegriffen und gemeinsam geklärt. Diese einfache Praxis hatte einen grossen Effekt. Sie half uns, Fragen systematisch zu sammeln, kollaborativ zu lösen und unser Verständnis über das ganze Semester zu stärken.
 
 Die Komemntarfunktion wurde ebenfalls genutzt, um die Gedankengänge im Codeaufbau für die Gruppenmitglieder verstädnlicher zu gestalten.
-
-## Präsentationsvideo
-
-Entweder als Video hochladen oder mit OneDrive link? wie machen?
 
 **Super, Sie sind am Ende des README angelangt! Viel Spass bei der Ausführung.**
 
