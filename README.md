@@ -28,7 +28,7 @@ Zum Video gelangt Ihr über das Linkverzeichnis (PDF), welches wir im Moodle abg
 
 ## Klassendiagramm
 
-Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice und Guest ab.
+Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice Guest und Review ab.
 
 ![](/pictures/Klassendiagramm.png)
 
@@ -138,26 +138,12 @@ Wir haben die folgenden Technologien verwendet:
 
 - Visual Paradigm zur Modellierung des Klassendiagramms
 
-## Getting Started (Brauchen wir das noch)?
-
-Projekt klonen:
-
-git clone https://github.com/AEPFS2025GroupB3/Hotelreservierungssystem.git
-
-1. Deepnote-Projekt öffnen (alternativ lokal mit PyCharm starten)
-2. Arbeitsverzeichnis in Deepnote setzen:
-3. Rechtsklick auf das Notebook → Set Working Directory → /Hotelreservierungssystem
-4. Notebook öffnen:
-→  Hotelreservierungssystem.ipynb im Ordner deepnote/GroupB3/
-
-Hinweis: Die verwendete SQLite-Datenbank befindet sich im Ordner database/. Die Originaldatei heisst hotel_reservation_sample.db.
-Für die Arbeit im Notebook empfehlen wir, eine Kopie mit dem Namen working_db.db zu verwenden, damit die Ausgangsdatenbank nicht verändert wird.
-
 ## Umgesetzte User Stories
 
-**Technologe hinter den User Stories**
+**Technologie hinter den User Stories**
 
-Im Folgenden beschreiben wir die User Stories 1 bis 10 detailliert: Ziel, Funktionsweise und Nutzung im Notebook.
+Im folgenden Abschnitt beschreiben wir die User Stories 1 bis 10 sowie die Zusatz-User-Stories mit DB-Schemaänderung detailliert:  
+Ziel, Umsetzung im Code und Nutzung im Notebook.
 
 ---
 
@@ -511,7 +497,7 @@ Mit WHERE wird dann die `hotel_id` abgefragt, damit nur die Buchungen für das g
 Mit `fetchall` werden alle passenden Ergebnisse aus der DB geladen. Für jede Zeile der Abfrage wird ein `Booking`-Objekt erzeugt, dass die Objekte `Hotel`(mit `Address`), `Guest`(mit `Address`) und `Room`(mit `Room_Type` und `Hotel`) enthält. 
 
 **Nutzung im Notebook:**  
-Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_ID des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
+Die User Story erfordert die Eingabe der hotel_id. Wir haben es gezielt so umgesetzt, dass der Admin die hotel_id des Hotels eingeben muss, für welches er die bereits erfassten Bookings anschauen möchte.
 Dies bezwecket, dass eine übersichtliche Liste generiert wird und die nur für das jeweilige Hotel relevanten Bookings angezeigt werden.
 ___
 ### User Story 9 - Zimmerliste mit Ausstattung anzeigen
@@ -535,7 +521,7 @@ Falls keine Facilities vorhanden sind, wird eine leere Liste zurückgegeben.
 
 **Nutzung im Notebook:**  
 Die Methode wird aufgerufen und liefert eine Liste von Dictionaries. In der for loop wird für jedes Room-Dictionary Zimmernummer, Zimmertyp, maximale Gästeanzahl und preis pro Nacht ausgegeben. 
-Wenn Facilities vorhanden sind, die Liste wird als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
+Wenn Facilities vorhanden sind, wird die Liste als kommaseparierte Liste ausgegeben. Ansonsten wird ausgegeben, dass keine Facilities vorhanden sind.
 
 ___
 ### User Story 10 - Stammdaten verwalten
@@ -631,29 +617,6 @@ Die Objekte werden in einer Liste gesammelt und über return zurückgegeben.
 Die User Story verlangt eine Eingabe des Namens des Hotels, wessen Bewertung der Gast lesen möchte. 
 
 ---
-
-## GitHub-Arbeitsweise
-
-Wir haben regelmässige Commits durchgeführt und in klar getrennten Branches gearbeitet. Der main-Branch enthält stets eine lauffähige, getestete Version.
-Die Zusammenarbeit erfolgte kollaborativ über Pull Requests und Reviews.
-
-## Dokumentation & Projektmanagement
-
-Unsere Dokumentation besteht aus:
-
-- README.md (GitHub) mit Projektüberblick, Struktur, Team, User Stories, Reflexion
-
-- Deepnote-Notebooks zur Umsetzung und Präsentation der User Stories mit erläuternden Kommentaren
-
-- Visual Paradigm-Diagramm zur Modellierung der Klassenbeziehungen
-
-- Projektorganisation über GitHub
-
-Die Koordination erfolgte intern über eine geteilte To-do-Liste und regelmässige Live-Sessions, in denen wir gemeinsam am Code gearbeitet und getestet haben.
-Die Dokumentation wurde in Zusammenarbeit gepflegt, wobei Sheyla die finale Formatierung sicherstellte.
-
-Wir haben darauf geachtet, dass die Notebooks die Umsetzung der User Stories transparent und interaktiv zeigen. Jede Story wurde in einer eigenen Notebook-Sektion
-implementiert, kommentiert und mit Inputs/Outputs getestet.
 
 ## Reflexion
 
