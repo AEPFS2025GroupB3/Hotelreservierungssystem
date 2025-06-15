@@ -26,6 +26,12 @@ Des weiteren haben wir eine physische ToDo-Liste geführt, welche wir am Schluss
 
 Zum Video gelangt Ihr über das Linkverzeichnis (PDF), welches wir im Moodle abgegeben haben.
 
+## Klassendiagramm
+
+Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice und Guest ab.
+
+![](Pictures/Klassendiagramm.png)
+
 ## Projektteam & Rollenverteilung
 
 Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
@@ -92,6 +98,14 @@ Unser Team hat die Aufgaben in zwei Bereichen aufgeteilt:
 ---
 
 Diese Rollenverteilung half uns, effizient zu arbeiten und die Projektziele strukturiert zu erreichen. Obwohl die Rollenverteilung klar definiert war, haben wir im Team stets flexibel zusammengearbeitet. Alle Teammitglieder haben sich gegenseitig unterstützt und bei Bedarf in anderen Bereichen mitgeholfen. Der regelmässige Austausch, sowohl fachlich als auch organisatorisch, war ein zentraler Bestandteil unserer Zusammenarbeit und hat wesentlich zum Projekterfolg beigetragen.
+
+**Hinweis**:  
+
+Im GitHub wird im Abschnitt "Contributors" eine Statistik über die Anzahl Comits & Pushes, sowie über die Anzahl geschriebener und gelöschter Zeilen geführt.
+Beim Vergleich der GitHub-Aktivitäten innerhalb unseres Teams ist uns aufgefallen, dass bei der Nutzerin lisawueest nur sehr wenige Commits verzeichnet sind (8 Commits, kaum Codeänderungen).
+Wir vermuten, dass hier ein technisches Problem bei der Synchronisierung mit GitHub vorliegt.
+
+Wir möchten ausdrücklich klarstellen, dass alle Teammitglieder, inklusive Lisa , aktiv, engagiert und kontinuierlich an der Umsetzung der Projektaufgaben beteiligt waren.
 
 ## Projektstruktur
 
@@ -171,7 +185,7 @@ Ich möchte alle Hotels in einer Stadt nach der Anzahl der Sterne (z.B. mindeste
 
 **Umsetzung im Code:**  
 - Die Methode `read_hotels_by_city_and_min_stars(city, min_stars)` in `HotelManager` filtert zusätzlich nach dem Feld `Hotel.stars`.
-- Im `HotelDataAccess`` wird SQL mit `WHERE stars >= ?` ergänzt, um Hotels mit mindestens der gewünschten Sternewertung zu laden.
+- Im `HotelDataAccess` wird SQL mit `WHERE stars >= ?` ergänzt, um Hotels mit mindestens der gewünschten Sternewertung zu laden.
 - Die Logik basiert wieder auf einem `JOIN` zwischen Hotel- und Adresstabelle.
 
 **Nutzung im Notebook:**  
@@ -617,12 +631,6 @@ Die Objekte werden in einer Liste gesammelt und über return zurückgegeben.
 Die User Story verlangt eine Eingabe des Namens des Hotels, wessen Bewertung der Gast lesen möchte. 
 
 ---
-
-## Klassendiagramm
-
-Das Klassendiagramm wurde mit Visual Paradigm modelliert und bildet die Beziehungen zwischen den zentralen Entitäten wie Hotel, Room, Booking, Invoice und Guest ab.
-
-Siehe model/ und beigefügtes Visual Paradigm-Diagramm im Projekt-Ordner.
 
 ## GitHub-Arbeitsweise
 
